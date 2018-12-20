@@ -16,10 +16,13 @@ import org.springframework.stereotype.Component;
 public class CustomProperties {
 
 	/**
-	 * 读取配置名为
+	 * 读取配置名为name的配置
 	 */
 	private String name;
 	
+	/**
+	 * 读取配置名为age的配置
+	 */
 	private int age;
 
 	public String getName() {
