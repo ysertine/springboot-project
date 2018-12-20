@@ -43,6 +43,13 @@
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-web</artifactId>
 	 	</dependency>
+	 	
+	 	<!-- Spring默认使用yml中的配置，引入该包用于读取传统的xml或properties配置 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 		
 	</dependencies>
 
