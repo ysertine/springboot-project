@@ -22,7 +22,7 @@ public class CustomPropertiesController {
 	/**
 	 * 日志方法
 	 */
-	private static final Logger  logger = LoggerFactory.getLogger(CustomPropertiesController.class);
+	private static final Logger logger = LoggerFactory.getLogger(CustomPropertiesController.class);
 	
 	/**
 	 * 注入CustomProperties
