@@ -1,11 +1,12 @@
 package com.ysertine;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @Title CoreApplication.java
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018年12月20日
  */
 @RestController
-@MapperScan("com.ysertine.*.mapper")
+@MapperScan("tk.mybatis.mapper.common.BaseMapper")
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class CoreApplication {
 

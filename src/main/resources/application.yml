@@ -11,5 +11,21 @@ logging:
 mybatis: 
     type-aliases-package: com.ysertine.*.entity
     mapper-locations: classpath:/mybatis/*/*.xml
+       # 驼峰命名规范 如：数据库字段是  order_id 那么 实体字段就要写成 orderId
     configuration: 
         map-underscore-to-camel-case: true
+
+
+mapper: 
+       # 主键自增回写方法，默认值MYSQL，详细说明请看文档
+    identity: MYSQL
+       # 设置 insert 和 update 中，是否判断字符串类型 != ''
+    not-empty: true
+       # 枚举按简单类型处理
+    enum-as-simple-type: true
+    
+pagehelper:
+    helper-dialect: mysql
+    params: count:countSql
+    reasonable: false
+    support-methods-arguments: true

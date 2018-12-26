@@ -1,6 +1,12 @@
 package com.ysertine.system.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @Title SysUser.java
@@ -8,11 +14,16 @@ import java.util.Date;
  * @author DengJinbo
  * @date 2018年12月25日
  */
-public class SysUser {
+@Table(name = "sys_user")
+public class SysUser implements Serializable {
 
+	private static final long serialVersionUID = 8655851615465363473L;
+	
 	/**
 	 * 主键ID
 	 */
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	/**
@@ -153,6 +164,31 @@ public class SysUser {
 		this.status = status;
 	}
 	
+	/**
+	 * @Title SysUser.java
+	 * @Description 无参构造函数
+	 * @author DengJinbo
+	 * @date 2018年12月26日
+	 */
+	public SysUser() {}
+
+	/**
+	 * @Title SysUser.java
+	 * @Description 有参构造函数
+	 * @author DengJinbo
+	 * @date 2018年12月26日
+	 * @param userName 系统用户名
+	 * @param password 密码
+	 * @param salt 加密盐值
+	 * @param phone 电话号码
+	 */
+    public SysUser(String userName, String password, String salt, String phone) {
+        this.userName = userName;
+        this.password = password;
+        this.salt = salt;
+        this.phone = phone;
+    }
+
 	// 密码加盐，盐值由数据库中的salt和账号组合而成
     public String getCredentialsSalt() {
         return this.userName + this.salt;

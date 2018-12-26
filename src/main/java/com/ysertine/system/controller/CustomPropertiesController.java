@@ -51,9 +51,7 @@ public class CustomPropertiesController {
 	 */
 	@GetMapping("/print")
     public CustomProperties customProperties() {
-        logger.info("===================================");
         logger.info(customProperties.toString());
-        logger.info("===================================");
         return customProperties;
     }
 }

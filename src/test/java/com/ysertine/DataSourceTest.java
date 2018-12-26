@@ -12,8 +12,14 @@ import com.ysertine.system.controller.CustomPropertiesController;
 import com.ysertine.system.entity.SysUser;
 import com.ysertine.system.mapper.SysUserMapper;
 
-@SpringBootTest(classes = CoreApplication.class)
+/**
+ * @Title DataSourceTest.java
+ * @Description 集成多数据源测试类
+ * @author DengJinbo
+ * @date 2018年12月25日
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = CoreApplication.class)
 public class DataSourceTest {
 
 	/**
@@ -29,8 +35,8 @@ public class DataSourceTest {
 		SysUser sysUser;
 		for (int i = 1; i <= 2; i++) {
 			// i为奇数时调用selectById方法获取，i为偶数时调用selectByUserName方法获取
-			sysUser = i % 2 == 1 ? sysUserMapper.selectById(1L) : sysUserMapper.selectByUserName("admin");
-			logger.info("{}->={}", sysUser.getId(), sysUser.getUserName());
+			sysUser = i % 2 == 1 ? sysUserMapper.selectByPrimaryKey(1L) : sysUserMapper.selectByUserName("admin");
+			logger.info("{}-->={}", sysUser.getId(), sysUser.getUserName());
 		}
 	}
 }
