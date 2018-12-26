@@ -7,3 +7,9 @@ spring:
         
 logging:
     config: classpath:logback-spring.xml
+    
+mybatis: 
+    type-aliases-package: com.ysertine.*.entity
+    mapper-locations: classpath:/mybatis/*/*.xml
+    configuration: 
+        map-underscore-to-camel-case: true
