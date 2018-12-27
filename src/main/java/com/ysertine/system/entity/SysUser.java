@@ -188,9 +188,4 @@ public class SysUser implements Serializable {
         this.salt = salt;
         this.phone = phone;
     }
-
-	// 密码加盐，盐值由数据库中的salt和账号组合而成
-    public String getCredentialsSalt() {
-        return this.userName + this.salt;
-    }	
 }

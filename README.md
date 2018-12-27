@@ -8,3 +8,4 @@
 7、整合Mybatis框架；
 8、集成通用Mapper；
 9、集成PageHelper分页插件；
+10、整合Lettuce Redis；
