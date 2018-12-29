@@ -65,7 +65,7 @@ public class DataSourceAspect {
 				DynamicDataSourceHolder.putDataSource(dataSourceName);
 				logger.debug("current thread " + Thread.currentThread().getName() + " add " + dataSourceName + " to ThreadLocal");
 			} else {
-				logger.debug("switch datasource fail, use default");
+				logger.debug("No datasource set, use default");
 			}
 		} catch (Exception e) {
 			logger.error("current thread " + Thread.currentThread().getName() + " add data to ThreadLocal error", e);
