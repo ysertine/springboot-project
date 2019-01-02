@@ -44,10 +44,9 @@ public class SpringCacheTest {
 		sysUserInfoService.deleteByPrimaryKey(sysUser1.getId());
 		
 		final SysUser sysUser2 = sysUserInfoService.getByUserName("admin");
+		logger.info("[getByUserName] - [{}]", sysUser2);
 		
         final SysUser sysUser3 = sysUserInfoService.getByUserName("牛牛");
-        logger.info("[getByUserName] - [{}]", sysUser2);
-        
-        
+        logger.info("[getByUserName] - [{}]", sysUser3);
 	}
 }
