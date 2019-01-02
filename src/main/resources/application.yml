@@ -12,32 +12,38 @@ spring:
         database: 0
         lettuce: 
             pool: 
-                             # 连接池最大连接数（使用负值表示没有限制） 默认 8
+                # 连接池最大连接数（使用负值表示没有限制） 默认 8
                 max-active: 8
-                             # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+                # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
                 max-wait: -1
-                             # 连接池中的最大空闲连接 默认 8
+                # 连接池中的最大空闲连接 默认 8
                 max-idle: 8
-                             # 连接池中的最小空闲连接 默认 0
+                # 连接池中的最小空闲连接 默认 0
                 min-idle: 0
-        
+    cache: 
+        redis: 
+            use-key-prefix: true
+            key-prefix: dev
+            cache-null-values: false
+            time-to-live: 20s
+      
 logging:
     config: classpath:logback-spring.xml
-    
+
 mybatis: 
     type-aliases-package: com.ysertine.*.entity
     mapper-locations: classpath:/mybatis/*/*.xml
-       # 驼峰命名规范 如：数据库字段是  order_id 那么 实体字段就要写成 orderId
+    # 驼峰命名规范 如：数据库字段是  order_id 那么 实体字段就要写成 orderId
     configuration: 
         map-underscore-to-camel-case: true
 
 
 mapper: 
-       # 主键自增回写方法，默认值MYSQL，详细说明请看文档
+    # 主键自增回写方法，默认值MYSQL，详细说明请看文档
     identity: MYSQL
-       # 设置 insert 和 update 中，是否判断字符串类型 != ''
+    # 设置 insert 和 update 中，是否判断字符串类型 != ''
     not-empty: true
-       # 枚举按简单类型处理
+    # 枚举按简单类型处理
     enum-as-simple-type: true
     
 pagehelper:

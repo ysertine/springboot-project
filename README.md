@@ -9,3 +9,4 @@
 8、集成通用Mapper；
 9、集成PageHelper分页插件；
 10、整合Lettuce Redis；
+11、使用Spring Cache集成Redis
