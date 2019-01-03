@@ -36,17 +36,14 @@ public class SpringCacheTest {
 	@Test
 	public void testSpringCacheTest() {
 		
-		final SysUser sysUser = sysUserInfoService.saveSelective(new SysUser("五花牛", "123456", "ssssss1", "15911111111"));
+		final SysUser sysUser = sysUserInfoService.saveSelective(new SysUser("牛牛", "123456", "salt", "15911111111"));
 		logger.info("[saveSelective] - [{}]", sysUser);
 		
 		SysUser sysUser1 = sysUserInfoService.getByPrimaryKey(sysUser.getId());
 		
-		sysUserInfoService.deleteByPrimaryKey(sysUser1.getId());
+		final SysUser sysUser2 = sysUserInfoService.getByUserName(sysUser1.getUserName());
+		logger.info("[getByUserName] - [{}]", sysUser2.toString());
 		
-		final SysUser sysUser2 = sysUserInfoService.getByUserName("admin");
-		logger.info("[getByUserName] - [{}]", sysUser2);
-		
-        final SysUser sysUser3 = sysUserInfoService.getByUserName("牛牛");
-        logger.info("[getByUserName] - [{}]", sysUser3);
+		sysUserInfoService.deleteByPrimaryKey(sysUser2.getId());
 	}
 }
