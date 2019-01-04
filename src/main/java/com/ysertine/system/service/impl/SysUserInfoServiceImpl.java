@@ -39,7 +39,7 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 		return sysUserMapper.selectByPrimaryKey(id);
 	}
 	
-	@Cacheable(value = "sysUser", key = "#userName")
+	@Cacheable(value = "sysUser")
 	@Override
 	public SysUser getByUserName(String userName) {
 		logger.info("进入 getByUserName 方法");

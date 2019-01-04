@@ -11,12 +11,17 @@ import java.lang.annotation.Target;
  * @author DengJinbo
  * @date 2018年12月25日
  */
-@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface TargetDataSource {
 	
 	/**
-	 * 此处接收的是数据源的名称
+	 * @Title value 
+	 * @Description 数据源的名称，需要跟DBProperties中配置的数据源名称对应
+	 * @author DengJinbo
+	 * @date 2018年12月25日
+	 * @version 1.0
+	 * @return
 	 */
 	String value();
 }
