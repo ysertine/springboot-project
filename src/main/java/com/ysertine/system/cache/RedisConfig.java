@@ -1,9 +1,10 @@
 package com.ysertine.system.cache;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -38,9 +39,14 @@ import com.ysertine.system.util.MD5Util;
 @Configuration
 @ConfigurationProperties(prefix = "spring.cache.redis")
 public class RedisConfig extends CachingConfigurerSupport {
+	
+	/**
+	 * 日志方法
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
 
 	/**
-	 * @Description 重写缓存key的生成策略，对参数进行拼接后进行MD5加密，解决中文key无法缓存的问题
+	 * @Description 重写缓存key的生成策略，按类名 + 方法名 + 参数拼接后进行MD5加密，解决中文key无法缓存的问题
 	 * 		在使用 @Cacheable 时，如果不指定key，则使用这个默认的key生成器生成的key。
 	 * @author DengJinbo
 	 * @date 2019年1月4日
@@ -52,9 +58,16 @@ public class RedisConfig extends CachingConfigurerSupport {
 		return new SimpleKeyGenerator() {
 			@Override
 			public Object generate(Object target, Method method, Object... params) {
+				String classPath = target.getClass().getName();
+				logger.info("==> classPath= " + classPath);
+				
+				String className = classPath.substring(classPath.lastIndexOf(".") + 1, classPath.length());
+				logger.info("==> className= " + className);
+				
+				logger.info("==> methodName= " + method.getName());
+				
 				StringBuilder sb = new StringBuilder();
-				sb.append(target.getClass().getName());
-				sb.append(".").append(method.getName());
+				sb.append(className).append(".").append(method.getName());
 
 				StringBuilder paramsSb = new StringBuilder();
 				for (Object param : params) {
@@ -122,8 +135,8 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 * @return
 	 */
 	@Bean
-	public RedisTemplate<String, Serializable> customRedisTemplate(LettuceConnectionFactory factory) {
-		RedisTemplate<String, Serializable> template = new RedisTemplate<>();
+	public RedisTemplate<String, Object> customRedisTemplate(LettuceConnectionFactory factory) {
+		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		template.setKeySerializer(new StringRedisSerializer());
 		template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 		template.setConnectionFactory(factory);

@@ -1,11 +1,14 @@
 package com.ysertine;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ysertine.system.entity.SysUser;
@@ -31,19 +34,26 @@ public class SpringCacheTest {
 	 */
 	@Autowired
 	private SysUserInfoService sysUserInfoService;
-
+	
+	/**
+	 * 注入自定义的redis模板
+	 */
+	@Autowired
+	private RedisTemplate<String, Object> customRedisTemplate;
 
 	@Test
-	public void testSpringCacheTest() {
+	public void testSpringCache() {
 		
 		final SysUser sysUser = sysUserInfoService.saveSelective(new SysUser("五花牛", "123456", "salt", "15911111111"));
 		logger.info("[saveSelective] - [{}]", sysUser);
 		
 		SysUser sysUser1 = sysUserInfoService.getByPrimaryKey(sysUser.getId());
+		SysUser sysUser2 = (SysUser) customRedisTemplate.opsForValue().get("sysUser::" + sysUser.getId());
+		assertEquals(sysUser1.getUserName(), sysUser2.getUserName());
 		
-		final SysUser sysUser2 = sysUserInfoService.getByUserName(sysUser1.getUserName());
-		logger.info("[getByUserName] - [{}]", sysUser2.toString());
+		final SysUser sysUser3 = sysUserInfoService.getByUserName(sysUser2.getUserName());
+		logger.info("[getByUserName] - [{}]", sysUser3.getUserName());
 		
-		sysUserInfoService.deleteByPrimaryKey(sysUser2.getId());
+		sysUserInfoService.deleteByPrimaryKey(sysUser3.getId());
 	}
 }

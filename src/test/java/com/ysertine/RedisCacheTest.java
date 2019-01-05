@@ -2,7 +2,6 @@ package com.ysertine;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.Serializable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
@@ -33,7 +32,7 @@ public class RedisCacheTest {
 	 * 日志方法
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(RedisCacheTest.class);
-
+	
 	/**
 	 * 注入默认的redis模板
 	 */
@@ -44,23 +43,22 @@ public class RedisCacheTest {
 	 * 注入自定义的redis模板
 	 */
 	@Autowired
-	private RedisTemplate<String, Serializable> customRedisTemplate;
+	private RedisTemplate<String, Object> customRedisTemplate;
 
 	@Test
 	public void testRedisCache() {
-		// TODO 测试线程安全
+		// 测试线程安全
 		ExecutorService executorService = Executors.newFixedThreadPool(1000);
-		IntStream.range(0, 1000) .forEach(i -> executorService.execute(() -> stringRedisTemplate.opsForValue().increment("kk", 1)));
+		IntStream.range(0, 1000) .forEach(i -> executorService.execute(() -> stringRedisTemplate.opsForValue().increment("key", 1)));
 
-		stringRedisTemplate.opsForValue().set("k1", "v5霸气");
-		assertEquals(stringRedisTemplate.opsForValue().get("k1"), "v5霸气");
+		stringRedisTemplate.opsForValue().set("key1", "v5霸气");
+		assertEquals(stringRedisTemplate.opsForValue().get("key1"), "v5霸气");
 
-		// TODO 以下只演示整合，具体Redis命令可以参考官方文档，Spring Data Redis 只是改了个名字而已，Redis支持的命令它都支持
 		String key = "ysertine:user:1";
 		customRedisTemplate.opsForValue().set(key, new SysUser("大波波", "123456", "ssssss1", "15988888888"));
 
-		// TODO 对应 String（字符串）
 		final SysUser sysUser = (SysUser) customRedisTemplate.opsForValue().get(key);
-		logger.info("[对象缓存结果] - [{}]", sysUser.toString());
+		assertEquals(sysUser.getUserName(), "大波波");
+		logger.info("==> 当你看到这条信息，表明测试验证通过了！");
 	}
 }
