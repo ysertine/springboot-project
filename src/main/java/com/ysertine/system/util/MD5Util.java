@@ -4,6 +4,12 @@ import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @Title MD5Util.java
+ * @Description MD5工具类
+ * @author DengJinbo
+ * @date 2019年1月4日
+ */
 public class MD5Util {
 
 	/**
@@ -49,6 +55,27 @@ public class MD5Util {
 			str = str.replace(matcher.group(1), ch + "");
 		}
 		return str;
+	}
+	
+	/**
+	 * @Title MD5Encode 
+	 * @Description 将字符串进行MD5加密
+	 * @author DengJinbo
+	 * @date 2019年1月4日
+	 * @version 1.0
+	 * @param origin 需要加密的字符串
+	 * @return
+	 */
+	public static String MD5Encode(String origin) {
+		String resultString = null;
+		try {
+			resultString = new String(origin);
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			resultString = byteArrayToHexString(md.digest(resultString.getBytes("UTF-8")));
+		} catch (Exception exception) {
+			
+		}
+		return resultString;
 	}
 
 	/**
