@@ -1,6 +1,5 @@
 package com.ysertine.system.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.GeneratedValue;
@@ -15,10 +14,9 @@ import javax.persistence.Table;
  * @date 2018年12月25日
  */
 @Table(name = "sys_user")
-public class SysUser implements Serializable {
+@SuppressWarnings("serial")
+public class SysUser extends BaseEntity {
 
-	private static final long serialVersionUID = 8655851615465363473L;
-	
 	/**
 	 * 主键ID
 	 */
@@ -42,9 +40,9 @@ public class SysUser implements Serializable {
 	private String salt;
 	
 	/**
-	 * 性别：1=男性，2=女性
+	 * 性别：0=保密，1=男性，2=女性
 	 */
-	private Integer sex;
+	private int sex;
 	
 	/**
 	 * 手机号码

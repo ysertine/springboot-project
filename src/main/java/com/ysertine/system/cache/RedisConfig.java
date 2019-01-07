@@ -3,8 +3,6 @@ package com.ysertine.system.cache;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -41,11 +39,6 @@ import com.ysertine.system.util.MD5Util;
 public class RedisConfig extends CachingConfigurerSupport {
 	
 	/**
-	 * 日志方法
-	 */
-	private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
-
-	/**
 	 * @Description 重写缓存key的生成策略，按类名 + 方法名 + 参数拼接后进行MD5加密，解决中文key无法缓存的问题
 	 * 		在使用 @Cacheable 时，如果不指定key，则使用这个默认的key生成器生成的key。
 	 * @author DengJinbo
@@ -59,12 +52,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 			@Override
 			public Object generate(Object target, Method method, Object... params) {
 				String classPath = target.getClass().getName();
-				logger.info("==> classPath= " + classPath);
-				
 				String className = classPath.substring(classPath.lastIndexOf(".") + 1, classPath.length());
-				logger.info("==> className= " + className);
-				
-				logger.info("==> methodName= " + method.getName());
 				
 				StringBuilder sb = new StringBuilder();
 				sb.append(className).append(".").append(method.getName());

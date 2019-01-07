@@ -45,7 +45,7 @@ public class SpringCacheTest {
 	public void testSpringCache() {
 		
 		final SysUser sysUser = sysUserInfoService.saveSelective(new SysUser("五花牛", "123456", "salt", "15911111111"));
-		logger.info("[saveSelective] - [{}]", sysUser);
+		logger.info("[saveSelective] - [{}]", sysUser.toString());
 		
 		SysUser sysUser1 = sysUserInfoService.getByPrimaryKey(sysUser.getId());
 		SysUser sysUser2 = (SysUser) customRedisTemplate.opsForValue().get("sysUser::" + sysUser.getId());
