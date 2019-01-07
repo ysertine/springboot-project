@@ -1,5 +1,7 @@
 package com.ysertine.system.service.impl;
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,12 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 		logger.info("进入 getByUserName 方法");
 		return sysUserMapper.selectByUserName(userName);
 	}
+	
+	@Cacheable(value = "sysUser")
+	@Override
+	public SysUser getSysUserSelective(SysUser sysUser) {
+		return sysUserMapper.selectOne(sysUser);
+	}
 
 	@CachePut(value = "sysUser", key = "#sysUser.id")
 	@Override
@@ -59,5 +67,17 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 	public void deleteSysUserByPrimaryKey(Long id) {
 		logger.info("进入 deleteByPrimaryKey 方法");
 		sysUserMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public Set<String> listRoleNameByUserId(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<String> listResourceUrlByUserId(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

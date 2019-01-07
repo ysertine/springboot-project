@@ -1,5 +1,7 @@
 package com.ysertine.system.service;
 
+import java.util.Set;
+
 import com.ysertine.system.entity.SysUser;
 
 /**
@@ -32,6 +34,8 @@ public interface SysUserInfoService {
 	 */
 	SysUser getSysUserByUserName(String userName);
 	
+	SysUser getSysUserSelective(SysUser user);
+	
 	/**
 	 * @Title saveSysUserSelective 
 	 * @Description 创建系统用户，选择性保存数据
@@ -52,4 +56,8 @@ public interface SysUserInfoService {
 	 * @param id 主键ID
 	 */
 	void deleteSysUserByPrimaryKey(Long id);
+
+	Set<String> listRoleNameByUserId(Long id);
+
+	Set<String> listResourceUrlByUserId(Long id);
 }
