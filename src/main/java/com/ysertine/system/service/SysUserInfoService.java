@@ -11,7 +11,7 @@ import com.ysertine.system.entity.SysUser;
 public interface SysUserInfoService {
 
 	/**
-	 * @Title getByPrimaryKey 
+	 * @Title getSysUserByPrimaryKey 
 	 * @Description 根据主键ID查询系统用户
 	 * @author DengJinbo
 	 * @date 2018年12月27日
@@ -19,10 +19,10 @@ public interface SysUserInfoService {
 	 * @param id
 	 * @return
 	 */
-	SysUser getByPrimaryKey(Long id);
+	SysUser getSysUserByPrimaryKey(Long id);
 	
 	/**
-	 * @Title getByUserName 
+	 * @Title getSysUserByUserName 
 	 * @Description 根据系统用户名查询系统用户
 	 * @author DengJinbo
 	 * @date 2018年11月27日
@@ -30,10 +30,10 @@ public interface SysUserInfoService {
 	 * @param userName 系统用户名
 	 * @return 用户实体
 	 */
-	SysUser getByUserName(String userName);
+	SysUser getSysUserByUserName(String userName);
 	
 	/**
-	 * @Title saveSelective 
+	 * @Title saveSysUserSelective 
 	 * @Description 创建系统用户，选择性保存数据
 	 * @author DengJinbo
 	 * @date 2018年12月27日
@@ -41,15 +41,15 @@ public interface SysUserInfoService {
 	 * @param sysUser 系统用户实体类
 	 * @return
 	 */
-	SysUser saveSelective(SysUser sysUser);
+	SysUser saveSysUserSelective(SysUser sysUser);
 	
 	/**
-	 * @Title deleteByPrimaryKey 
+	 * @Title deleteSysUserByPrimaryKey 
 	 * @Description 根据主键ID删除系统用户
 	 * @author DengJinbo
 	 * @date 2018年12月27日
 	 * @version 1.0
 	 * @param id 主键ID
 	 */
-	void deleteByPrimaryKey(Long id);
+	void deleteSysUserByPrimaryKey(Long id);
 }

@@ -34,21 +34,21 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 
 	@Cacheable(value = "sysUser", key = "#id")
     @Override
-	public SysUser getByPrimaryKey(Long id) {
+	public SysUser getSysUserByPrimaryKey(Long id) {
 		logger.info("进入 getByPrimaryKey 方法");
 		return sysUserMapper.selectByPrimaryKey(id);
 	}
 	
 	@Cacheable(value = "sysUser")
 	@Override
-	public SysUser getByUserName(String userName) {
+	public SysUser getSysUserByUserName(String userName) {
 		logger.info("进入 getByUserName 方法");
 		return sysUserMapper.selectByUserName(userName);
 	}
 
 	@CachePut(value = "sysUser", key = "#sysUser.id")
 	@Override
-	public SysUser saveSelective(SysUser sysUser) {
+	public SysUser saveSysUserSelective(SysUser sysUser) {
 		logger.info("进入 saveSelective 方法");
 		sysUserMapper.insertSelective(sysUser);
 		return sysUser;
@@ -56,7 +56,7 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 
 	@CacheEvict(value = "sysUser", key = "#id")
 	@Override
-	public void deleteByPrimaryKey(Long id) {
+	public void deleteSysUserByPrimaryKey(Long id) {
 		logger.info("进入 deleteByPrimaryKey 方法");
 		sysUserMapper.deleteByPrimaryKey(id);
 	}
