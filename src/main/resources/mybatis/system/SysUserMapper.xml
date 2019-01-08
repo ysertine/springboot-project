@@ -29,7 +29,7 @@
        	<include refid="Base_Column_List" />
 	   FROM 
 	   	<include refid="BASE_TABLE"/>
-	   WHERE user_name = #{userName, jdbcType=VARCHAR}
+	   WHERE user_name = #{userName}
     </select>
 
 </mapper>

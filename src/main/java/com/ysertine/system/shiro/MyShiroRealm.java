@@ -72,12 +72,9 @@ public class MyShiroRealm extends AuthorizingRealm {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 		String userName = usernamePasswordToken.getUsername();
 		String password = String.valueOf(usernamePasswordToken.getPassword());
-		SysUser user = new SysUser();
-		user.setUserName(userName);
-		user.setPassword(password);
 		
 		// 从数据库获取对应用户名密码的用户
-		SysUser sysUser = sysUserInfoService.getSysUserSelective(user);
+		SysUser sysUser = sysUserInfoService.getSysUserByUserNameAndPassword(userName, password);
 		if (sysUser != null) {
 			// 用户为禁用状态
 			if (sysUser.getStatus() != 1) {

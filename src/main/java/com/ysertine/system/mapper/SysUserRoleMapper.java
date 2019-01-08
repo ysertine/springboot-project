@@ -1,5 +1,7 @@
 package com.ysertine.system.mapper;
 
+import java.util.Set;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ysertine.system.entity.SysUserRole;
@@ -16,5 +18,16 @@ import tk.mybatis.mapper.common.BaseMapper;
  */
 @Mapper
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
+
+	/**
+	 * @Title listRoleNameByUserId 
+	 * @Description 根据系统用户ID查询用户角色名称列表
+	 * @author DengJinbo
+	 * @date 2019年1月8日
+	 * @version 1.0
+	 * @param userId 系统用户ID
+	 * @return 用户角色名称列表
+	 */
+	Set<String> listRoleNameByUserId(Long userId);
 
 }

@@ -15,4 +15,13 @@
         id, role_id, permission_id
     </sql>
     
+    <!-- 根据系统用户ID查询用户系统权限资源URL列表 -->
+    <select id="listResourceUrlByUserId" resultType="java.lang.String" >
+	   SELECT sp.resource_url FROM sys_permission sp
+	   LEFT JOIN sys_role_permission srp ON sp.id = srp.permission_id
+	   LEFT JOIN sys_user_role sur ON srp.role_id = sur.role_id
+	   LEFT JOIN sys_user su ON sur.user_id = su.id
+	   WHERE su.id = #{userId}
+    </select>
+    
 </mapper>
