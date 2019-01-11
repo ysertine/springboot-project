@@ -3,8 +3,6 @@ package com.ysertine.system.shiro;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.servlet.Filter;
-
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -28,6 +26,34 @@ import org.springframework.context.annotation.Configuration;
 public class ShiroConfig {
 
 	/**
+	 * @Title getLifecycleBeanPostProcessor 
+	 * @Description Shiro生命周期处理器
+	 * @author DengJinbo
+	 * @date 2019年1月5日
+	 * @version 1.0
+	 * @return
+	 */
+	@Bean(name = "lifecycleBeanPostProcessor")
+	public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
+		return new LifecycleBeanPostProcessor();
+	}
+	
+	/**
+	 * @Title getDefaultAdvisorAutoProxyCreator 
+	 * @Description 授权所用配置
+	 * @author DengJinbo
+	 * @date 2019年1月5日
+	 * @version 1.0
+	 * @return
+	 */
+	@Bean
+	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
+		DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+		defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+		return defaultAdvisorAutoProxyCreator;
+	}
+	
+	/**
 	 * @Title myShiroRealm 
 	 * @Description 自定义realm，进行身份认证、账号密码校验、权限控制等
 	 * @author DengJinbo
@@ -35,7 +61,7 @@ public class ShiroConfig {
 	 * @version 1.0
 	 * @return
 	 */
-	@Bean
+	@Bean(name = "myShiroRealm")
 	public MyShiroRealm myShiroRealm() {
 		MyShiroRealm myShiroRealm = new MyShiroRealm();
 		return myShiroRealm;
@@ -55,7 +81,7 @@ public class ShiroConfig {
 		redisManager.setPort(6379);
 		redisManager.setExpire(1800);// 配置缓存过期时间
 		redisManager.setTimeout(0);
-		// redisManager.setPassword(password);
+		redisManager.setPassword("123456");
 		return redisManager;
 	}
 	
@@ -73,9 +99,6 @@ public class ShiroConfig {
 		return redisCacheManager;
 	}
 	
-	/**
-	 * RedisSessionDAO shiro sessionDao层的实现 通过redis 使用的是shiro-redis开源插件
-	 */
 	/**
 	 * @Title redisSessionDAO 
 	 * @Description 通过redis实现sessionDao层 ，使用的是shiro-redis开源插件
@@ -127,25 +150,6 @@ public class ShiroConfig {
 	}
 
 	/**
-	 * @Title kickoutSessionControlFilter 
-	 * @Description 限制同一账号登录同时登录人数控制
-	 * @author DengJinbo
-	 * @date 2019年1月5日
-	 * @version 1.0
-	 * @return
-	 */
-	@Bean
-	public KickoutSessionControlFilter kickoutSessionControlFilter() {
-		KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
-		kickoutSessionControlFilter.setCacheManager(cacheManager());
-		kickoutSessionControlFilter.setSessionManager(sessionManager());
-		kickoutSessionControlFilter.setKickoutAfter(false);
-		kickoutSessionControlFilter.setMaxSession(1);
-		kickoutSessionControlFilter.setKickoutUrl("/admin/kickout");
-		return kickoutSessionControlFilter;
-	}
-	
-	/**
 	 * @Title shiroFilter 
 	 * @Description Filter工厂，设置对应的过滤条件和跳转条件
 	 * @author DengJinbo
@@ -161,11 +165,6 @@ public class ShiroConfig {
 		shiroFilterFactoryBean.setLoginUrl("/admin/login");
 		shiroFilterFactoryBean.setSuccessUrl("/admin/index");
 		
-		// 自定义拦截器，
-		Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
-		filtersMap.put("kickout", kickoutSessionControlFilter()); // 限制同一帐号同时在线的个数。
-		shiroFilterFactoryBean.setFilters(filtersMap);
-		
 		/**
 		 *  权限控制map，从上向下顺序执行，一般将/**放在最为下边
 		 * authc:所有url都必须认证通过才可以访问；anon:所有url都都可以匿名访问
@@ -176,26 +175,12 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/img/**", "anon");
 		filterChainDefinitionMap.put("/admin/login", "anon");
 		filterChainDefinitionMap.put("/admin/logout", "logout");
-		filterChainDefinitionMap.put("/admin/kickout", "anon");
-		filterChainDefinitionMap.put("/**", "authc,kickout");
+		filterChainDefinitionMap.put("/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
 	}
 	
-	/**
-	 * @Title getDefaultAdvisorAutoProxyCreator 
-	 * @Description 授权所用配置
-	 * @author DengJinbo
-	 * @date 2019年1月5日
-	 * @version 1.0
-	 * @return
-	 */
-	@Bean
-	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
-		DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-		defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
-		return defaultAdvisorAutoProxyCreator;
-	}
+
 
 	/**
 	 * @Title authorizationAttributeSourceAdvisor 
@@ -211,18 +196,5 @@ public class ShiroConfig {
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
 		return authorizationAttributeSourceAdvisor;
-	}
-
-	/**
-	 * @Title getLifecycleBeanPostProcessor 
-	 * @Description Shiro生命周期处理器
-	 * @author DengJinbo
-	 * @date 2019年1月5日
-	 * @version 1.0
-	 * @return
-	 */
-	@Bean
-	public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
-		return new LifecycleBeanPostProcessor();
 	}
 }

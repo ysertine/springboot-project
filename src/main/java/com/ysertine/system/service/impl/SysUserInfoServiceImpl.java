@@ -1,5 +1,6 @@
 package com.ysertine.system.service.impl;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +58,10 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 	@Cacheable(value = "sysUser")
 	@Override
 	public SysUser getSysUserByUserNameAndPassword(String userName, String password) {
-		SysUser sysUser = new SysUser();
-		sysUser.setUserName(userName);
-		sysUser.setPassword(password);
-		return sysUserMapper.selectOne(sysUser);
+		HashMap<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("userName", userName);
+		parameterMap.put("password", password);
+		return sysUserMapper.selectByUserNameAndPassword(parameterMap);
 	}
 
 	@CachePut(value = "sysUser", key = "#sysUser.id")

@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>my project</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="icon" type="image/x-icon" href="/img/my.ico" />
+	<script src="/common/commonCss.js"></script>
+	<script src="/common/commonJs.js"></script>
+</head>
+<body class="hold-transition sidebar-mini">
+	<div class="wrapper">
+	    <nav class="main-header navbar navbar-expand bg-info navbar-light border-bottom">
+	        <ul class="navbar-nav">
+	            <li class="nav-item">   
+	            	<a class="nav-link" data-widget="pushmenu" href="#" title="切换侧边栏"><i class="fa fa-bars"></i></a>
+	            </li>
+	        </ul>
+	        <ul class="navbar-nav ml-auto">
+	            <li class="nav-item dropdown">
+	                <a class="nav-link" data-toggle="dropdown" href="#">
+	                	<i class="fa fa-comments-o"></i>
+	                	<span class="badge badge-danger navbar-badge">1</span>
+	                </a>
+	                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+	                    <a href="#" class="dropdown-item">
+	                        <!-- Message Start -->
+	                        <div class="media">
+	                            <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+	                            <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                    	外国佬 <span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
+                                    </h3>
+	                                <p class="text-sm">收到请回答...</p>
+	                                <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 小时之前</p>
+	                            </div>
+	                        </div>
+	                    </a>
+	                    <div class="dropdown-divider"></div>    
+	                    <a href="#" class="dropdown-item dropdown-footer">查看所有消息</a>
+	                </div>
+	            </li>
+	            <li class="nav-item dropdown">
+	                <a class="nav-link" data-toggle="dropdown" href="#">
+						<i class="fa fa-bell-o"></i><span class="badge badge-warning navbar-badge">4</span>
+	                </a>
+	                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<span class="dropdown-header">4条通知信息</span>
+	                    <div class="dropdown-divider"></div>
+	                    <a href="#" class="dropdown-item">
+							<i class="fa fa-envelope mr-2"></i> 4条新通知 
+							<span class="float-right text-muted text-sm">3 分钟</span>
+	                    </a>
+	                    <div class="dropdown-divider"></div>
+						<a href="#" class="dropdown-item dropdown-footer">查看所有通知</a>
+	                </div>
+	            </li>
+	            <li class="nav-item dropdown ml-3">
+	                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						<img src="dist/img/user-default.jpg" class="img-circle" alt="用户头像"  width="40px" height="40px">
+						<span class="float-top text-sm ml-2">大波波</span>
+	                </a>
+	                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<span class="dropdown-header bg-info">
+							<img src="dist/img/user-default.jpg" class="img-circle" alt="用户头像"  width="80px" height="80px">
+						</span>
+						<div class="text-center bg-info">
+	                    	<div class="text-lg">大波波</div>
+	                    	<small>超级管理员</small>
+	                  	</div>
+	                    <div class="dropdown-divider"></div>
+	                    <div class="pull-left mt-3 ml-3 mb-3">
+		                	<a href="#" class="btn btn-default btn-flat bg-info">修改密码</a>
+		                </div>
+		                <div class="pull-right mt-3 mr-3 mb-3">
+		                	<a href="logout" class="btn btn-default btn-flat bg-info">注销登录</a>
+		                </div>
+	                </div>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+	                	<i class="fa fa-th-large"></i>
+	                </a>
+	            </li>
+	        </ul>
+	    </nav>
+	    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+	        <a href="index" class="brand-link">
+	            <img src="dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" alt="Logo" style="opacity: .8">
+	            <span class="brand-text font-weight-light">My Project</span>
+	        </a>
+	        <div class="sidebar">
+	            <nav class="mt-2">
+	                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+	                    <li class="nav-item">
+	                        <a href="main" class="nav-link active" target="contentFrame">
+	                        	<i class="nav-icon fa fa-dashboard"></i>
+	                            <p>数据分析</p>
+	                        </a>
+	                    </li>
+	                    <li class="nav-item has-treeview">
+	                        <a href="index2" class="nav-link">
+	                        	<i class="nav-icon fa fa-user-circle"></i>
+	                            <p>管理员管理<i class="right fa fa-angle-left"></i></p>
+	                        </a>
+	                        <ul class="nav nav-treeview">
+	                            <li class="nav-item">
+	                                <a href="index" class="nav-link" target="contentFrame">    
+	                                	<i class="nav-icon fa blank"></i>
+	                                    <p>管理员列表</p>
+	                                </a>
+	                            </li>
+	                            <li class="nav-item">
+	                                <a href="main" class="nav-link" target="contentFrame"> 
+	                                	<i class="nav-icon fa blank"></i>
+	                                    <p>角色管理</p>
+	                                </a>
+	                            </li>
+	                            <li class="nav-item">
+	                                <a href="index" class="nav-link" target="contentFrame"> 
+	                                	<i class="nav-icon fa blank"></i>
+	                                    <p>权限管理</p>
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </li>
+	                    <li class="nav-item has-treeview">
+	                        <a href="index2" class="nav-link">
+	                        	<i class="nav-icon fa fa-cogs"></i>
+	                            <p>系统管理<i class="right fa fa-angle-left"></i></p>
+	                        </a>
+	                        <ul class="nav nav-treeview">
+	                            <li class="nav-item">
+	                                <a href="index" class="nav-link" target="contentFrame">    
+	                                	<i class="nav-icon fa blank"></i>
+	                                    <p>操作日志</p>
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </li>
+	                </ul>
+	            </nav>
+	        </div>
+	    </aside>
+	    <div class="content-wrapper">
+	        <iframe id="contentFrame" name="contentFrame" src="main" style="overflow: visible;" scrolling="yes" frameborder="0" height="850px" width="100%"></iframe>
+	    </div>
+	    
+	    <aside class="control-sidebar control-sidebar-dark"></aside>
+	</div>
+
+	<script type="text/javascript" src="/dist/js/adminlte.sidebar.control.js"></script>
+	<script type="text/javascript">
+		$(function() {
+	        $('.nav-sidebar li:not(.has-treeview) > a').on('click', function() {
+	        	$(this).addClass('active');
+	        	var $parent = $(this).closest('.nav-item');
+	        	$parent.siblings().find('a').removeClass('active');
+	        	var $grandfather = $parent.closest('.has-treeview');
+	        	$grandfather.find('> a').addClass('active');
+	            $grandfather.siblings().find('a').removeClass('active');
+	        });
+	    });
+	</script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.ysertine.system.mapper;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ysertine.system.entity.SysUser;
@@ -27,5 +29,16 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	 * @return 系统用户实体
 	 */
 	SysUser selectByUserName(String userName);
+
+	/**
+	 * @Title selectByUserNameAndPassword 
+	 * @Description 
+	 * @author DengJinbo
+	 * @date 2019年1月8日
+	 * @version 1.0
+	 * @param parameterMap
+	 * @return
+	 */
+	SysUser selectByUserNameAndPassword(HashMap<String, Object> parameterMap);
 
 }
