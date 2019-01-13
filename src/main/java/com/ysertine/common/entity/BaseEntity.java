@@ -1,4 +1,4 @@
-package com.ysertine.system.entity;
+package com.ysertine.common.entity;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;

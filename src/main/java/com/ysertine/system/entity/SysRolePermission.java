@@ -5,6 +5,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.ysertine.common.entity.BaseEntity;
+
 /**
  * @Title SysRolePermission.java
  * @Description 系统角色权限实体类

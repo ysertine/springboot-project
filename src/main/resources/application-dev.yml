@@ -1,7 +1,17 @@
 spring: 
     thymeleaf:
         cache: false
-        
+
+    mail:
+        #  邮箱服务器地址
+        host: smtp.qiye.163.com
+        username: dengjinbo4work@163.com
+        password: 1qaz2wsx
+        default-encoding: UTF-8
+mail:
+    fromMail:
+        address: dengjinbo4work@163.com
+
 hikari:
     master:
         jdbc-url: jdbc:mysql://localhost:3306/my-project?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true&verifyServerCertificate=false

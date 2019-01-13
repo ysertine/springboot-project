@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.ysertine.common.entity.BaseEntity;
+
 /**
  * @Title SysUser.java
  * @Description 系统用户实体类

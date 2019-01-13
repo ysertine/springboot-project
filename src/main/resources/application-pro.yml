@@ -1,6 +1,16 @@
 spring: 
     thymeleaf:
         cache: true
+        
+    mail:
+        #  邮箱服务器地址
+        host: smtp.qiye.163.com
+        username: 894787180@qq.com
+        password: dengjinbo19910922
+        default-encoding: UTF-8
+mail:
+    # 发件人邮件
+    sender: 894787180@qq.com
 
 hikari:
     master:

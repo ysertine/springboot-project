@@ -3,6 +3,7 @@ package com.ysertine.system.shiro;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -54,6 +55,22 @@ public class ShiroConfig {
 	}
 	
 	/**
+	 * @Title hashedCredentialsMatcher 
+	 * @Description 密码散列算法，密码校验交给Shiro的SimpleAuthenticationInfo进行处理
+	 * @author DengJinbo
+	 * @date 2019年1月12日
+	 * @version 1.0
+	 * @return
+	 */
+	@Bean
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
+		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+		hashedCredentialsMatcher.setHashAlgorithmName("md5"); // md5散列算法
+		hashedCredentialsMatcher.setHashIterations(2); // 散列次数
+		return hashedCredentialsMatcher;
+	}
+	
+	/**
 	 * @Title myShiroRealm 
 	 * @Description 自定义realm，进行身份认证、账号密码校验、权限控制等
 	 * @author DengJinbo
@@ -64,6 +81,7 @@ public class ShiroConfig {
 	@Bean(name = "myShiroRealm")
 	public MyShiroRealm myShiroRealm() {
 		MyShiroRealm myShiroRealm = new MyShiroRealm();
+		myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		return myShiroRealm;
 	}
 	
@@ -162,25 +180,24 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
-		shiroFilterFactoryBean.setLoginUrl("/admin/login");
-		shiroFilterFactoryBean.setSuccessUrl("/admin/index");
+		shiroFilterFactoryBean.setLoginUrl("/login");
+		shiroFilterFactoryBean.setSuccessUrl("/index");
 		
 		/**
 		 *  权限控制map，从上向下顺序执行，一般将/**放在最为下边
 		 * authc:所有url都必须认证通过才可以访问；anon:所有url都都可以匿名访问
 		 */
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+		filterChainDefinitionMap.put("/common/**", "anon");
 		filterChainDefinitionMap.put("/css/**", "anon");
-		filterChainDefinitionMap.put("/js/**", "anon");
+		filterChainDefinitionMap.put("/dist/**", "anon");
 		filterChainDefinitionMap.put("/img/**", "anon");
-		filterChainDefinitionMap.put("/admin/login", "anon");
-		filterChainDefinitionMap.put("/admin/logout", "logout");
-		filterChainDefinitionMap.put("/**", "authc");
+		filterChainDefinitionMap.put("/js/**", "anon");
+		filterChainDefinitionMap.put("/logout", "logout");
+		filterChainDefinitionMap.put("/**", "authc");  // 对所有用户认证
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
 	}
-	
-
 
 	/**
 	 * @Title authorizationAttributeSourceAdvisor 

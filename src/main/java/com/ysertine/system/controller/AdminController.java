@@ -29,6 +29,19 @@ import com.ysertine.system.util.StringUtils;
 public class AdminController {
 	
 	/**
+	 * @Title hello
+	 * @Description hello world
+	 * @author DengJinbo
+	 * @date 2018年12月20日
+	 * @version 1.0
+	 * @return
+	 */
+	@GetMapping("/hello")
+	public String hello() {
+		return "Hello SpringBoot";
+	}
+	
+	/**
 	 * @Title loginPage 
 	 * @Description 跳转登录页面
 	 * @author DengJinbo
