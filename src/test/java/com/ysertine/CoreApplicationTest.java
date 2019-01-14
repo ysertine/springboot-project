@@ -41,7 +41,7 @@ public class CoreApplicationTest {
     @Before
     public void setUp() throws Exception {
         // 因为我们修改了 content-path 所以请求后面要带上
-        this.base = new URL("http://localhost:" + port + "/dev/hello");
+        this.base = new URL("http://localhost:" + port + "/hello");
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.ysertine.system.annotation;
+package com.ysertine.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

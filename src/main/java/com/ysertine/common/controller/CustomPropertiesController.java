@@ -1,4 +1,4 @@
-package com.ysertine.system.controller;
+package com.ysertine.common.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ysertine.system.config.CustomProperties;
+import com.ysertine.common.config.CustomProperties;
 
 /**
  * @Title CustomPropertiesController.java

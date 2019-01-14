@@ -1,4 +1,4 @@
-package com.ysertine.system.entity;
+package com.ysertine.common.entity;
 
 /**
  * @Title ThymeleafTest.java

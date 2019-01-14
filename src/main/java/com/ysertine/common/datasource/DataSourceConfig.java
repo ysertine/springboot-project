@@ -1,4 +1,4 @@
-package com.ysertine.system.datasource;
+package com.ysertine.common.datasource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +7,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.ysertine.system.dynamic.DynamicDataSource;
+import com.ysertine.common.dynamic.DynamicDataSource;
 
 import javax.sql.DataSource;
 import java.util.HashMap;

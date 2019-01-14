@@ -50,16 +50,16 @@ public class MapperAndPagerHelperTest {
         logger.info("[调用自己写的SQL] - [{}]", sysUser.getUserName());
 
         // TODO 模拟分页
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
-        sysUserMapper.insertSelective(new SysUser("u1", "p1", "s1", "p1"));
+        sysUserMapper.insertSelective(new SysUser("u4", "p4", "s4", "p4"));
+        sysUserMapper.insertSelective(new SysUser("u5", "p5", "s5", "p5"));
+        sysUserMapper.insertSelective(new SysUser("u6", "p6", "s6", "p6"));
+        sysUserMapper.insertSelective(new SysUser("u7", "p7", "s7", "p7"));
+        sysUserMapper.insertSelective(new SysUser("u8", "p8", "s8", "p8"));
+        sysUserMapper.insertSelective(new SysUser("u9", "p9", "s9", "p9"));
+        sysUserMapper.insertSelective(new SysUser("u10", "p10", "s10", "p10"));
+        sysUserMapper.insertSelective(new SysUser("u11", "p11", "s11", "p11"));
+        sysUserMapper.insertSelective(new SysUser("u12", "p12", "s12", "p12"));
+        sysUserMapper.insertSelective(new SysUser("u13", "p13", "s13", "p13"));
         
         // TODO 分页 + 排序 this.sysUserMapper.selectAll() 这一句就是我们需要写的查询，有了这两款插件无缝切换各种数据库
         final PageInfo<Object> pageInfo = PageHelper.startPage(1, 10).setOrderBy("id desc").doSelectPageInfo(() -> this.sysUserMapper.selectAll());

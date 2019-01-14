@@ -1,4 +1,4 @@
-package com.ysertine.system.util;
+package com.ysertine.common.utli;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;

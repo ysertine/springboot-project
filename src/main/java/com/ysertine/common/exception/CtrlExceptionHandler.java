@@ -1,4 +1,4 @@
-package com.ysertine.system.exception;
+package com.ysertine.common.exception;
 
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;

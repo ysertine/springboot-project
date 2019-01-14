@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ysertine.system.controller.CustomPropertiesController;
+import com.ysertine.common.controller.CustomPropertiesController;
 import com.ysertine.system.entity.SysUser;
 import com.ysertine.system.mapper.SysUserMapper;
 

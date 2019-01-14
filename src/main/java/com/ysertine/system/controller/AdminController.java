@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ysertine.common.utli.RequestUtils;
+import com.ysertine.common.utli.StringUtils;
 import com.ysertine.system.entity.SysUser;
-import com.ysertine.system.util.RequestUtils;
-import com.ysertine.system.util.StringUtils;
 
 /**
  * @Title AdminController.java
@@ -27,19 +27,6 @@ import com.ysertine.system.util.StringUtils;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-	
-	/**
-	 * @Title hello
-	 * @Description hello world
-	 * @author DengJinbo
-	 * @date 2018年12月20日
-	 * @version 1.0
-	 * @return
-	 */
-	@GetMapping("/hello")
-	public String hello() {
-		return "Hello SpringBoot";
-	}
 	
 	/**
 	 * @Title loginPage 

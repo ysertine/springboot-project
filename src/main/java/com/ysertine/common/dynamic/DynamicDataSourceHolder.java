@@ -1,4 +1,4 @@
-package com.ysertine.system.dynamic;
+package com.ysertine.common.dynamic;
 
 /**
  * @Title DynamicDataSourceHolder.java

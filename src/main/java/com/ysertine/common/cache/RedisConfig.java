@@ -1,4 +1,4 @@
-package com.ysertine.system.cache;
+package com.ysertine.common.cache;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -24,7 +24,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ysertine.system.util.MD5Util;
+import com.ysertine.common.utli.MD5Util;
 
 /**
  * @Title RedisConfig.java

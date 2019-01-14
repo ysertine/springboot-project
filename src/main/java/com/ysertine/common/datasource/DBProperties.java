@@ -1,4 +1,4 @@
-package com.ysertine.system.datasource;
+package com.ysertine.common.datasource;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

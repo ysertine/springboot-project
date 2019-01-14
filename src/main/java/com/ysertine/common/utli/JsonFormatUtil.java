@@ -1,4 +1,4 @@
-package com.ysertine.system.util;
+package com.ysertine.common.utli;
 
 /**
  * @Title JsonFormatTool.java
