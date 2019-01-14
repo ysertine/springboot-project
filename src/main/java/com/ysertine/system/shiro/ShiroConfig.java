@@ -65,12 +65,18 @@ public class ShiroConfig {
 	}*/
 	
 	/**
-	 * ShiroFilterFactoryBean 处理拦截资源文件问题。 注意：单独一个ShiroFilterFactoryBean配置是或报错的，因为在
-	 * 初始化ShiroFilterFactoryBean的时候需要注入：SecurityManager
-	 *
-	 * Filter Chain定义说明 1、一个URL可以配置多个Filter，使用逗号分隔 2、当设置多个过滤器时，全部验证通过，才视为通过
-	 * 3、部分过滤器可指定参数，如perms，roles
-	 *
+	 * @Title shirFilter 
+	 * @Description 拦截器，配置过滤条件和跳转条件，注意：单独一个ShiroFilterFactoryBean配置是会报错的，因为在
+	 * 		初始化ShiroFilterFactoryBean的时候需要注入：SecurityManager
+	 * 		Filter Chain定义说明 
+	 * 		1、一个URL可以配置多个Filter，使用逗号分隔 
+	 * 		2、当设置多个过滤器时，全部验证通过，才视为通过
+	 * 		3、部分过滤器可指定参数，如perms，roles
+	 * @author DengJinbo
+	 * @date 2019年1月14日
+	 * @version 1.0
+	 * @param securityManager
+	 * @return
 	 */
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -80,16 +86,16 @@ public class ShiroConfig {
 		shiroFilterFactoryBean.setLoginUrl("/login");
 		shiroFilterFactoryBean.setSuccessUrl("/index");
 		
-		// 拦截器，从上向下顺序执行，一般将/**放在最为下边
+		// 拦截器，从上向下顺序执行，一般将 /** 放在最为下边，对所有用户认证
 		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-		filterChainDefinitionMap.put("/common/**", "anon");
+		/*filterChainDefinitionMap.put("/common/**", "anon");
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/dist/**", "anon");
 		filterChainDefinitionMap.put("/img/**", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/logout", "logout");
-		filterChainDefinitionMap.put("/**", "authc");  // 对所有用户认证
+		filterChainDefinitionMap.put("/**", "authc");*/
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
