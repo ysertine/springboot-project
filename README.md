@@ -9,5 +9,6 @@
 8、集成通用Mapper；
 9、集成PageHelper分页插件；
 10、整合Lettuce Redis；
-11、使用Spring Cache集成Redis
-12、整合Shiro权限控制框架
+11、使用Spring Cache集成Redis；
+12、整合Shiro权限控制框架；
+13、整合Mail邮件功能；

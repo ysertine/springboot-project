@@ -3,14 +3,16 @@ spring:
         cache: false
 
     mail:
-        #  邮箱服务器地址
-        host: smtp.qiye.163.com
+        host: smtp.163.com
         username: dengjinbo4work@163.com
         password: 1qaz2wsx
-        default-encoding: UTF-8
-mail:
-    fromMail:
-        address: dengjinbo4work@163.com
+        properties:
+            mail:
+                smtp:
+                    auth: true  # 需要验证登录名和密码
+                    starttls:
+                        enable: true  # 需要TLS认证 保证发送邮件安全验证
+                        required: true
 
 hikari:
     master:
