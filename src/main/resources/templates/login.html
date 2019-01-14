@@ -21,7 +21,7 @@
 					<form id="loginForm">
 						<div class="input_outer">
 							<span class="u_user"></span>
-							<input type="text" name="userName" class="userName" id="userName" 
+							<input type="text" name="username" class="username" id="username" 
 								style="color: #FFFFFF !important" placeholder="请输入用户名">
 						</div>
 						<div class="input_outer">
@@ -52,11 +52,11 @@
 				}
 			}; 
 		    $('#login').click(function() {
-		        var userName = $('.userName').val();
+		        var username = $('.username').val();
 		        var password = $('.password').val();
 		        var rememberMe = $("#rememberMe").is(':checked');
-		        if (userName == '') {
-		        	layer.tips("请输入用户名", '#userName');
+		        if (username == '') {
+		        	layer.tips("请输入用户名", '#username');
 		            return false;
 		        }
 		        if (password == '') {
@@ -66,7 +66,7 @@
 		        var load = layer.load();
 		        $.ajax({
 		        	type : "POST",
-					url : "/admin/login",
+					url : "/login",
 					data : $('#loginForm').serialize(),
 		        	beforeSend : function() {
 		        		layer.msg('正在登录...');

@@ -54,4 +54,10 @@ public class CtrlExceptionHandler {
         logger.debug(e.getMessage());
         return "403";
     }
+    
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public void handleIllegalArgumentException(IllegalArgumentException e) {
+        logger.debug(e.getMessage());
+    }
 }

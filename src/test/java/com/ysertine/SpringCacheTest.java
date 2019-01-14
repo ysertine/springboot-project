@@ -49,10 +49,10 @@ public class SpringCacheTest {
 		
 		SysUser sysUser1 = sysUserInfoService.getSysUserByPrimaryKey(sysUser.getId());
 		SysUser sysUser2 = (SysUser) customRedisTemplate.opsForValue().get("sysUser::" + sysUser.getId());
-		assertEquals(sysUser1.getUserName(), sysUser2.getUserName());
+		assertEquals(sysUser1.getUsername(), sysUser2.getUsername());
 		
-		final SysUser sysUser3 = sysUserInfoService.getSysUserByUserName(sysUser2.getUserName());
-		logger.info("[getByUserName] - [{}]", sysUser3.getUserName());
+		final SysUser sysUser3 = sysUserInfoService.getSysUserByUsername(sysUser2.getUsername());
+		logger.info("[getByUserName] - [{}]", sysUser3.getUsername());
 		
 		sysUserInfoService.deleteSysUserByPrimaryKey(sysUser3.getId());
 	}

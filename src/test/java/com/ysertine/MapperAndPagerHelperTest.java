@@ -46,8 +46,8 @@ public class MapperAndPagerHelperTest {
         sysUserMapper.insertSelective(user3);
         logger.info("[user3回写主键] - [{}]", user3.getId());
         
-        final SysUser sysUser = sysUserMapper.selectByUserName("admin");
-        logger.info("[调用自己写的SQL] - [{}]", sysUser.getUserName());
+        final SysUser sysUser = sysUserMapper.selectByUsername("admin");
+        logger.info("[调用自己写的SQL] - [{}]", sysUser.getUsername());
 
         // TODO 模拟分页
         sysUserMapper.insertSelective(new SysUser("u4", "p4", "s4", "p4"));

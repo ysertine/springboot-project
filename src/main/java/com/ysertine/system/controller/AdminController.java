@@ -10,12 +10,13 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ysertine.common.utli.RequestUtils;
-import com.ysertine.common.utli.StringUtils;
+import com.ysertine.common.utli.R;
 import com.ysertine.system.entity.SysUser;
 
 /**
@@ -25,11 +26,10 @@ import com.ysertine.system.entity.SysUser;
  * @date 2019年1月8日
  */
 @Controller
-@RequestMapping(value = "/admin")
 public class AdminController {
 	
 	/**
-	 * @Title loginPage 
+	 * @Title login 
 	 * @Description 跳转登录页面
 	 * @author DengJinbo
 	 * @date 2019年1月8日
@@ -37,30 +37,34 @@ public class AdminController {
 	 * @return
 	 */
 	@GetMapping(value = "/login")
-    public String loginPage() {
-        return "admin/login";
+    public String login() {
+        return "login";
     }
 	
 	/**
 	 * @Title login 
 	 * @Description 系统用户登录
 	 * @author DengJinbo
-	 * @date 2019年1月8日
+	 * @date 2019年1月14日
 	 * @version 1.0
-	 * @param userName 系统用户名
-	 * @param password 密码
 	 * @param request
+	 * @param sysUser
+	 * @param model
 	 * @return
 	 */
+	@ResponseBody
 	@PostMapping(value = "/login")
-    public String login(String userName, String password, HttpServletRequest request) {
+    public R login(HttpServletRequest request, SysUser sysUser, Model model) {
+		if (StringUtils.isEmpty(sysUser.getUsername()) || StringUtils.isEmpty(sysUser.getPassword())) {
+            return R.error("用户名或密码不能为空！");
+        }
 		
 		/**
-		 * 用户输入的账号和密码,,存到UsernamePasswordToken对象中..然后由shiro内部认证对比,
+		 * 用户输入的账号和密码，存到UsernamePasswordToken对象中，然后由shiro内部认证对比，
 		 * 认证执行者交由 com.battcn.config.AuthRealm 中 doGetAuthenticationInfo 处理
-		 * 当以上认证成功后会向下执行,认证失败会抛出异常
+		 * 当以上认证成功后会向下执行，认证失败会抛出异常
 		 */
-        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
         
         // 想要得到 SecurityUtils.getSubject() 的对象．．访问地址必须跟 shiro 的拦截地址内．不然后会报空指针
         Subject subject = SecurityUtils.getSubject();
@@ -68,41 +72,42 @@ public class AdminController {
         	subject.login(token);
         } catch (ExcessiveAttemptsException e) {
             token.clear();
-            request.setAttribute("msg", "账号登录失败次数过多，请稍后再试");
-            return "admin/login";
+            return R.error("账号登录失败次数过多，请稍后再试！");
         }  catch (DisabledAccountException e) {
         	token.clear();
-            request.setAttribute("msg", "账户已被禁用");
-            return "admin/login";
+            return R.error("账户已被禁用！");
         } catch (AuthenticationException e) {
         	token.clear();
-            request.setAttribute("msg", "用户名或密码错误");
-            return "admin/login";
+            return R.error("用户名或密码错误！");
         }
         // 执行到这里说明用户已登录成功
-        return "redirect:/admin/index";
+        return R.ok();
 	}
 	
 	/**
-	 * @Title loginSuccessMessage 
-	 * @Description 登录成功跳转
+	 * @Title index 
+	 * @Description 登录成功跳转首页
 	 * @author DengJinbo
 	 * @date 2019年1月8日
 	 * @version 1.0
 	 * @param request
 	 * @return
 	 */
-	@GetMapping(value = "/index")
-    public String loginSuccessMessage(HttpServletRequest request) {
-        String userName = "未登录";
-        SysUser currentLoginUser = RequestUtils.currentLoginUser();
-
-        if (currentLoginUser != null && StringUtils.isNotEmpty(currentLoginUser.getUserName())) {
-            userName = currentLoginUser.getUserName();
-        } else {
-            return "redirect:/admin/login";
-        }
-        request.setAttribute("userName", userName);
-        return "admin/index";
-    }
+	@GetMapping({ "/", "/index" })
+	public String index() {
+		return "index";
+	}
+	
+	/**
+	 * @Title main 
+	 * @Description 首页默认页面
+	 * @author DengJinbo
+	 * @date 2019年1月14日
+	 * @version 1.0
+	 * @return
+	 */
+	@GetMapping(value = "/main")
+	public String main() {
+		return "main";
+	}
 }        

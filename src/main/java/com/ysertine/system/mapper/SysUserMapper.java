@@ -25,13 +25,13 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	 * @author DengJinbo
 	 * @date 2018年12月25日
 	 * @version 1.0
-	 * @param userName 系统用户名
+	 * @param username 系统用户名
 	 * @return 系统用户实体
 	 */
-	SysUser selectByUserName(String userName);
+	SysUser selectByUsername(String username);
 
 	/**
-	 * @Title selectByUserNameAndPassword 
+	 * @Title selectByUsernameAndPassword 
 	 * @Description 
 	 * @author DengJinbo
 	 * @date 2019年1月8日
@@ -39,6 +39,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	 * @param parameterMap
 	 * @return
 	 */
-	SysUser selectByUserNameAndPassword(HashMap<String, Object> parameterMap);
+	SysUser selectByUsernameAndPassword(HashMap<String, Object> parameterMap);
 
 }

@@ -2,6 +2,7 @@ package com.ysertine.system.shiro;
 
 import java.util.Set;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -12,7 +13,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,24 +73,26 @@ public class MyShiroRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		logger.info("---------------- 执行 Shiro 凭证认证 ----------------------");
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-		String userName = usernamePasswordToken.getUsername();
-		String password = String.valueOf(usernamePasswordToken.getPassword());
+		String username = usernamePasswordToken.getUsername();
 		
-		// 从数据库获取对应用户名密码的用户
-		SysUser sysUser = sysUserInfoService.getSysUserByUserNameAndPassword(userName, password);
-		if (sysUser != null) {
-			// 用户为禁用状态
-			if (sysUser.getStatus() != 1) {
-				throw new DisabledAccountException();
-			}
-			logger.info("---------------- Shiro 凭证认证成功 ----------------------");
-			SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(sysUser, // 用户
-					sysUser.getPassword(), // 密码
-					getName() // realm name
-			);
-			return authenticationInfo;
+		SysUser sysUser = sysUserInfoService.getSysUserByUsername(username);
+		if (sysUser == null) {
+			throw new UnknownAccountException();
 		}
-		throw new UnknownAccountException();
+		if (sysUser.getStatus() != 1) {
+			throw new DisabledAccountException();
+		}
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, // 用户
+				sysUser.getPassword(), // 密码
+				ByteSource.Util.bytes(username + sysUser.getSalt()),
+				getName() // realm name
+		);
+		// 当验证都通过后，把用户信息放在session里
+        Session session = SecurityUtils.getSubject().getSession();
+        session.setAttribute("sysUserSession", sysUser);
+        session.setAttribute("sysUserSessionId", sysUser.getId());
+		logger.info("---------------- Shiro 凭证认证成功 ----------------------");
+		return authenticationInfo;
 	}
 
 }

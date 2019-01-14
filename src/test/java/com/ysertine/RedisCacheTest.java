@@ -58,7 +58,7 @@ public class RedisCacheTest {
 		customRedisTemplate.opsForValue().set(key, new SysUser("大波波", "123456", "ssssss1", "15988888888"));
 
 		final SysUser sysUser = (SysUser) customRedisTemplate.opsForValue().get(key);
-		assertEquals(sysUser.getUserName(), "大波波");
+		assertEquals(sysUser.getUsername(), "大波波");
 		logger.info("==> 当你看到这条信息，表明测试验证通过了！");
 	}
 }

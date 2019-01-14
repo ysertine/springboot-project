@@ -29,7 +29,7 @@ public class SysUser extends BaseEntity {
 	/**
 	 * 用户名
 	 */
-	private String userName;
+	private String username;
 	
 	/**
 	 * 密码
@@ -83,13 +83,12 @@ public class SysUser extends BaseEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -107,12 +106,11 @@ public class SysUser extends BaseEntity {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-
-	public Integer getSex() {
+	public int getSex() {
 		return sex;
 	}
 
-	public void setSex(Integer sex) {
+	public void setSex(int sex) {
 		this.sex = sex;
 	}
 
@@ -177,13 +175,13 @@ public class SysUser extends BaseEntity {
 	 * @Description 有参构造函数
 	 * @author DengJinbo
 	 * @date 2018年12月26日
-	 * @param userName 系统用户名
+	 * @param username 系统用户名
 	 * @param password 密码
 	 * @param salt 加密盐值
 	 * @param phone 电话号码
 	 */
-    public SysUser(String userName, String password, String salt, String phone) {
-        this.userName = userName;
+    public SysUser(String username, String password, String salt, String phone) {
+        this.username = username;
         this.password = password;
         this.salt = salt;
         this.phone = phone;

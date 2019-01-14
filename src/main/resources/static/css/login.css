@@ -120,7 +120,7 @@ p.ref {
 	font: 14px "microsoft yahei",Helvetica,Tahoma,Arial,"Microsoft jhengHei";
 	line-height: 46px;
 }
-.userName, .password {
+.username, .password {
 	width: 220px;
 	height: 46px;
 	outline: none;

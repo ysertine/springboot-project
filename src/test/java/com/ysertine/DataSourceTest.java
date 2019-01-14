@@ -35,8 +35,8 @@ public class DataSourceTest {
 		SysUser sysUser;
 		for (int i = 1; i <= 2; i++) {
 			// i为奇数时调用selectById方法获取，i为偶数时调用selectByUserName方法获取
-			sysUser = i % 2 == 1 ? sysUserMapper.selectByPrimaryKey(1L) : sysUserMapper.selectByUserName("admin");
-			logger.info("{}-->={}", sysUser.getId(), sysUser.getUserName());
+			sysUser = i % 2 == 1 ? sysUserMapper.selectByPrimaryKey(1L) : sysUserMapper.selectByUsername("admin");
+			logger.info("{}-->={}", sysUser.getId(), sysUser.getUsername());
 		}
 	}
 }

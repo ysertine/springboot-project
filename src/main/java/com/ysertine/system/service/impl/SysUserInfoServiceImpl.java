@@ -51,17 +51,17 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 	
 	@Cacheable(value = "sysUser")
 	@Override
-	public SysUser getSysUserByUserName(String userName) {
-		return sysUserMapper.selectByUserName(userName);
+	public SysUser getSysUserByUsername(String username) {
+		return sysUserMapper.selectByUsername(username);
 	}
 	
 	@Cacheable(value = "sysUser")
 	@Override
-	public SysUser getSysUserByUserNameAndPassword(String userName, String password) {
+	public SysUser getSysUserByUsernameAndPassword(String username, String password) {
 		HashMap<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("userName", userName);
+		parameterMap.put("username", username);
 		parameterMap.put("password", password);
-		return sysUserMapper.selectByUserNameAndPassword(parameterMap);
+		return sysUserMapper.selectByUsernameAndPassword(parameterMap);
 	}
 
 	@CachePut(value = "sysUser", key = "#sysUser.id")

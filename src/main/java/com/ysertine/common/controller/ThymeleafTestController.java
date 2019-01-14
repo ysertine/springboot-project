@@ -16,7 +16,7 @@ import com.ysertine.common.entity.ThymeleafTest;
  * @date 2018年12月25日
  */
 @Controller
-@RequestMapping
+@RequestMapping(value = "/thymeleaf")
 public class ThymeleafTestController {
 	
 	@GetMapping("/index")
