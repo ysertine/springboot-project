@@ -1,282 +1,242 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-	<script src="/common/commonCss.js"></script>
-	<script src="/common/commonJs.js"></script>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="/plugins/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="/plugins/h-ui.admin/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="/plugins/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="/plugins/hui-iconfont/iconfont.css" />
 </head>
-<body class="hold-transition sidebar-mini">
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard v3</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v3</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header no-border">
-                <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Online Store Visitors</h3>
-                  <a href="javascript:void(0);">View Report</a>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="d-flex">
-                  <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
-                    <span>Visitors Over Time</span>
-                  </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fa fa-arrow-up"></i> 12.5%
-                    </span>
-                    <span class="text-muted">Since last week</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-
-                <div class="position-relative mb-4">
-                  <canvas id="visitors-chart" height="200"></canvas>
-                </div>
-
-                <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
-                    <i class="fa fa-square text-primary"></i> This Week
-                  </span>
-
-                  <span>
-                    <i class="fa fa-square text-gray"></i> Last Week
-                  </span>
-                </div>
-              </div>
-            </div>
-            <!-- /.card -->
-
-            <div class="card">
-              <div class="card-header no-border">
-                <h3 class="card-title">Products</h3>
-                <div class="card-tools">
-                  <a href="#" class="btn btn-tool btn-sm">
-                    <i class="fa fa-download"></i>
-                  </a>
-                  <a href="#" class="btn btn-tool btn-sm">
-                    <i class="fa fa-bars"></i>
-                  </a>
-                </div>
-              </div>
-              <div class="card-body p-0">
-                <table class="table table-striped table-valign-middle">
-                  <thead>
-                  <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Sales</th>
-                    <th>More</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Some Product
-                    </td>
-                    <td>$13 USD</td>
-                    <td>
-                      <small class="text-success mr-1">
-                        <i class="fa fa-arrow-up"></i>
-                        12%
-                      </small>
-                      12,000 Sold
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
-                        <i class="fa fa-search"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Another Product
-                    </td>
-                    <td>$29 USD</td>
-                    <td>
-                      <small class="text-warning mr-1">
-                        <i class="fa fa-arrow-down"></i>
-                        0.5%
-                      </small>
-                      123,234 Sold
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
-                        <i class="fa fa-search"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Amazing Product
-                    </td>
-                    <td>$1,230 USD</td>
-                    <td>
-                      <small class="text-danger mr-1">
-                        <i class="fa fa-arrow-down"></i>
-                        3%
-                      </small>
-                      198 Sold
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
-                        <i class="fa fa-search"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Perfect Item
-                      <span class="badge bg-danger">NEW</span>
-                    </td>
-                    <td>$199 USD</td>
-                    <td>
-                      <small class="text-success mr-1">
-                        <i class="fa fa-arrow-up"></i>
-                        63%
-                      </small>
-                      87 Sold
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
-                        <i class="fa fa-search"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header no-border">
-                <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Sales</h3>
-                  <a href="javascript:void(0);">View Report</a>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="d-flex">
-                  <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">$18,230.00</span>
-                    <span>Sales Over Time</span>
-                  </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fa fa-arrow-up"></i> 33.1%
-                    </span>
-                    <span class="text-muted">Since last month</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-
-                <div class="position-relative mb-4">
-                  <canvas id="sales-chart" height="200"></canvas>
-                </div>
-
-                <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
-                    <i class="fa fa-square text-primary"></i> This year
-                  </span>
-
-                  <span>
-                    <i class="fa fa-square text-gray"></i> Last year
-                  </span>
-                </div>
-              </div>
-            </div>
-            <!-- /.card -->
-
-            <div class="card">
-              <div class="card-header no-border">
-                <h3 class="card-title">Online Store Overview</h3>
-                <div class="card-tools">
-                  <a href="#" class="btn btn-sm btn-tool">
-                    <i class="fa fa-download"></i>
-                  </a>
-                  <a href="#" class="btn btn-sm btn-tool">
-                    <i class="fa fa-bars"></i>
-                  </a>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                  <p class="text-success text-xl">
-                    <i class="ion ion-ios-refresh-empty"></i>
-                  </p>
-                  <p class="d-flex flex-column text-right">
-                    <span class="font-weight-bold">
-                      <i class="ion ion-android-arrow-up text-success"></i> 12%
-                    </span>
-                    <span class="text-muted">CONVERSION RATE</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                  <p class="text-warning text-xl">
-                    <i class="ion ion-ios-cart-outline"></i>
-                  </p>
-                  <p class="d-flex flex-column text-right">
-                    <span class="font-weight-bold">
-                      <i class="ion ion-android-arrow-up text-warning"></i> 0.8%
-                    </span>
-                    <span class="text-muted">SALES RATE</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-                <div class="d-flex justify-content-between align-items-center mb-0">
-                  <p class="text-danger text-xl">
-                    <i class="ion ion-ios-people-outline"></i>
-                  </p>
-                  <p class="d-flex flex-column text-right">
-                    <span class="font-weight-bold">
-                      <i class="ion ion-android-arrow-down text-danger"></i> 1%
-                    </span>
-                    <span class="text-muted">REGISTRATION RATE</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-              </div>
-            </div>
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-	 
+<body>
+	<div class="page-container">
+		<p class="f-20 text-success">欢迎使用本系统</p>
+		<p>登录次数：18 </p>
+		<p>上次登录IP：222.35.131.79.1  上次登录时间：2014-6-14 11:19:55</p>
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+				<tr>
+					<th colspan="7" scope="col">信息统计</th>
+				</tr>
+				<tr class="text-c">
+					<th>统计</th>
+					<th>资讯库</th>
+					<th>图片库</th>
+					<th>产品库</th>
+					<th>用户</th>
+					<th>管理员</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="text-c">
+					<td>总数</td>
+					<td>92</td>
+					<td>9</td>
+					<td>0</td>
+					<td>8</td>
+					<td>20</td>
+				</tr>
+				<tr class="text-c">
+					<td>今日</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+				<tr class="text-c">
+					<td>昨日</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+				<tr class="text-c">
+					<td>本周</td>
+					<td>2</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+				<tr class="text-c">
+					<td>本月</td>
+					<td>2</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="table table-border table-bordered table-bg mt-20">
+			<thead>
+				<tr>
+					<th colspan="2" scope="col">服务器信息</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th width="30%">服务器计算机名</th>
+					<td><span id="lbServerName">http://127.0.0.1/</span></td>
+				</tr>
+				<tr>
+					<td>服务器IP地址</td>
+					<td>192.168.1.1</td>
+				</tr>
+				<tr>
+					<td>服务器域名</td>
+					<td>www.h-ui.net</td>
+				</tr>
+				<tr>
+					<td>服务器端口 </td>
+					<td>80</td>
+				</tr>
+				<tr>
+					<td>服务器IIS版本 </td>
+					<td>Microsoft-IIS/6.0</td>
+				</tr>
+				<tr>
+					<td>本文件所在文件夹 </td>
+					<td>D:\WebSite\HanXiPuTai.com\XinYiCMS.Web\</td>
+				</tr>
+				<tr>
+					<td>服务器操作系统 </td>
+					<td>Microsoft Windows NT 5.2.3790 Service Pack 2</td>
+				</tr>
+				<tr>
+					<td>系统所在文件夹 </td>
+					<td>C:\WINDOWS\system32</td>
+				</tr>
+				<tr>
+					<td>服务器脚本超时时间 </td>
+					<td>30000秒</td>
+				</tr>
+				<tr>
+					<td>服务器的语言种类 </td>
+					<td>Chinese (People's Republic of China)</td>
+				</tr>
+				<tr>
+					<td>.NET Framework 版本 </td>
+					<td>2.050727.3655</td>
+				</tr>
+				<tr>
+					<td>服务器当前时间 </td>
+					<td>2014-6-14 12:06:23</td>
+				</tr>
+				<tr>
+					<td>服务器IE版本 </td>
+					<td>6.0000</td>
+				</tr>
+				<tr>
+					<td>服务器上次启动到现在已运行 </td>
+					<td>7210分钟</td>
+				</tr>
+				<tr>
+					<td>逻辑驱动器 </td>
+					<td>C:\D:\</td>
+				</tr>
+				<tr>
+					<td>CPU 总数 </td>
+					<td>4</td>
+				</tr>
+				<tr>
+					<td>CPU 类型 </td>
+					<td>x86 Family 6 Model 42 Stepping 1, GenuineIntel</td>
+				</tr>
+				<tr>
+					<td>虚拟内存 </td>
+					<td>52480M</td>
+				</tr>
+				<tr>
+					<td>当前程序占用内存 </td>
+					<td>3.29M</td>
+				</tr>
+				<tr>
+					<td>Asp.net所占内存 </td>
+					<td>51.46M</td>
+				</tr>
+				<tr>
+					<td>当前Session数量 </td>
+					<td>8</td>
+				</tr>
+				<tr>
+					<td>当前SessionID </td>
+					<td>gznhpwmp34004345jz2q3l45</td>
+				</tr>
+				<tr>
+					<td>当前系统用户名 </td>
+					<td>NETWORK SERVICE</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<script type="text/javascript" src="/plugins/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="/plugins/h-ui.admin/js/H-ui.admin.js"></script>
+	<script type="text/javascript">
+		// 分页
+		var totalNum = ${total};
+		if (totalNum > 0) {
+			var numPerPage = ${numPerPage};
+			var pages = Math.ceil((totalNum / numPerPage)); 
+			var currpage = ${pageNum};
+			var name = $("#name").val();
+			laypage({
+			  	cont: 'pageTag', //分页容器的id  
+			  	pages: pages,    //总页数  
+			  	curr: currpage,  //当前页  
+			  	skip: true,      //是否开启跳页
+			  	skin: '#00AA91', //当前页的颜色
+			  	jump: function(e, first) {
+			      	if (!first) {
+			        	location.href = '?pageNum=' + e.curr + '&numPerPage=' + numPerPage
+			        			+ '&name=' + name;
+			      	}
+			  	}  
+			});
+		} 
+		// 添加
+		function add_subject() {
+			layer.open({
+		      	type: 2,
+				title: '添加科目',
+				maxmin: true,
+				area: ['450px', '400px'],
+				content: 'toAdd.html'
+			});
+		}
+		// 修改
+		function edit_subject(id) {
+			layer.open({
+		      	type: 2,
+				title: '修改科目',
+				maxmin: true,
+				area: ['450px', '400px'],
+				content: 'toModify.html?subjectId=' + id
+			});
+		}
+		//删除
+		function del_subject(obj, id) {
+			layer.confirm('确认要删除吗？', function(index) {
+				$.ajax({
+					type: 'GET',
+					url: 'delete.html?subjectId=' + id,
+					dataType: 'json',
+					success: function(data) {
+						if (data.status == 200) {
+							$(obj).parents("tr").remove();
+							layer.msg(data.msg, {icon:1, time:1000});
+						} else {
+                        	layer.msg(data.msg, {icon:2, time:2000});
+	                    }
+					},
+					error:function(data) {
+						layer.msg(data.msg, {icon:2, time:2000});
+					},
+				});		
+			});
+		}
+	</script>
 </body>
 </html>
