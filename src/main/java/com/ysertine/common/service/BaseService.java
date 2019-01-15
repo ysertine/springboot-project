@@ -2,6 +2,8 @@ package com.ysertine.common.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
+
 /**
  * @Title BaseService.java
  * @Description 通用的Service接口
@@ -129,4 +131,17 @@ public interface BaseService<T> {
 	 * @return
 	 */
 	int countByCriteria(T record);
+	
+	/**
+	 * @Title getPageInfo 
+	 * @Description 查询分页
+	 * @author DengJinbo
+	 * @date 2019年1月15日
+	 * @version 1.0
+	 * @param pageNum 页码
+	 * @param pageSize 每页显示数量
+	 * @param orderBy 排序
+	 * @return
+	 */
+	PageInfo<T> getPageInfo(int pageNum, int pageSize, String orderBy);
 }

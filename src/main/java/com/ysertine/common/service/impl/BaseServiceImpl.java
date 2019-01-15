@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ysertine.common.service.BaseService;
 
 import tk.mybatis.mapper.common.BaseMapper;
@@ -18,7 +20,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
 	@Autowired
 	private BaseMapper<T> baseMapper;
-	
+
 	@Override
 	public int save(T record) {
 		return baseMapper.insert(record);
@@ -72,5 +74,11 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	public int countByCriteria(T record) {
 		return baseMapper.selectCount(record);
+	}
+
+	@Override
+	public PageInfo<T> getPageInfo(int pageNum, int pageSize, String orderBy) {
+		return PageHelper.startPage(pageNum, pageSize).setOrderBy(orderBy)
+				.doSelectPageInfo(() -> baseMapper.selectAll());
 	}
 }
