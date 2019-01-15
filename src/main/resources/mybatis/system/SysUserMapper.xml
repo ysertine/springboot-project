@@ -3,7 +3,7 @@
 <mapper namespace="com.ysertine.system.mapper.SysUserMapper" >
     <resultMap id="BaseResultMap" type="com.ysertine.system.entity.SysUser" >
         <id column="id" property="id" jdbcType="BIGINT" />
-        <result column="user_name" property="username" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="salt" property="salt" jdbcType="VARCHAR" />
         <result column="sex" property="sex" jdbcType="INTEGER"/>
@@ -20,7 +20,7 @@
     </sql>
     
     <sql id="Base_Column_List" >
-        id, user_name, password, salt, sex, phone, email, create_time, update_time, last_login_time, status
+        id, username, password, salt, sex, phone, email, create_time, update_time, last_login_time, status
     </sql>
     
 	<!-- 根据用户名查询用户 -->
@@ -29,17 +29,7 @@
        	<include refid="Base_Column_List" />
 	   FROM 
 	   	<include refid="BASE_TABLE"/>
-	   WHERE user_name = #{username}
+	   WHERE usersname = #{username}
     </select>
     
-    <!-- 根据用户名查询用户 -->
-    <select id="selectByUsernameAndPassword" resultMap="BaseResultMap" >
-       SELECT 
-       	<include refid="Base_Column_List" />
-	   FROM 
-	   	<include refid="BASE_TABLE"/>
-	   WHERE user_name = #{username}
-	   AND password = #{password} 
-    </select>
-
 </mapper>

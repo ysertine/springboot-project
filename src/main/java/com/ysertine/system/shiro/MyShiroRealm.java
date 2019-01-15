@@ -22,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 import com.ysertine.system.entity.SysUser;
-import com.ysertine.system.service.SysUserInfoService;
+import com.ysertine.system.service.SysRolePermissionService;
+import com.ysertine.system.service.SysUserRoleService;
+import com.ysertine.system.service.SysUserService;
 
 /**
  * @Title MyShiroRealm.java
@@ -42,8 +44,16 @@ public class MyShiroRealm extends AuthorizingRealm {
 	 */
 	@Lazy
 	@Autowired
-	private SysUserInfoService sysUserInfoService;
+	private SysUserService sysUserService;
 
+	@Lazy
+	@Autowired
+	private SysUserRoleService sysUserRoleService;
+	
+	@Lazy
+	@Autowired
+	private SysRolePermissionService sysRolePermissionService;
+	
 	/**
 	 * 获取登录用户的授权信息
 	 */
@@ -54,10 +64,10 @@ public class MyShiroRealm extends AuthorizingRealm {
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		if (principal instanceof SysUser) {
 			SysUser loginUser = (SysUser) principal;
-			Set<String> roleNameList = sysUserInfoService.listRoleNameByUserId(loginUser.getId());
+			Set<String> roleNameList = sysUserRoleService.listRoleNameByUserId(loginUser.getId());
 			authorizationInfo.addRoles(roleNameList);
 
-			Set<String> ResourceUrlList = sysUserInfoService.listResourceUrlByUserId(loginUser.getId());
+			Set<String> ResourceUrlList = sysRolePermissionService.listResourceUrlByUserId(loginUser.getId());
 			authorizationInfo.addStringPermissions(ResourceUrlList);
 		}
 		logger.info("---- 获取到以下权限 ----");
@@ -75,7 +85,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 		String username = usernamePasswordToken.getUsername();
 		
-		SysUser sysUser = sysUserInfoService.getSysUserByUsername(username);
+		SysUser sysUser = sysUserService.getByUsername(username);
 		if (sysUser == null) {
 			throw new UnknownAccountException();
 		}
