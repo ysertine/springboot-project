@@ -92,7 +92,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 		if (sysUser.getStatus() != 1) {
 			throw new DisabledAccountException();
 		}
-		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, // 用户
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(sysUser, // 用户
 				sysUser.getPassword(), // 密码
 				ByteSource.Util.bytes(username + sysUser.getSalt()),
 				getName() // realm name

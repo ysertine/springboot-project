@@ -29,7 +29,7 @@
        	<include refid="Base_Column_List" />
 	   FROM 
 	   	<include refid="BASE_TABLE"/>
-	   WHERE usersname = #{username}
+	   WHERE username = #{username}
     </select>
     
 </mapper>

@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ysertine.common.utli.R;
 import com.ysertine.system.entity.SysUser;
@@ -94,8 +95,11 @@ public class AdminController {
 	 * @return
 	 */
 	@GetMapping({ "/", "/index" })
-	public String index() {
-		return "index";
+	public ModelAndView index() {
+		SysUser currentLoginUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+		ModelAndView view = new ModelAndView();
+		view.addObject("currentLoginUser", currentLoginUser);
+		return view;
 	}
 	
 	/**

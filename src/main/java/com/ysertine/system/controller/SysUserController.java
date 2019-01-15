@@ -41,7 +41,7 @@ public class SysUserController {
 	@GetMapping(value = "/view")
     public ModelAndView view(HttpServletRequest request) {
 		int pageNum = ValueUtils.intValue(request.getParameter("pageNum"), 1);
-		int pageSize = ValueUtils.intValue(request.getParameter("pageSize"), 1);
+		int pageSize = ValueUtils.intValue(request.getParameter("pageSize"), 10);
 		String orderBy = ValueUtils.stringValue(request.getParameter("orderBy"), "id desc");
 		
 		PageInfo<SysUser> pageInfo = sysUserService.getPageInfo(pageNum, pageSize, orderBy);

@@ -60,14 +60,14 @@
 	            <li class="nav-item dropdown ml-3">
 	                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						<img src="dist/img/user-default.jpg" class="img-circle" alt="用户头像"  width="40px" height="40px">
-						<span class="float-top text-sm ml-2">大波波</span>
+						<span class="float-top text-sm ml-2" th:text="${currentLoginUser?.username}"></span>
 	                </a>
 	                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 						<span class="dropdown-header bg-warning">
 							<img src="dist/img/user-default.jpg" class="img-circle" alt="用户头像"  width="80px" height="80px">
 						</span>
 						<div class="text-center bg-warning">
-	                    	<div class="text-lg">大波波</div>
+	                    	<div class="text-lg" th:text="${currentLoginUser?.username}"></div>
 	                    	<small>超级管理员</small>
 	                  	</div>
 	                    <div class="dropdown-divider"></div>
