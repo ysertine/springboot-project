@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ysertine.common.entity.ThymeleafTest;
@@ -16,10 +15,22 @@ import com.ysertine.common.entity.ThymeleafTest;
  * @date 2018年12月25日
  */
 @Controller
-@RequestMapping(value = "/thymeleaf")
 public class ThymeleafTestController {
 	
-	@GetMapping("/index")
+	/**
+	 * @Title hello
+	 * @Description hello world
+	 * @author DengJinbo
+	 * @date 2018年12月20日
+	 * @version 1.0
+	 * @return
+	 */
+	@GetMapping("/hello")
+	public String hello() {
+		return "Hello SpringBoot";
+	}
+	
+	@GetMapping("/test")
     public ModelAndView index() {
         ModelAndView view = new ModelAndView();
         // 设置跳转的视图 默认映射到 src/main/resources/templates/{viewName}.html
@@ -35,7 +46,7 @@ public class ThymeleafTestController {
         return view;
     }
 
-    @GetMapping("/index1")
+    @GetMapping("/test1")
     public String index1(HttpServletRequest request) {
         // 与上面的写法不同，但是结果一致。
         // 设置属性
