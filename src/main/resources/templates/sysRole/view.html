@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  	<link rel="stylesheet" href="/plugins/layui/css/layui.css">
+</head>
+<body>
+
+	<table id="demo" lay-filter="test"></table>
+	 
+	<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
+	<script>
+		layui.use(['layer', 'form', 'table'], function() {
+		  	var layer = layui.layer
+		  	,form = layui.form
+		  	,table = layui.table;
+		  
+		  	table.render({
+		    	elem: '#demo'
+		    	,height: 312
+		    	,url: '/sysRole/list'
+		    	,page: true
+		    	,cols: [
+		    		[
+		      			{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+		      			,{field: 'name', title: '角色名称', width:180}
+		      			,{field: 'status', title: '状态', width:80, sort: true}
+		    		]
+		    	]
+		 	 });
+		});
+	</script>
+</body>
+</html>

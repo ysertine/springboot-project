@@ -11,45 +11,46 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ysertine.common.utli.ValueUtils;
-import com.ysertine.system.entity.SysUser;
-import com.ysertine.system.service.SysUserService;
+import com.ysertine.system.service.SysRoleService;
 
 /**
- * @Title SysUserController.java
- * @Description 管理员控制器
+ * @Title SysRoleController.java
+ * @Description 系统角色控制器
  * @author DengJinbo
- * @date 2019年1月15日
+ * @date 2019年1月16日
  */
 @Controller
-@RequestMapping("/sysUser")
-public class SysUserController {
+@RequestMapping("/sysRole")
+public class SysRoleController {
 	
 	/**
 	 * 注入系统用户Service类
 	 */
 	@Autowired
-	private SysUserService sysUserService;
+	private SysRoleService sysRoleService;
 	
 	/**
 	 * @Title view 
-	 * @Description 跳转管理员列表页面
+	 * @Description 跳转系统角色列表页面
 	 * @author DengJinbo
-	 * @date 2019年1月15日
+	 * @date 2019年1月16日
 	 * @version 1.0
+	 * @param request
 	 * @return
 	 */
 	@GetMapping(value = "/view")
     public String view(HttpServletRequest request) {
-        return "sysUser/view";
+        return "sysRole/view";
     }
 	
 	/**
-	 * @Title view 
-	 * @Description 系统用户列表
+	 * @Title list 
+	 * @Description 获取系统角色列表数据
 	 * @author DengJinbo
-	 * @date 2019年1月15日
+	 * @date 2019年1月16日
 	 * @version 1.0
 	 * @return
 	 */
@@ -60,12 +61,12 @@ public class SysUserController {
 		int pageSize = ValueUtils.intValue(request.getParameter("limit"), 10);
 		String orderBy = ValueUtils.stringValue(request.getParameter("orderBy"), "id desc");
 		
-		PageInfo<SysUser> pageInfo = sysUserService.getPageInfo(pageNum, pageSize, orderBy);
+		PageInfo<Object> pageInfo = PageHelper.startPage(pageNum, pageSize).setOrderBy(orderBy).doSelectPageInfo(() -> sysRoleService.listAll());
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("code", 0);
 		map.put("count", pageInfo.getTotal());
-		map.put("data", pageInfo.getList());
+		map.put("data", sysRoleService.listAll());
         return map;
     }
 	
