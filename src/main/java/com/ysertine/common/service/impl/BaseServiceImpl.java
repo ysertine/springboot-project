@@ -81,4 +81,10 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 		return PageHelper.startPage(pageNum, pageSize).setOrderBy(orderBy)
 				.doSelectPageInfo(() -> baseMapper.selectAll());
 	}
+	
+	@Override
+	public PageInfo<T> getPageInfo(int pageNum, int pageSize, String orderBy, T record) {
+		return PageHelper.startPage(pageNum, pageSize).setOrderBy(orderBy)
+				.doSelectPageInfo(() -> baseMapper.select(record));
+	}
 }

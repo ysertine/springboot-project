@@ -144,4 +144,18 @@ public interface BaseService<T> {
 	 * @return
 	 */
 	PageInfo<T> getPageInfo(int pageNum, int pageSize, String orderBy);
+	
+	/**
+	 * @Title getPageInfo 
+	 * @Description 根据条件查询分页
+	 * @author DengJinbo
+	 * @date 2019年1月17日
+	 * @version 1.0
+	 * @param pageNum 页码
+	 * @param pageSize 每页显示数量
+	 * @param orderBy 排序
+	 * @param record
+	 * @return
+	 */
+	PageInfo<T> getPageInfo(int pageNum, int pageSize, String orderBy, T record);
 }

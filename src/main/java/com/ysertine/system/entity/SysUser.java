@@ -44,7 +44,7 @@ public class SysUser extends BaseEntity {
 	/**
 	 * 性别：0=保密，1=男性，2=女性
 	 */
-	private int sex;
+	private int gender;
 	
 	/**
 	 * 手机号码
@@ -83,6 +83,7 @@ public class SysUser extends BaseEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -106,12 +107,13 @@ public class SysUser extends BaseEntity {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-	public int getSex() {
-		return sex;
+
+	public int getGender() {
+		return gender;
 	}
 
-	public void setSex(int sex) {
-		this.sex = sex;
+	public void setGender(int gender) {
+		this.gender = gender;
 	}
 
 	public String getPhone() {

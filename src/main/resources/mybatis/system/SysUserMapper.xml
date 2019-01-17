@@ -6,7 +6,7 @@
         <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="salt" property="salt" jdbcType="VARCHAR" />
-        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="gender" property="gender" jdbcType="INTEGER"/>
         <result column="phone" property="phone" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="DATE" />
@@ -20,7 +20,7 @@
     </sql>
     
     <sql id="Base_Column_List" >
-        id, username, password, salt, sex, phone, email, create_time, update_time, last_login_time, status
+        id, username, password, salt, gender, phone, email, create_time, update_time, last_login_time, status
     </sql>
     
 	<!-- 根据用户名查询用户 -->
