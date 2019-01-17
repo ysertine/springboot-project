@@ -69,4 +69,17 @@ public class SysUserController {
         return map;
     }
 	
+	/**
+	 * @Title add 
+	 * @Description 跳转新增页面
+	 * @author DengJinbo
+	 * @date 2019年1月17日
+	 * @version 1.0
+	 * @param request
+	 * @return
+	 */
+	@GetMapping(value = "/add")
+    public String add(HttpServletRequest request) {
+        return "sysUser/add";
+    }
 }        
