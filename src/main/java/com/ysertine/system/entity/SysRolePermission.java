@@ -27,34 +27,52 @@ public class SysRolePermission extends BaseEntity {
 	/**
 	 * 系统角色ID
 	 */
-	private Long role_id;
+	private Long roleId;
 	
 	/**
 	 * 系统权限ID
 	 */
-	private Long permission_id;
+	private Long permissionId;
 
+	/**
+	 * @return id
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	/**
+	 * @param id 要设置的  id
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Long getRole_id() {
-		return role_id;
+	/**
+	 * @return roleId
+	 */
+	public Long getRoleId() {
+		return roleId;
 	}
 
-	public void setRole_id(Long role_id) {
-		this.role_id = role_id;
+	/**
+	 * @param roleId 要设置的  roleId
+	 */
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 
-	public Long getPermission_id() {
-		return permission_id;
+	/**
+	 * @return permissionId
+	 */
+	public Long getPermissionId() {
+		return permissionId;
 	}
 
-	public void setPermission_id(Long permission_id) {
-		this.permission_id = permission_id;
+	/**
+	 * @param permissionId 要设置的  permissionId
+	 */
+	public void setPermissionId(Long permissionId) {
+		this.permissionId = permissionId;
 	}
 }
