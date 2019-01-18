@@ -61,15 +61,14 @@
 	</form>
 
 	<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
+	<script type="text/javascript" src="/common/js/config.js"></script>
 	<script type="text/javascript">
-		var form = layui.form, $ = layui.jquery, layer = layui.layer;
-		var roleIdList = new Array();
-		
 	    function init() {
 	        loadRoleList();
 	    }
     	init();
     	
+    	var roleIdList = new Array();
 		function loadRoleList() {
 	        $.ajax({
 				type: 'GET',
@@ -82,10 +81,10 @@
 			                var roleHtml = "";
 			                for (var i = 0; i < data.length; i++) {
 			                    roleHtml += '<input type="checkbox" name="' + data[i].id + '" title="' + data[i].name + '">';
-			                    roleIdList.push(data[i].id);//保存id列表
+			                    roleIdList.push(data[i].id); // 保存id列表
 			                }
 			                $('.role-check-list').append($(roleHtml));
-			                form.render();//重新绘制表单，让修改生效
+			                form.render(); // 重新绘制表单，让修改生效
 			            }
 					} else {
 						layer.msg("加载角色数据出现异常", {icon:2, time:2000});
@@ -201,12 +200,15 @@
 	        var gender = data.field.gender;
 	        var phone = data.field.phone;
 	        var email = data.field.email;
-	        var idList = new Array();
 	        
+	        var roleIdStr = "";
 	     	// 获取选中的角色列表
 	        for (var i = 0; i < roleIdList.length; i++) {
 	            if (data.field[roleIdList[i]] === 'on') {
-	                idList.push(roleIdList[i]);
+	            	roleIdStr += roleIdList[i];
+	            	if (i < roleIdList.length - 1) {
+	            		roleIdStr += ",";
+	            	}
 	            }
 	        }
 	     	
@@ -217,7 +219,7 @@
 			if (!a || !b || !c) {
 				return false;
 			}
-			if (idList.length < 1) {
+			if (isBlank(roleIdStr)) {
 				layer.tips("请为该用户配置角色", '#role', {tips: [3, 'red']});
 				return false;
 			}
@@ -228,16 +230,16 @@
 	        		gender: gender,
 	                phone: phone,
 	                email: email,
-	                roleIdList: idList
+	                roleIdStr: roleIdStr
 	        	},
 	        	type: "post",
 	        	async: false, 
 	        	dataType: "json",
 	        	success: function(result) {
-	        		layer.msg("111");
 		    		if (result && result.code == 0) {
 		    			layer.msg("创建管理员操作成功", {icon:1, time: 2000}, function () {
 		    				var index = parent.layer.getFrameIndex(window.name);
+							parent.location.reload();
 							parent.layer.close(index);
 			            });
 		    		} else {
@@ -248,6 +250,7 @@
 	        		layer.msg('网络异常,请稍后再试', new Function());
 	        	}
 	        });
+			return false;
 	    })
 	</script>
 </body>

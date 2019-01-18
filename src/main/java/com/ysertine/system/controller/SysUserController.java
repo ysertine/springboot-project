@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import com.github.pagehelper.PageInfo;
 import com.ysertine.common.utli.MD5Util;
 import com.ysertine.common.utli.ValueUtils;
 import com.ysertine.system.entity.SysUser;
+import com.ysertine.system.entity.SysUserRole;
+import com.ysertine.system.service.SysUserRoleService;
 import com.ysertine.system.service.SysUserService;
 import com.ysertine.system.util.PasswordHelper;
 
@@ -35,6 +39,9 @@ public class SysUserController {
 	 */
 	@Autowired
 	private SysUserService sysUserService;
+	
+	@Autowired
+	private SysUserRoleService sysUserRoleService;
 	
 	/**
 	 * 密码助手
@@ -112,13 +119,14 @@ public class SysUserController {
 	 * @return
 	 */
 	@ResponseBody
+	@Transactional
 	@PostMapping(value = "/addSysUser")
 	public Object addSysUser(HttpServletRequest request) {
 		String username = ValueUtils.stringValue(request.getParameter("username"), null);
 		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
 		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
 		String email = ValueUtils.stringValue(request.getParameter("email"), null);
-		
+		String roleIdStr = ValueUtils.stringValue(request.getParameter("roleIdStr"), null);
 		
 		Date date = new Date();
 		String salt = MD5Util.MD5Encode(username + new Date());
@@ -135,6 +143,19 @@ public class SysUserController {
 		sysUser.setStatus(1);
 		passwordHelper.encryptPassword(sysUser);
 		sysUserService.saveSelective(sysUser);
+		
+		if (!StringUtils.isEmpty(roleIdStr)) {
+			String[] roleIdList = roleIdStr.split(",");
+			
+			SysUserRole sysUserRole;
+			long sysUserId = sysUser.getId();
+			for (String roleId : roleIdList) {
+				sysUserRole = new SysUserRole();
+				sysUserRole.setUserId(sysUserId);
+				sysUserRole.setRoleId(Long.valueOf(roleId));
+				sysUserRoleService.save(sysUserRole);
+			}
+		}
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("code", 0);
