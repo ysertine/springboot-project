@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ysertine.common.utli.ValueUtils;
+import com.ysertine.system.entity.SysRole;
 import com.ysertine.system.service.SysRoleService;
 
 /**
@@ -60,8 +60,16 @@ public class SysRoleController {
 		int pageNum = ValueUtils.intValue(request.getParameter("page"), 1);
 		int pageSize = ValueUtils.intValue(request.getParameter("limit"), 10);
 		String orderBy = ValueUtils.stringValue(request.getParameter("orderBy"), "id desc");
+		String name = ValueUtils.stringValue(request.getParameter("name"), null);
+		int status = ValueUtils.intValue(request.getParameter("status"), -99);
 		
-		PageInfo<Object> pageInfo = PageHelper.startPage(pageNum, pageSize).setOrderBy(orderBy).doSelectPageInfo(() -> sysRoleService.listAll());
+		SysRole sysRole = new SysRole();
+		sysRole.setName(name);
+		if (status != -99) {
+			sysRole.setStatus(status);
+		}
+		
+		PageInfo<SysRole> pageInfo = sysRoleService.getPageInfo(pageNum, pageSize, orderBy, sysRole);
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("code", 0);

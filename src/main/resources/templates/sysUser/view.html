@@ -56,7 +56,7 @@
 
 	<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
 	<script>
-		var form = layui.form, table = layui.table, layer = layui.layer;
+		var form = layui.form, table = layui.table, layer = layui.layer, $ = layui.jquery;;
 		
 		function defineTable() {
 			tableIns = table.render({
@@ -182,24 +182,11 @@
 	  	//添加
 	    function add() {
 	        var index = layer.open({
-	            title: "添加用户",
-	            type: 2,
+	        	type: 2,
+	            title: "添加系统用户",
 	            content: "/sysUser/add",
-	            area: ['500px', '400px'],
-	            success: function (layero, index) {
-	                setTimeout(function () {
-	                    layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-	                        tips: 3
-	                    });
-	                }, 500)
-	            }
+	            area: ['500px', '500px'],
 	        });
-
-	        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-	        $(window).resize(function () {
-	            layer.full(index);
-	        });
-	        layer.full(index);
 	    };
 		
 	</script>

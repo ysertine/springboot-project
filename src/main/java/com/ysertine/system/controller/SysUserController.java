@@ -1,5 +1,6 @@
 package com.ysertine.system.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.ysertine.common.utli.MD5Util;
 import com.ysertine.common.utli.ValueUtils;
 import com.ysertine.system.entity.SysUser;
 import com.ysertine.system.service.SysUserService;
+import com.ysertine.system.util.PasswordHelper;
 
 /**
  * @Title SysUserController.java
@@ -32,6 +35,11 @@ public class SysUserController {
 	 */
 	@Autowired
 	private SysUserService sysUserService;
+	
+	/**
+	 * 密码助手
+	 */
+	private PasswordHelper passwordHelper = new PasswordHelper();
 	
 	/**
 	 * @Title view 
@@ -97,18 +105,124 @@ public class SysUserController {
 	
 	/**
 	 * @Title addSysUser 
-	 * @Description 
+	 * @Description 新增系统用户
 	 * @author DengJinbo
 	 * @date 2019年1月17日
 	 * @version 1.0
 	 * @return
 	 */
+	@ResponseBody
 	@PostMapping(value = "/addSysUser")
-	public Object addSysUser(SysUser sysUser) {
+	public Object addSysUser(HttpServletRequest request) {
+		String username = ValueUtils.stringValue(request.getParameter("username"), null);
+		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
+		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
+		String email = ValueUtils.stringValue(request.getParameter("email"), null);
+		
+		
+		Date date = new Date();
+		String salt = MD5Util.MD5Encode(username + new Date());
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setUsername(username);
+		sysUser.setPassword("fp666666");
+		sysUser.setSalt(salt);
+		sysUser.setGender(gender);
+		sysUser.setPhone(phone);
+		sysUser.setEmail(email);
+		sysUser.setCreateTime(date);
+		sysUser.setUpdateTime(date);
+		sysUser.setStatus(1);
+		passwordHelper.encryptPassword(sysUser);
 		sysUserService.saveSelective(sysUser);
+		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("code", 0);
 		map.put("msg", "创建成功！");
         return map;
 	}
+	
+	/***
+	 * @Title checkUsername 
+	 * @Description 检索用户名是否存在
+	 * @author DengJinbo
+	 * @date 2019年1月18日
+	 * @version 1.0
+	 * @param request
+	 * @return code（0=不存在，1=已存在）
+	 */
+	@ResponseBody
+	@GetMapping(value = "/checkUsername")
+    public Object checkUsername(HttpServletRequest request) {
+		String username = ValueUtils.stringValue(request.getParameter("username"), null);
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setUsername(username);
+		
+		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
+		
+		int code = 0;
+		if (getSysUser != null) {
+			code = 1;
+		}
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", code);
+        return map;
+    }
+	
+	/***
+	 * @Title checkPhone 
+	 * @Description 检索手机号码是否存在
+	 * @author DengJinbo
+	 * @date 2019年1月18日
+	 * @version 1.0
+	 * @param request
+	 * @return code（0=不存在，1=已存在）
+	 */
+	@ResponseBody
+	@GetMapping(value = "/checkPhone")
+    public Object checkPhone(HttpServletRequest request) {
+		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setPhone(phone);
+		
+		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
+		
+		int code = 0;
+		if (getSysUser != null) {
+			code = 1;
+		}
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", code);
+        return map;
+    }
+	
+	/***
+	 * @Title checkEamil 
+	 * @Description 检索电子邮箱是否存在
+	 * @author DengJinbo
+	 * @date 2019年1月18日
+	 * @version 1.0
+	 * @param request
+	 * @return code（0=不存在，1=已存在）
+	 */
+	@ResponseBody
+	@GetMapping(value = "/checkEamil")
+    public Object checkEamil(HttpServletRequest request) {
+		String email = ValueUtils.stringValue(request.getParameter("email"), null);
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setEmail(email);
+		
+		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
+		
+		int code = 0;
+		if (getSysUser != null) {
+			code = 1;
+		}
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", code);
+        return map;
+    }
 }        

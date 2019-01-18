@@ -34,7 +34,7 @@ public class PasswordHelper {
 	public void encryptPassword(SysUser sysUser) {
 		String newPassword = new SimpleHash(algorithmName, 
 				sysUser.getPassword(),
-				ByteSource.Util.bytes(sysUser.getUsername()), 
+				ByteSource.Util.bytes(sysUser.getSalt()), 
 				hashIterations).toHex();
 		sysUser.setPassword(newPassword);
 
