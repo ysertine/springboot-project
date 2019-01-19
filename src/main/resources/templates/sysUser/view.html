@@ -61,9 +61,10 @@
 		function defineTable() {
 			tableIns = table.render({
 			    elem: '#dataView',
-			    url: '/sysUser/list',
+			    url: '/sysUser/view',
 			    title: '管理员列表',
 			    toolbar: '#toolbar',
+			    method: 'post',
 	            height : 730,
 	            page : true,
 	            limit : 15,
@@ -163,11 +164,12 @@
 	    function del(ids) {
 	        layer.confirm('确认删除吗？', function (confirmIndex) {
 	            layer.close(confirmIndex);
-	            
 	            $.ajax({
 		        	url:"/sysUser/delete",
-		        	ids : ids,
-		        	type: "get",
+		        	data:{
+		        		ids : ids
+		        	},
+		        	type: "post",
 		        	dataType: "json",
 		        	success: function(result) {
 			    		if (result && result.code == 0) {

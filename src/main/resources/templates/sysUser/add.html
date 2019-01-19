@@ -71,8 +71,8 @@
     	var roleIdList = new Array();
 		function loadRoleList() {
 	        $.ajax({
-				type: 'get',
-				url: '/sysRole/list',
+				type: 'post',
+				url: '/sysRole/view',
 				dataType: 'json',
 				success: function(result) {
 					if (result.code == 0) {
@@ -129,7 +129,7 @@
 	        var email = data.field.email;
 			
 			$.ajax({
-	        	url:"/sysUser/addSysUser",
+	        	url:"/sysUser/add",
 	        	data:{
 	        		username: username,
 	        		gender: gender,

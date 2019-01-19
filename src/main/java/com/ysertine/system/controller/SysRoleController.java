@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,7 +43,7 @@ public class SysRoleController {
 	 * @return
 	 */
 	@GetMapping(value = "/view")
-    public String view(HttpServletRequest request) {
+    public String view() {
         return "sysRole/view";
     }
 	
@@ -55,8 +56,8 @@ public class SysRoleController {
 	 * @return
 	 */
 	@ResponseBody
-	@GetMapping(value = "/list")
-    public Object list(HttpServletRequest request) {
+	@PostMapping(value = "/view")
+    public Object view(HttpServletRequest request) {
 		int pageNum = ValueUtils.intValue(request.getParameter("page"), 1);
 		int pageSize = ValueUtils.intValue(request.getParameter("limit"), 10);
 		String orderBy = ValueUtils.stringValue(request.getParameter("orderBy"), "id desc");

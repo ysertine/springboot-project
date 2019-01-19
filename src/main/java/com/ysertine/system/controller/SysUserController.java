@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 import com.ysertine.common.utli.MD5Util;
@@ -58,7 +59,7 @@ public class SysUserController {
 	 * @return
 	 */
 	@GetMapping(value = "/view")
-    public String view(HttpServletRequest request) {
+    public String view() {
         return "sysUser/view";
     }
 	
@@ -71,8 +72,8 @@ public class SysUserController {
 	 * @return
 	 */
 	@ResponseBody
-	@GetMapping(value = "/list")
-    public Object list(HttpServletRequest request) {
+	@PostMapping(value = "/view")
+    public Object view(HttpServletRequest request) {
 		int pageNum = ValueUtils.intValue(request.getParameter("page"), 1);
 		int pageSize = ValueUtils.intValue(request.getParameter("limit"), 10);
 		String orderBy = ValueUtils.stringValue(request.getParameter("orderBy"), "id desc");
@@ -107,7 +108,7 @@ public class SysUserController {
 	 * @return
 	 */
 	@GetMapping(value = "/add")
-    public String add(HttpServletRequest request) {
+    public String add() {
         return "sysUser/add";
     }
 	
@@ -121,8 +122,8 @@ public class SysUserController {
 	 */
 	@ResponseBody
 	@Transactional
-	@PostMapping(value = "/addSysUser")
-	public Object addSysUser(HttpServletRequest request) {
+	@PostMapping(value = "/add")
+	public Object add(HttpServletRequest request) {
 		String username = ValueUtils.stringValue(request.getParameter("username"), null);
 		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
 		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
@@ -304,8 +305,8 @@ public class SysUserController {
 	 */
 	@ResponseBody
 	@Transactional
-	@PostMapping(value = "/editSysUser")
-	public Object editSysUser(HttpServletRequest request) {
+	@PostMapping(value = "/edit")
+	public Object edit(HttpServletRequest request, ModelAndView modelAndView) {
 		long sysUserId = ValueUtils.longValue(request.getParameter("id"), 0);
 		String username = ValueUtils.stringValue(request.getParameter("username"), null);
 		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
@@ -357,7 +358,7 @@ public class SysUserController {
 	 * @return
 	 */
 	@ResponseBody
-	@GetMapping(value = "/delete")
+	@PostMapping(value = "/delete")
     public Object delete(HttpServletRequest request) {
 		String ids = ValueUtils.stringValue(request.getParameter("ids"), null);
 		int status = -1;
