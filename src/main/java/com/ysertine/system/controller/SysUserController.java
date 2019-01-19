@@ -3,6 +3,7 @@ package com.ysertine.system.controller;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -180,7 +181,12 @@ public class SysUserController {
 		SysUser sysUser = new SysUser();
 		sysUser.setUsername(username);
 		
-		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
+		SysUser getSysUser = null;
+		try {
+			getSysUser = sysUserService.getByCriteria(sysUser);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		int code = 0;
 		if (getSysUser != null) {
@@ -244,6 +250,131 @@ public class SysUserController {
 		}
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("code", code);
+        return map;
+    }
+	
+	/**
+	 * @Title edit 
+	 * @Description 跳转修改页面
+	 * @author DengJinbo
+	 * @date 2019年1月19日
+	 * @version 1.0
+	 * @param request
+	 * @return
+	 */
+	@GetMapping(value = "/edit")
+    public String edit(HttpServletRequest request) {
+		long id = ValueUtils.longValue(request.getParameter("id"), 0);
+		request.setAttribute("id", id);
+        return "sysUser/edit";
+    }
+
+	/**
+	 * @Title getSysUserInfo 
+	 * @Description 根据用户Id获取用户信息
+	 * @author DengJinbo
+	 * @date 2019年1月19日
+	 * @version 1.0
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value = "/getSysUserInfo")
+    public Object getSysUserInfo(HttpServletRequest request) {
+		long sysUserId = ValueUtils.longValue(request.getParameter("id"), 0);
+		
+		SysUser sysUser = sysUserService.getByPrimaryKey(sysUserId);
+		
+		Set<Long> userRoleIdList = sysUserRoleService.listRoleIdByUserId(sysUserId);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("data", sysUser);
+		map.put("userRoleIdList", userRoleIdList);
+		map.put("code", 0);
+        return map;
+    }
+	
+	/**
+	 * @Title editSysUser 
+	 * @Description 修改系统用户
+	 * @author DengJinbo
+	 * @date 2019年1月19日
+	 * @version 1.0
+	 * @return
+	 */
+	@ResponseBody
+	@Transactional
+	@PostMapping(value = "/editSysUser")
+	public Object editSysUser(HttpServletRequest request) {
+		long sysUserId = ValueUtils.longValue(request.getParameter("id"), 0);
+		String username = ValueUtils.stringValue(request.getParameter("username"), null);
+		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
+		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
+		String email = ValueUtils.stringValue(request.getParameter("email"), null);
+		String roleIdStr = ValueUtils.stringValue(request.getParameter("roleIdStr"), null);
+		
+		int code = 0;
+		String msg = "";
+		SysUser sysUser = sysUserService.getByPrimaryKey(sysUserId);
+		if (sysUser != null) {
+			sysUser.setUsername(username);
+			sysUser.setGender(gender);
+			sysUser.setPhone(phone);
+			sysUser.setEmail(email);
+			sysUser.setUpdateTime(new Date());
+			sysUserService.updateByPrimaryKeySelective(sysUser);
+			
+			if (!StringUtils.isEmpty(roleIdStr)) {
+				sysUserRoleService.deleteByUserId(sysUserId);
+				String[] roleIdList = roleIdStr.split(",");
+				SysUserRole sysUserRole;
+				for (String roleId : roleIdList) {
+					sysUserRole = new SysUserRole();
+					sysUserRole.setUserId(sysUserId);
+					sysUserRole.setRoleId(Long.valueOf(roleId));
+					sysUserRoleService.save(sysUserRole);
+				}
+			}
+			msg = "操作成功";
+		} else {
+			code = -1;
+			msg = "要修改的管理员不存在";
+		}
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", code);
+		map.put("msg", msg);
+        return map;
+	}
+	
+	/**
+	 * @Title delete 
+	 * @Description 根据id删除用户
+	 * @author DengJinbo
+	 * @date 2019年1月19日
+	 * @version 1.0
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value = "/delete")
+    public Object delete(HttpServletRequest request) {
+		String ids = ValueUtils.stringValue(request.getParameter("ids"), null);
+		int status = -1;
+		
+		if (!StringUtils.isEmpty(ids)) {
+			String[] idList = ids.split(",");
+			SysUser sysUser;
+			for (String id : idList) {
+				sysUser = sysUserService.getByPrimaryKey(Long.valueOf(id));
+				sysUser.setStatus(status);
+				sysUserService.updateByPrimaryKeySelective(sysUser);
+			}
+		}
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", 0);
+		map.put("msg", "操作成功");
         return map;
     }
 }        

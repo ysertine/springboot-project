@@ -44,7 +44,7 @@ public class SysUser extends BaseEntity {
 	/**
 	 * 性别：0=保密，1=男性，2=女性
 	 */
-	private int gender;
+	private Integer gender;
 	
 	/**
 	 * 手机号码
@@ -74,7 +74,7 @@ public class SysUser extends BaseEntity {
 	/**
 	 * 状态：-1=删除，0=禁用，1=正常
 	 */
-	private int status;
+	private Integer status;
 
 	public Long getId() {
 		return id;
@@ -108,11 +108,11 @@ public class SysUser extends BaseEntity {
 		this.salt = salt;
 	}
 
-	public int getGender() {
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(int gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 
@@ -156,11 +156,11 @@ public class SysUser extends BaseEntity {
 		this.lastLoginTime = lastLoginTime;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	

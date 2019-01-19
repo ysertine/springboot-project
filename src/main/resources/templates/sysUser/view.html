@@ -48,7 +48,7 @@
 	</script>
 	
 	<script type="text/html" id="operationBar">
-    	<a class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+    	<a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
     	<a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
 	</script>
 	
@@ -73,33 +73,38 @@
 				      	{type : 'checkbox', fixed: 'left'},
 				      	{field : 'id', fixed: 'left', title :'ID', align: 'center', width : 100, sort : true},
 				      	{field : 'username', title :'用户名', align: 'center', width : '12%'},
-				      	{field : 'gender', title : '性别', align: 'center', width : '6%'},
+				      	{field : 'gender', title : '性别', align: 'center', width : '6%', 
+				      		templet: '<div>{{convertGender(d.gender)}}</div>'
+				      	},
 				      	{field : 'phone', title : '手机', align: 'center', width : '12%'},
 				      	{field : 'email', title : '邮箱', align: 'center', width : '15%'},
 				      	{field : 'lastLoginTime', title : '最近登录时间', align: 'center', width : '15%', 
 				      		templet: '<div>{{dateFormat(d.lastLoginTime, "yyyy-MM-dd hh:mm")}}</div>'
 				      	},
-				      	{field : 'status', title : '状态', align: 'center', width : '6%'},
+				      	{field : 'status', title : '状态', align: 'center', width : '6%', 
+				      		templet: '<div>{{convertStatus(d.status)}}</div>'
+				      	},
 				      	{fixed : 'right', title : '操作', align: 'center', toolbar : '#operationBar', width : 200}
 			    	]
 			    ],
 			});
 			
 			table.on('toolbar(dataFilter)', function(obj) {
-				var checkStatus = table.checkStatus(obj.config.id);
 				switch (obj.event) {
 					case 'add':
 						add();
 					break;
 					case 'deleteAll':
+						var checkStatus = table.checkStatus(obj.config.id);
 						var data = checkStatus.data; // 获取选中的数据
 						if (data.length === 0) {
 							layer.msg('请至少选择一行');
 					    } else {
-					    	layer.confirm('确认要删除选中的数据吗？', function(index) {
-								obj.del();
-								layer.close(index);
-							});
+				    		var idList = "";
+				    		for (var i = 0; i < data.length; i++) {
+				    			idList += data[i].id + ",";
+				    		}
+				    		del(idList);
 					    }
 					break;
 				};
@@ -109,28 +114,16 @@
 				var data = obj.data;
 				switch (obj.event) {
 					case 'delete':
-						layer.confirm('确认要删除该行数据吗？', function(index) {
-							obj.del();
-							layer.close(index);
-						});
+						del(data.id);
 					break;
 					case 'edit':
-						layer.prompt({
-							formType : 2,
-							value : data.email
-						}, function(value, index) {
-							obj.update({
-								email : value
-							});
-							layer.close(index);
-						});
+						edit(data.id);
 					break;
 				};
 			});
 		}
 		defineTable();
 		
-		// 查询
 	    form.on("submit(query)", function (data) {
 	        var status = data.field.status;
 	        var username = data.field.username;
@@ -149,7 +142,6 @@
 			return false;
 		});
 		
-	  	//添加
 	    function add() {
 	        layer.open({
 	        	type: 2,
@@ -158,6 +150,40 @@
 	            area: ['500px', '500px'],
 	        });
 	    };
+	    
+	    function edit(id) {
+	        layer.open({
+	        	type: 2,
+	            title: "编辑系统用户",
+	            content: "/sysUser/edit?id=" + id,
+	            area: ['500px', '500px'],
+	        });
+	    };
+	    
+	    function del(ids) {
+	        layer.confirm('确认删除吗？', function (confirmIndex) {
+	            layer.close(confirmIndex);
+	            
+	            $.ajax({
+		        	url:"/sysUser/delete",
+		        	ids : ids,
+		        	type: "get",
+		        	dataType: "json",
+		        	success: function(result) {
+			    		if (result && result.code == 0) {
+			    			layer.msg(result.msg, {icon:1, time: 2000}, function () {
+			    				tableIns.reload();
+				            });
+			    		} else {
+			    			layer.msg(result.msg, {icon:2, time:2000});
+			    		}
+		        	},
+		        	error:function(e) {
+		        		layer.msg('网络异常,请稍后再试', new Function());
+		        	}
+		        });
+	        });
+	    }
 		
 	</script>
 </body>

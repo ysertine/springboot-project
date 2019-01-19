@@ -15,13 +15,34 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
 
 	/**
 	 * @Title listRoleNameByUserId 
-	 * @Description 根据系统用户ID查询用户角色名称列表
+	 * @Description 根据系统用户ID查询系统用户角色名称列表
 	 * @author DengJinbo
 	 * @date 2019年1月8日
 	 * @version 1.0
-	 * @param userId 系统用户ID
-	 * @return 用户角色名称列表
+	 * @param sysUserId 系统用户ID
+	 * @return 系统用户角色名称列表
 	 */
-	Set<String> listRoleNameByUserId(Long userId);
+	Set<String> listRoleNameByUserId(Long sysUserId);
+
+	/**
+	 * @Title listRoleIdByUserId 
+	 * @Description 根据系统用户ID查询系统用户角色ID列表
+	 * @author DengJinbo
+	 * @date 2019年1月19日
+	 * @version 1.0
+	 * @param sysUserId 系统用户ID
+	 * @return 系统用户角色ID列表
+	 */
+	Set<Long> listRoleIdByUserId(Long sysUserId);
+
+	/**
+	 * @Title deleteByUserId 
+	 * @Description 根据系统用户ID删除该系统用户角色列表
+	 * @author DengJinbo
+	 * @date 2019年1月19日
+	 * @version 1.0
+	 * @param sysUserId 系统用户ID
+	 */
+	void deleteByUserId(Long sysUserId);
 
 }

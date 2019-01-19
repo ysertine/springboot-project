@@ -15,12 +15,27 @@
         id, user_id, role_id
     </sql>
     
-    <!-- 根据系统用户ID查询角色名称列表 -->
+    <!-- 根据系统用户ID查询系统用户角色名称列表 -->
     <select id="listRoleNameByUserId" resultType="java.lang.String" >
 	   SELECT sr.name FROM sys_role sr
 	   LEFT JOIN sys_user_role sur ON sr.id = sur.role_id
 	   LEFT JOIN sys_user su ON su.id = sur.user_id
-	   WHERE su.id = #{userId}
+	   WHERE su.id = #{sysUserId}
     </select>
+    
+    <!-- 根据系统用户ID查询系统用户角色ID列表 -->
+    <select id="listRoleIdByUserId" resultType="java.lang.Long" >
+	   SELECT 
+       	role_id
+	   FROM 
+	   	<include refid="BASE_TABLE"/>
+	   WHERE user_id = #{sysUserId}
+    </select>
+    
+    <!-- 根据系统用户ID删除该系统用户角色列表 -->
+    <delete id="deleteByUserId" parameterType="java.lang.Long">
+	   DELETE FROM <include refid="BASE_TABLE"/>
+       WHERE user_id = #{sysUserId}
+    </delete>
     
 </mapper>
