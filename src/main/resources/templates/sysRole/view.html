@@ -1,34 +1,167 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
 	<meta charset="utf-8">
-  	<link rel="stylesheet" href="/plugins/layui/css/layui.css">
+	<link rel="stylesheet" href="/plugins/layui/css/layui.css">
 </head>
 <body>
+    <form class="layui-form" style="margin-top: 15px">
+        <div class="layui-inline">
+        	<label class="layui-form-label">角色名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="name" placeholder="请输入角色名称">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <select name="status">
+                    <option value="">--请选择--</option>
+                    <option value="1">正常</option>
+                    <option value="0">禁用</option>
+                    <option value="-1">删除</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline" style="margin-left: 15px">
+            <a class="layui-btn search_btn" lay-submit="" lay-filter="query">查询</a>
+        </div>
+    </form>
+	
+	<script type="text/html" id="toolbar">
+  		<div class="layui-btn-container">
+			 <button class="layui-btn" lay-event="add"><i class="layui-icon">&#xe654;</i>添加角色</button>
+			 <button class="layui-btn layui-btn-danger" lay-event="deleteAll"><i class="layui-icon">&#xe640;</i>批量删除</button>
+  		</div>
+	</script>
+	
+	<script type="text/html" id="operationBar">
+    	<a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+    	<a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
+	</script>
+	
+	<table class="layui-table" id="dataView" lay-filter="dataFilter"></table>
 
-	<table id="demo" lay-filter="test"></table>
-	 
 	<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
+	<script type="text/javascript" src="/common/js/config.js"></script>
 	<script>
-		layui.use(['layer', 'form', 'table'], function() {
-		  	var layer = layui.layer
-		  	,form = layui.form
-		  	,table = layui.table;
-		  
-		  	table.render({
-		    	elem: '#demo'
-		    	,height: 312
-		    	,url: '/sysRole/list'
-		    	,page: true
-		    	,cols: [
-		    		[
-		      			{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-		      			,{field: 'name', title: '角色名称', width:180}
-		      			,{field: 'status', title: '状态', width:80, sort: true}
-		    		]
-		    	]
-		 	 });
+		var tableIns;
+		function defineTable() {
+			tableIns = table.render({
+			    elem: '#dataView',
+			    url: '/sysRole/view',
+			    title: '系统角色列表',
+			    toolbar: '#toolbar',
+			    method: 'post',
+	            height : 730,
+	            page : true,
+	            limit : 15,
+	            limits : [15,20,25],
+			    cols: [
+			    	[
+				      	{type : 'checkbox', fixed: 'left'},
+				      	{field : 'id', fixed: 'left', title :'ID', align: 'center', width : 100, sort : true},
+				      	{field : 'name', title :'角色名称', align: 'center', width : '12%'},
+				      	{field : 'status', title : '状态', align: 'center', width : '6%', 
+				      		templet: '<div>{{convertStatus(d.status)}}</div>'
+				      	},
+				      	{fixed : 'right', title : '操作', align: 'left', toolbar : '#operationBar', width : 300}
+			    	]
+			    ],
+			});
+			
+			table.on('toolbar(dataFilter)', function(obj) {
+				switch (obj.event) {
+					case 'add':
+						add();
+					break;
+					case 'deleteAll':
+						var checkStatus = table.checkStatus(obj.config.id);
+						var data = checkStatus.data; // 获取选中的数据
+						if (data.length === 0) {
+							layer.msg('请至少选择一行');
+					    } else {
+				    		var idList = "";
+				    		for (var i = 0; i < data.length; i++) {
+				    			idList += data[i].id + ",";
+				    		}
+				    		del(idList);
+					    }
+					break;
+				};
+			});
+
+			table.on('tool(dataFilter)', function(obj) {
+				var data = obj.data;
+				switch (obj.event) {
+					case 'delete':
+						del(data.id);
+					break;
+					case 'edit':
+						edit(data.id);
+					break;
+				};
+			});
+		}
+		defineTable();
+		
+	    form.on("submit(query)", function (data) {
+	        var name = data.field.name;
+	        var status = data.field.status;
+
+	        // 表格重新加载
+			tableIns.reload({
+				where : {
+					name : name,
+					status : status
+				}
+			});
+			return false;
 		});
+		
+	    function add() {
+	        layer.open({
+	        	type: 2,
+	            title: "添加系统角色",
+	            content: "/sysRole/add",
+	            area: ['400px', '200px'],
+	        });
+	    };
+	    
+	    function edit(id) {
+	        layer.open({
+	        	type: 2,
+	            title: "编辑系统角色",
+	            content: "/sysRole/edit?id=" + id,
+	            area: ['400px', '300px'],
+	        });
+	    };
+	    
+	    function del(ids) {
+	        layer.confirm('确认删除吗？', function (confirmIndex) {
+	            layer.close(confirmIndex);
+	            $.ajax({
+		        	url:"/sysRole/delete",
+		        	data:{
+		        		ids : ids
+		        	},
+		        	type: "post",
+		        	dataType: "json",
+		        	success: function(result) {
+			    		if (result && result.code == 0) {
+			    			layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+			    				tableIns.reload();
+				            });
+			    		} else {
+			    			layer.msg(result.msg, {icon: 2, time: 1000});
+			    		}
+		        	},
+		        	error:function(e) {
+		        		layer.msg('网络异常,请稍后再试', new Function());
+		        	}
+		        });
+	        });
+	    }
 	</script>
 </body>
 </html>

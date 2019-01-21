@@ -7,21 +7,25 @@
 <body>
     <form class="layui-form" style="margin-top: 15px">
         <div class="layui-inline">
-        	<label class="layui-form-label">用户名</label>
+        	<label class="layui-form-label">资源名称</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="username" placeholder="请输入用户名">
+                <input type="text" class="layui-input" name="name" placeholder="请输入资源名称">
             </div>
         </div>
         <div class="layui-inline">
-        	<label class="layui-form-label">手机号码</label>
+        	<label class="layui-form-label">资源路径</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="phone" placeholder="请输入手机号">
+                <input type="text" class="layui-input" name="resourceUrl" placeholder="请输入资源路径">
             </div>
         </div>
         <div class="layui-inline">
-        	<label class="layui-form-label">电子邮箱</label>
+            <label class="layui-form-label">资源类型</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="email" placeholder="请输入电子邮箱">
+                <select name="resourceType">
+                    <option value="">--请选择--</option>
+                    <option value="1">菜单</option>
+                    <option value="2">按钮</option>
+                </select>
             </div>
         </div>
         <div class="layui-inline">
@@ -42,7 +46,7 @@
 	
 	<script type="text/html" id="toolbar">
   		<div class="layui-btn-container">
-			 <button class="layui-btn" lay-event="add"><i class="layui-icon">&#xe654;</i>添加用户</button>
+			 <button class="layui-btn" lay-event="add"><i class="layui-icon">&#xe654;</i>添加菜单资源</button>
 			 <button class="layui-btn layui-btn-danger" lay-event="deleteAll"><i class="layui-icon">&#xe640;</i>批量删除</button>
   		</div>
 	</script>
@@ -50,6 +54,9 @@
 	<script type="text/html" id="operationBar">
     	<a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
     	<a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
+		{{#  if (d.resourceType == 1) { }}
+    		<a class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i>添加子类资源</a>
+  		{{#  } }}
 	</script>
 	
 	<table class="layui-table" id="dataView" lay-filter="dataFilter"></table>
@@ -61,8 +68,8 @@
 		function defineTable() {
 			tableIns = table.render({
 			    elem: '#dataView',
-			    url: '/sysUser/view',
-			    title: '系统用户列表',
+			    url: '/sysPermission/view',
+			    title: '系统资源列表',
 			    toolbar: '#toolbar',
 			    method: 'post',
 	            height : 730,
@@ -73,19 +80,17 @@
 			    	[
 				      	{type : 'checkbox', fixed: 'left'},
 				      	{field : 'id', fixed: 'left', title :'ID', align: 'center', width : 100, sort : true},
-				      	{field : 'username', title :'用户名', align: 'center', width : '12%'},
-				      	{field : 'gender', title : '性别', align: 'center', width : '6%', 
-				      		templet: '<div>{{convertGender(d.gender)}}</div>'
+				      	{field : 'name', title :'资源名称', align: 'center', width : '12%'},
+				      	{field : 'permission', title : '资源字符', align: 'center', width : '12%'},
+				      	{field : 'resourceUrl', title : '资源链接', align: 'center', width : '15%'},
+				      	{field : 'resourceType', title : '资源类型', align: 'center', width : '6%', 
+				      		templet: '<div>{{convertResourceType(d.resourceType)}}</div>'
 				      	},
-				      	{field : 'phone', title : '手机', align: 'center', width : '12%'},
-				      	{field : 'email', title : '邮箱', align: 'center', width : '15%'},
-				      	{field : 'lastLoginTime', title : '最近登录时间', align: 'center', width : '15%', 
-				      		templet: '<div>{{dateFormat(d.lastLoginTime, "yyyy-MM-dd hh:mm")}}</div>'
-				      	},
+				      	{field : 'parentId', title :'父类资源ID', align: 'center', width : '12%'},
 				      	{field : 'status', title : '状态', align: 'center', width : '6%', 
 				      		templet: '<div>{{convertStatus(d.status)}}</div>'
 				      	},
-				      	{fixed : 'right', title : '操作', align: 'center', toolbar : '#operationBar', width : 200}
+				      	{fixed : 'right', title : '操作', align: 'left', toolbar : '#operationBar', width : 300}
 			    	]
 			    ],
 			});
@@ -93,7 +98,7 @@
 			table.on('toolbar(dataFilter)', function(obj) {
 				switch (obj.event) {
 					case 'add':
-						add();
+						add(0);
 					break;
 					case 'deleteAll':
 						var checkStatus = table.checkStatus(obj.config.id);
@@ -114,6 +119,9 @@
 			table.on('tool(dataFilter)', function(obj) {
 				var data = obj.data;
 				switch (obj.event) {
+					case 'add':
+						add(data.id);
+					break;
 					case 'delete':
 						del(data.id);
 					break;
@@ -126,38 +134,38 @@
 		defineTable();
 		
 	    form.on("submit(query)", function (data) {
+	        var name = data.field.name;
+	        var resourceUrl = data.field.resourceUrl;
+	        var resourceType = data.field.resourceType;
 	        var status = data.field.status;
-	        var username = data.field.username;
-	        var phone = data.field.phone;
-	        var email = data.field.email;
 
 	        // 表格重新加载
 			tableIns.reload({
 				where : {
-					status : status,
-					username : username,
-					phone : phone,
-					email : email
+					name : name,
+					resourceUrl : resourceUrl,
+					resourceType : resourceType,
+					status : status
 				}
 			});
 			return false;
 		});
 		
-	    function add() {
+	    function add(parentId) {
 	        layer.open({
 	        	type: 2,
-	            title: "添加系统用户",
-	            content: "/sysUser/add",
-	            area: ['500px', '500px'],
+	            title: "添加系统资源",
+	            content: "/sysPermission/add?parentId=" + parentId,
+	            area: ['400px', '300px'],
 	        });
 	    };
 	    
 	    function edit(id) {
 	        layer.open({
 	        	type: 2,
-	            title: "编辑系统用户",
-	            content: "/sysUser/edit?id=" + id,
-	            area: ['500px', '500px'],
+	            title: "编辑系统资源",
+	            content: "/sysPermission/edit?id=" + id,
+	            area: ['400px', '300px'],
 	        });
 	    };
 	    
@@ -165,7 +173,7 @@
 	        layer.confirm('确认删除吗？', function (confirmIndex) {
 	            layer.close(confirmIndex);
 	            $.ajax({
-		        	url:"/sysUser/delete",
+		        	url:"/sysPermission/delete",
 		        	data:{
 		        		ids : ids
 		        	},
@@ -173,11 +181,11 @@
 		        	dataType: "json",
 		        	success: function(result) {
 			    		if (result && result.code == 0) {
-			    			layer.msg(result.msg, {icon:1, time: 1000}, function () {
+			    			layer.msg(result.msg, {icon: 1, time: 1000}, function () {
 			    				tableIns.reload();
 				            });
 			    		} else {
-			    			layer.msg("操作失败",  {icon:2, time:1000});
+			    			layer.msg(result.msg, {icon: 2, time: 1000});
 			    		}
 		        	},
 		        	error:function(e) {
@@ -187,6 +195,18 @@
 	        });
 	    }
 		
+	    /**
+		  * 转换系统资源类型
+		 */
+	    function convertResourceType(resourceType) {
+	    	var resourceTypeDesc = "";
+	    	if (resourceType == 1) {
+	    		resourceTypeDesc = '<button class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger">菜单</button>';
+	    	} else {
+	    		resourceTypeDesc = '<button class="layui-btn layui-btn-radius layui-btn-sm layui-btn-warm">按钮</button>';
+	    	}
+	       	return resourceTypeDesc;
+	    };
 	</script>
 </body>
 </html>

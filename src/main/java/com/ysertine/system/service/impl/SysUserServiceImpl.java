@@ -1,6 +1,7 @@
 package com.ysertine.system.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ysertine.common.service.impl.BaseServiceImpl;
@@ -23,6 +24,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 	@Autowired
 	private SysUserMapper sysUserMapper;
 	
+	@Cacheable(value = "sysUser")
 	@Override
 	public SysUser getByUsername(String username) {
 		return sysUserMapper.selectByUsername(username);

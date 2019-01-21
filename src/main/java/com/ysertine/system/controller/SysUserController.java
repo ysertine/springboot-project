@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
+import com.ysertine.common.constant.StatusEnum;
 import com.ysertine.common.utli.MD5Util;
 import com.ysertine.common.utli.ValueUtils;
 import com.ysertine.system.entity.SysUser;
@@ -69,33 +69,35 @@ public class SysUserController {
 	 * @author DengJinbo
 	 * @date 2019年1月15日
 	 * @version 1.0
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
 	 * @return
 	 */
 	@ResponseBody
 	@PostMapping(value = "/view")
-    public Object view(HttpServletRequest request) {
+    public Object view(HttpServletRequest request, Map<String, Object> resultMap) {
 		int pageNum = ValueUtils.intValue(request.getParameter("page"), 1);
 		int pageSize = ValueUtils.intValue(request.getParameter("limit"), 10);
 		String orderBy = ValueUtils.stringValue(request.getParameter("orderBy"), "id desc");
 		String username = ValueUtils.stringValue(request.getParameter("username"), null);
 		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
 		String email = ValueUtils.stringValue(request.getParameter("email"), null);
-		int status = ValueUtils.intValue(request.getParameter("status"), -99);
+		int status = ValueUtils.intValue(request.getParameter("status"), StatusEnum.STATUS_NONEED.getIndex());
 		
 		SysUser sysUser = new SysUser();
 		sysUser.setUsername(username);
 		sysUser.setPhone(phone);
 		sysUser.setEmail(email);
-		if (status != -99) {
+		if (status != StatusEnum.STATUS_NONEED.getIndex()) {
 			sysUser.setStatus(status);
 		}
 		PageInfo<SysUser> pageInfo = sysUserService.getPageInfo(pageNum, pageSize, orderBy, sysUser);
 		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", 0);
-		map.put("count", pageInfo.getTotal());
-		map.put("data", pageInfo.getList());
-        return map;
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", 0);
+		resultMap.put("count", pageInfo.getTotal());
+		resultMap.put("data", pageInfo.getList());
+        return resultMap;
     }
 	
 	/**
@@ -104,7 +106,6 @@ public class SysUserController {
 	 * @author DengJinbo
 	 * @date 2019年1月17日
 	 * @version 1.0
-	 * @param request
 	 * @return
 	 */
 	@GetMapping(value = "/add")
@@ -118,12 +119,14 @@ public class SysUserController {
 	 * @author DengJinbo
 	 * @date 2019年1月17日
 	 * @version 1.0
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
 	 * @return
 	 */
 	@ResponseBody
 	@Transactional
 	@PostMapping(value = "/add")
-	public Object add(HttpServletRequest request) {
+	public Object add(HttpServletRequest request, Map<String, Object> resultMap) {
 		String username = ValueUtils.stringValue(request.getParameter("username"), null);
 		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
 		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
@@ -142,7 +145,7 @@ public class SysUserController {
 		sysUser.setEmail(email);
 		sysUser.setCreateTime(date);
 		sysUser.setUpdateTime(date);
-		sysUser.setStatus(1);
+		sysUser.setStatus(StatusEnum.STATUS_NORMAL.getIndex());
 		passwordHelper.encryptPassword(sysUser);
 		sysUserService.saveSelective(sysUser);
 		
@@ -159,100 +162,11 @@ public class SysUserController {
 			}
 		}
 		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", 0);
-		map.put("msg", "创建成功！");
-        return map;
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", 0);
+		resultMap.put("msg", "创建成功");
+        return resultMap;
 	}
-	
-	/***
-	 * @Title checkUsername 
-	 * @Description 检索用户名是否存在
-	 * @author DengJinbo
-	 * @date 2019年1月18日
-	 * @version 1.0
-	 * @param request
-	 * @return code（0=不存在，1=已存在）
-	 */
-	@ResponseBody
-	@GetMapping(value = "/checkUsername")
-    public Object checkUsername(HttpServletRequest request) {
-		String username = ValueUtils.stringValue(request.getParameter("username"), null);
-		
-		SysUser sysUser = new SysUser();
-		sysUser.setUsername(username);
-		
-		SysUser getSysUser = null;
-		try {
-			getSysUser = sysUserService.getByCriteria(sysUser);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		int code = 0;
-		if (getSysUser != null) {
-			code = 1;
-		}
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", code);
-        return map;
-    }
-	
-	/***
-	 * @Title checkPhone 
-	 * @Description 检索手机号码是否存在
-	 * @author DengJinbo
-	 * @date 2019年1月18日
-	 * @version 1.0
-	 * @param request
-	 * @return code（0=不存在，1=已存在）
-	 */
-	@ResponseBody
-	@GetMapping(value = "/checkPhone")
-    public Object checkPhone(HttpServletRequest request) {
-		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
-		
-		SysUser sysUser = new SysUser();
-		sysUser.setPhone(phone);
-		
-		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
-		
-		int code = 0;
-		if (getSysUser != null) {
-			code = 1;
-		}
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", code);
-        return map;
-    }
-	
-	/***
-	 * @Title checkEamil 
-	 * @Description 检索电子邮箱是否存在
-	 * @author DengJinbo
-	 * @date 2019年1月18日
-	 * @version 1.0
-	 * @param request
-	 * @return code（0=不存在，1=已存在）
-	 */
-	@ResponseBody
-	@GetMapping(value = "/checkEamil")
-    public Object checkEamil(HttpServletRequest request) {
-		String email = ValueUtils.stringValue(request.getParameter("email"), null);
-		
-		SysUser sysUser = new SysUser();
-		sysUser.setEmail(email);
-		
-		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
-		
-		int code = 0;
-		if (getSysUser != null) {
-			code = 1;
-		}
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", code);
-        return map;
-    }
 	
 	/**
 	 * @Title edit 
@@ -260,7 +174,7 @@ public class SysUserController {
 	 * @author DengJinbo
 	 * @date 2019年1月19日
 	 * @version 1.0
-	 * @param request
+	 * @param request 请求参数集
 	 * @return
 	 */
 	@GetMapping(value = "/edit")
@@ -272,27 +186,26 @@ public class SysUserController {
 
 	/**
 	 * @Title getSysUserInfo 
-	 * @Description 根据用户Id获取用户信息
+	 * @Description 根据系统用户Id获取用户信息
 	 * @author DengJinbo
 	 * @date 2019年1月19日
 	 * @version 1.0
-	 * @param request
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
 	 * @return
 	 */
 	@ResponseBody
 	@GetMapping(value = "/getSysUserInfo")
-    public Object getSysUserInfo(HttpServletRequest request) {
-		long sysUserId = ValueUtils.longValue(request.getParameter("id"), 0);
+    public Object getSysUserInfo(HttpServletRequest request, Map<String, Object> resultMap) {
+		long id = ValueUtils.longValue(request.getParameter("id"), 0);
+		SysUser sysUser = sysUserService.getByPrimaryKey(id);
+		Set<Long> userRoleIdList = sysUserRoleService.listRoleIdByUserId(id);
 		
-		SysUser sysUser = sysUserService.getByPrimaryKey(sysUserId);
-		
-		Set<Long> userRoleIdList = sysUserRoleService.listRoleIdByUserId(sysUserId);
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("data", sysUser);
-		map.put("userRoleIdList", userRoleIdList);
-		map.put("code", 0);
-        return map;
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", 0);
+		resultMap.put("data", sysUser);
+		resultMap.put("userRoleIdList", userRoleIdList);
+        return resultMap;
     }
 	
 	/**
@@ -301,13 +214,15 @@ public class SysUserController {
 	 * @author DengJinbo
 	 * @date 2019年1月19日
 	 * @version 1.0
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
 	 * @return
 	 */
 	@ResponseBody
 	@Transactional
 	@PostMapping(value = "/edit")
-	public Object edit(HttpServletRequest request, ModelAndView modelAndView) {
-		long sysUserId = ValueUtils.longValue(request.getParameter("id"), 0);
+	public Object edit(HttpServletRequest request, Map<String, Object> resultMap) {
+		long id = ValueUtils.longValue(request.getParameter("id"), 0);
 		String username = ValueUtils.stringValue(request.getParameter("username"), null);
 		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
 		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
@@ -315,8 +230,8 @@ public class SysUserController {
 		String roleIdStr = ValueUtils.stringValue(request.getParameter("roleIdStr"), null);
 		
 		int code = 0;
-		String msg = "";
-		SysUser sysUser = sysUserService.getByPrimaryKey(sysUserId);
+		String msg = "操作成功";
+		SysUser sysUser = sysUserService.getByPrimaryKey(id);
 		if (sysUser != null) {
 			sysUser.setUsername(username);
 			sysUser.setGender(gender);
@@ -326,42 +241,42 @@ public class SysUserController {
 			sysUserService.updateByPrimaryKeySelective(sysUser);
 			
 			if (!StringUtils.isEmpty(roleIdStr)) {
-				sysUserRoleService.deleteByUserId(sysUserId);
+				sysUserRoleService.deleteByUserId(id);
 				String[] roleIdList = roleIdStr.split(",");
 				SysUserRole sysUserRole;
 				for (String roleId : roleIdList) {
 					sysUserRole = new SysUserRole();
-					sysUserRole.setUserId(sysUserId);
+					sysUserRole.setUserId(id);
 					sysUserRole.setRoleId(Long.valueOf(roleId));
 					sysUserRoleService.save(sysUserRole);
 				}
 			}
-			msg = "操作成功";
 		} else {
 			code = -1;
-			msg = "要修改的管理员不存在";
+			msg = "要修改的数据不存在";
 		}
 		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", code);
-		map.put("msg", msg);
-        return map;
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", code);
+		resultMap.put("msg", msg);
+        return resultMap;
 	}
 	
 	/**
 	 * @Title delete 
-	 * @Description 根据id删除用户
+	 * @Description 根据主键ID列表批量删除用户（状态删除）
 	 * @author DengJinbo
 	 * @date 2019年1月19日
 	 * @version 1.0
-	 * @param request
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
 	 * @return
 	 */
 	@ResponseBody
 	@PostMapping(value = "/delete")
-    public Object delete(HttpServletRequest request) {
+    public Object delete(HttpServletRequest request, Map<String, Object> resultMap) {
 		String ids = ValueUtils.stringValue(request.getParameter("ids"), null);
-		int status = -1;
+		int status = StatusEnum.STATUS_DELETE.getIndex();
 		
 		if (!StringUtils.isEmpty(ids)) {
 			String[] idList = ids.split(",");
@@ -373,9 +288,93 @@ public class SysUserController {
 			}
 		}
 		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", 0);
-		map.put("msg", "操作成功");
-        return map;
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", 0);
+		resultMap.put("msg", "操作成功");
+        return resultMap;
+    }
+	
+	/***
+	 * @Title checkUsername 
+	 * @Description 检索用户名是否存在
+	 * @author DengJinbo
+	 * @date 2019年1月18日
+	 * @version 1.0
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
+	 * @return code（0=不存在，1=已存在）
+	 */
+	@ResponseBody
+	@GetMapping(value = "/checkUsername")
+    public Object checkUsername(HttpServletRequest request, Map<String, Object> resultMap) {
+		String username = ValueUtils.stringValue(request.getParameter("username"), null);
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setUsername(username);
+		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
+		
+		int code = 0;
+		if (getSysUser != null) {
+			code = 1;
+		}
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", code);
+        return resultMap;
+    }
+	
+	/***
+	 * @Title checkPhone 
+	 * @Description 检索手机号码是否存在
+	 * @author DengJinbo
+	 * @date 2019年1月18日
+	 * @version 1.0
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
+	 * @return code（0=不存在，1=已存在）
+	 */
+	@ResponseBody
+	@GetMapping(value = "/checkPhone")
+    public Object checkPhone(HttpServletRequest request, Map<String, Object> resultMap) {
+		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setPhone(phone);
+		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
+		
+		int code = 0;
+		if (getSysUser != null) {
+			code = 1;
+		}
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", code);
+        return resultMap;
+    }
+	
+	/***
+	 * @Title checkEamil 
+	 * @Description 检索电子邮箱是否存在
+	 * @author DengJinbo
+	 * @date 2019年1月18日
+	 * @version 1.0
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
+	 * @return code（0=不存在，1=已存在）
+	 */
+	@ResponseBody
+	@GetMapping(value = "/checkEamil")
+    public Object checkEamil(HttpServletRequest request, Map<String, Object> resultMap) {
+		String email = ValueUtils.stringValue(request.getParameter("email"), null);
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setEmail(email);
+		SysUser getSysUser = sysUserService.getByCriteria(sysUser);
+		
+		int code = 0;
+		if (getSysUser != null) {
+			code = 1;
+		}
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", code);
+        return resultMap;
     }
 }        

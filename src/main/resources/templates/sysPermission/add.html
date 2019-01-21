@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="/plugins/layui/css/layui.css">
+	<style type="text/css">
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
+        }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+	<form class="layui-form" id="_form" style="width: 90%; margin-top: 10px">
+		<input type="hidden" id="parentId" th:value="${parentId}">
+		
+	    <div class="layui-form-item parent-menu">
+	        <label class="layui-form-label">资源名称</label>
+	        <div class="layui-input-block">
+	            <input type="text" class="layui-input" lay-verify="required" id="name" name="name" onblur="checkName()" placeholder="请输入资源名称">
+	        </div>
+	    </div>
+	    <div class="layui-form-item">
+	        <label class="layui-form-label">资源路径</label>
+	        <div class="layui-input-block">
+	            <input type="text" class="layui-input" lay-verify="required" id="resourceUrl" name="resourceUrl" onblur="checkResourceUrl()" placeholder="请输入资源链接">
+	        </div>
+	    </div>
+	    <div class="layui-form-item">
+	        <div class="layui-input-block">
+	            <button class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
+	            <button class="layui-btn layui-btn-primary" type="reset" >重置</button>
+	        </div>
+	    </div>
+	</form>
+
+	<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
+	<script type="text/javascript" src="/common/js/config.js"></script>
+	<script type="text/javascript">
+		form.on("submit(add)", function (data) {
+			var parentId = $("#parentId").val();
+			var name = data.field.name;
+	        var resourceUrl = data.field.resourceUrl;
+			
+			$.ajax({
+	        	url:"/sysPermission/add",
+	        	data:{
+	        		parentId: parentId,
+	        		name: name,
+	        		resourceUrl: resourceUrl
+	        	},
+	        	type: "post",
+	        	async: false, 
+	        	dataType: "json",
+	        	success: function(result) {
+		    		if (result && result.code == 0) {
+		    			layer.msg(result.msg, {icon:1, time: 2000}, function () {
+		    				var index = parent.layer.getFrameIndex(window.name);
+							parent.location.reload();
+							parent.layer.close(index);
+			            });
+		    		} else {
+		    			layer.msg("操作失败", {icon:2, time:2000});
+		    		}
+	        	},
+	        	error:function(e) {
+	        		layer.msg('网络异常,请稍后再试', new Function());
+	        	}
+	        });
+			return false;
+	    });
+		
+		/**
+		  * 系统资源名称校验
+		 */
+		function checkName() {
+			var name = $("#name").val();
+			if (name != null && name.length > 0) {
+				var flag = false;
+				$.ajax({
+		        	url:"/sysPermission/checkName",
+		        	data:{
+		        		name: name
+		        	},
+		        	type: "get",
+		        	async: false, 
+		        	dataType: "json",
+		        	success: function(result) {
+			    		if (result && result.code == 1) {
+			    			layer.tips("该系统资源名称已存在，请勿重复添加", '#name', {tips: [3, 'red']});
+			    			$('name').focus();
+			    		} else {
+			    			flag = true;
+			    		}
+		        	},
+		        	error:function(e) {
+		        		layer.msg('网络异常！', new Function());
+		        	}
+		        });
+				return flag;
+			}
+		};
+		
+		/**
+		  * 系统资源链接校验
+		 */
+		function checkResourceUrl() {
+			var resourceUrl = $("#resourceUrl").val();
+			if (resourceUrl != null && resourceUrl.length > 0) {
+				var flag = false;
+				$.ajax({
+		        	url:"/sysPermission/checkResourceUrl",
+		        	data:{
+		        		resourceUrl: resourceUrl
+		        	},
+		        	type: "get",
+		        	async: false, 
+		        	dataType: "json",
+		        	success: function(result) {
+			    		if (result && result.code == 1) {
+			    			layer.tips("该系统资源链接已存在，请勿重复添加", '#resourceUrl', {tips: [3, 'red']});
+			    			$('resourceUrl').focus();
+			    		} else {
+			    			flag = true;
+			    		}
+		        	},
+		        	error:function(e) {
+		        		layer.msg('网络异常！', new Function());
+		        	}
+		        });
+				return flag;
+			}
+		};
+	</script>
+</body>
+</html>

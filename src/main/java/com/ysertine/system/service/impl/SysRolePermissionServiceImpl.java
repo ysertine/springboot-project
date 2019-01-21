@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import com.ysertine.common.service.impl.BaseServiceImpl;
 import com.ysertine.system.entity.SysRolePermission;
@@ -16,6 +17,7 @@ import com.ysertine.system.service.SysRolePermissionService;
  * @author DengJinbo
  * @date 2019年1月15日
  */
+@Service
 public class SysRolePermissionServiceImpl extends BaseServiceImpl<SysRolePermission> implements SysRolePermissionService {
 	
 	/**
