@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.ysertine.common.constant.StatusEnum;
 import com.ysertine.common.utli.ValueUtils;
@@ -318,5 +319,22 @@ public class SysPermissionController {
 		resultMap = new HashMap<String, Object>();
 		resultMap.put("code", code);
         return resultMap;
+    }
+	
+	/**
+	 * @Title getPermissionTree 
+	 * @Description 获取系统资源树的数据
+	 * @author DengJinbo
+	 * @date 2019年1月22日
+	 * @version 1.0
+	 * @param request 请求参数集
+	 * @param resultMap 返回结果集
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value = "/getPermissionTree")
+    public Object getPermissionTree(HttpServletRequest request, Map<String, Object> resultMap) {
+		JSONArray permissionTree = sysPermissionService.getPermissionTree();
+        return permissionTree;
     }
 }        
