@@ -300,6 +300,34 @@ layuiXtree.prototype.GetChecked = function () {
     return arr;
 }
 
+//获取全部选中的checkbox对象
+layuiXtree.prototype.GetAllChecked = function () {
+    var _this = this;
+    var arr = new Array();
+    var arrIndex = 0;
+    var cks = _this.getByClassName('layui-xtree-checkbox');
+    for (var i = 0; i < cks.length; i++) {
+        if (cks[i].checked) {
+            arr[arrIndex] = cks[i]; arrIndex++;
+        }
+    }
+    return arr;
+}
+
+//获取全部选中的checkbox对象的value
+layuiXtree.prototype.GetAllCheckedValue = function () {
+    var _this = this;
+    var arr = new Array();
+    var arrIndex = 0;
+    var cks = _this.getByClassName('layui-xtree-checkbox');
+    for (var i = 0; i < cks.length; i++) {
+        if (cks[i].checked) {
+            arr[arrIndex] = cks[i].value; arrIndex++;
+        }
+    }
+    return arr;
+}
+
 //获取全部的原始checkbox对象
 layuiXtree.prototype.GetAllCheckBox = function () {
     var _this = this;
