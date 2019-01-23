@@ -27,9 +27,8 @@
 	        </div>
 	    </div>
 	    <div class="layui-form-item">
-	        <label class="layui-form-label">所属机构</label>
-	        <div class="layui-input-block">
-	            <!--机构树-->
+	        <label class="layui-form-label">访问权限</label>
+	        <div class="layui-input-block" id="permission">
 	            <div id="permissionTree" style="width: 300px; padding: 10px 0 25px 5px;"></div>
 	        </div>
 	    </div>
@@ -64,14 +63,33 @@
 		});
 		
 		form.on("submit(add)", function (data) {
+			var a = checkName();
+	     	if (!a) {
+				return false;
+			}
+	     	
+			var permissionArray = permissionTree.GetAllCheckedValue();
+			var permissionIdStr = "";
+	     	// 获取选中的系统资源列表
+	        for (var i = 0; i < permissionArray.length; i++) {
+	        	permissionIdStr += permissionArray[i];
+            	if (i < permissionArray.length - 1) {
+            		permissionIdStr += ",";
+            	}
+	        }
+	        console.log(permissionIdStr);
+			if (isBlank(permissionIdStr)) {
+				layer.tips("请为该角色配置访问权限", '#permission', {tips: [3, 'red']});
+				return false;
+			}
+			
 			var name = data.field.name;
-			var permissionArray = permissionTree.GetChecked();
 			
 			$.ajax({
 	        	url:"/sysRole/add",
 	        	data:{
-	        		name: name
-	        		permissionArray: permissionArray
+	        		name: name,
+	        		permissionIdStr: permissionIdStr
 	        	},
 	        	type: "post",
 	        	async: false, 

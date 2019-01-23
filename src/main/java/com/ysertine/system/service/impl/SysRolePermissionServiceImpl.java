@@ -1,5 +1,6 @@
 package com.ysertine.system.service.impl;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,15 @@ public class SysRolePermissionServiceImpl extends BaseServiceImpl<SysRolePermiss
 	@Autowired
 	private SysRolePermissionMapper sysRolePermissionMapper;
 
-	@Cacheable(value = "sysUser", key = "#userId")
+	@Cacheable(value = "sysUserPermission", key = "#userId")
 	@Override
 	public Set<String> listResourceUrlByUserId(Long userId) {
 		return sysRolePermissionMapper.listResourceUrlByUserId(userId);
+	}
+
+	@Override
+	public List<Long> listMenuIdByRoleId(Long roleId) {
+		return sysRolePermissionMapper.listMenuIdByRoleId(roleId);
 	}
 
 }

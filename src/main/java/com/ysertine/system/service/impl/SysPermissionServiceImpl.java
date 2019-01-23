@@ -64,4 +64,32 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
 		return menuArray;
 	}
 
+	@Cacheable(value = "permissionTree")
+	@Override
+	public JSONArray getRolePermissionTree(Long roleId) {
+		List<SysPermission> menuList = this.listByParentId(0);
+		JSONArray menuArray = new JSONArray();
+		JSONObject menuObject;
+		JSONArray buttonArray;
+		JSONObject buttonObject;
+		List<SysPermission> buttonList;
+		for (SysPermission menu : menuList) {
+			buttonArray = new JSONArray();
+			buttonList = this.listByParentId(menu.getId());
+			for (SysPermission button : buttonList) {
+				buttonObject = new JSONObject();
+				buttonObject.put("title", button.getName());
+				buttonObject.put("value", button.getId());
+				buttonObject.put("data", new JSONArray());
+				buttonArray.add(buttonObject);
+			}
+			menuObject = new JSONObject();
+			menuObject.put("title", menu.getName());
+			menuObject.put("value", menu.getId());
+			menuObject.put("data", buttonArray);
+			menuArray.add(menuObject);
+		}
+		return menuArray;
+	}
+
 }

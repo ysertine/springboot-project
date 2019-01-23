@@ -62,7 +62,7 @@
 	    </div>
 	    <div class="layui-form-item">
 	        <div class="layui-input-block">
-	            <button class="layui-btn" lay-submit="" lay-filter="editUser">立即提交</button>
+	            <button class="layui-btn" lay-submit="" lay-filter="edit">立即提交</button>
 	            <button class="layui-btn layui-btn-primary" type="reset" >重置</button>
 	        </div>
 	    </div>
@@ -153,7 +153,7 @@
 			});	
 	    }
 		
-		form.on("submit(editUser)", function (data) {
+		form.on("submit(edit)", function (data) {
 	        var username = data.field.username;
      		var a = checkUsername();
      		if (!a) {

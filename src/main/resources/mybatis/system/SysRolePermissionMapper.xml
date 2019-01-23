@@ -24,4 +24,13 @@
 	   WHERE su.id = #{userId}
     </select>
     
+    <!-- 根据系统角色ID查询该角色配置的菜单权限ID列表 -->
+    <select id="listMenuIdByRoleId" resultType="java.lang.Long" >
+	   SELECT sp.id, sp.name FROM sys_permission sp
+	   LEFT JOIN sys_role_permission srp 
+	   ON srp.permission_id = sp.id
+	   AND sp.parent_id = 0
+	   WHERE srp.role_id = #{roleId}
+    </select>
+    
 </mapper>

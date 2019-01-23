@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.ysertine.common.constant.StatusEnum;
 import com.ysertine.common.utli.ValueUtils;
 import com.ysertine.system.entity.SysRole;
+import com.ysertine.system.entity.SysRolePermission;
 import com.ysertine.system.entity.SysUserRole;
+import com.ysertine.system.service.SysPermissionService;
+import com.ysertine.system.service.SysRolePermissionService;
 import com.ysertine.system.service.SysRoleService;
 import com.ysertine.system.service.SysUserRoleService;
 
@@ -44,6 +48,18 @@ public class SysRoleController {
 	 */
 	@Autowired
 	private SysUserRoleService sysUserRoleService;
+	
+	/**
+	 * 注入系统角色权限Service类
+	 */
+	@Autowired
+	private SysRolePermissionService sysRolePermissionService;
+	
+	/**
+	 * 注入系统权限Service类
+	 */
+	@Autowired
+	private SysPermissionService sysPermissionService;
 	
 	/**
 	 * @Title view 
@@ -106,7 +122,7 @@ public class SysRoleController {
 	
 	/**
 	 * @Title add 
-	 * @Description 新增系统资源
+	 * @Description 新增系统角色
 	 * @author DengJinbo
 	 * @date 2019年1月21日
 	 * @version 1.0
@@ -119,11 +135,24 @@ public class SysRoleController {
 	@PostMapping(value = "/add")
 	public Object add(HttpServletRequest request, Map<String, Object> resultMap) {
 		String name = ValueUtils.stringValue(request.getParameter("name"), null);
+		String permissionIdStr = request.getParameter("permissionIdStr");
 		
 		SysRole sysRole = new SysRole();
 		sysRole.setName(name);
 		sysRole.setStatus(StatusEnum.STATUS_NORMAL.getIndex());
 		sysRoleService.saveSelective(sysRole);
+		
+		if (!StringUtils.isEmpty(permissionIdStr)) {
+			String[] permissionIdList = permissionIdStr.split(",");
+			SysRolePermission sysRolePermission;
+			long sysRoleId = sysRole.getId();
+			for (String permissionId : permissionIdList) {
+				sysRolePermission = new SysRolePermission();
+				sysRolePermission.setRoleId(sysRoleId);
+				sysRolePermission.setPermissionId(Long.valueOf(permissionId));
+				sysRolePermissionService.saveSelective(sysRolePermission);
+			}
+		}
 		
 		resultMap = new HashMap<String, Object>();
 		resultMap.put("code", 0);
@@ -162,6 +191,7 @@ public class SysRoleController {
     public Object getSysRoleInfo(HttpServletRequest request, Map<String, Object> resultMap) {
 		long id = ValueUtils.longValue(request.getParameter("id"), 0);
 		SysRole sysRole = sysRoleService.getByPrimaryKey(id);
+		JSONArray permissionTree = sysPermissionService.getPermissionTree();
 		
 		resultMap = new HashMap<String, Object>();
 		resultMap.put("code", 0);
