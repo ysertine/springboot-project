@@ -55,10 +55,17 @@ public class RedisCacheTest {
 		assertEquals(stringRedisTemplate.opsForValue().get("key1"), "v5霸气");
 
 		String key = "ysertine:user:1";
-		customRedisTemplate.opsForValue().set(key, new SysUser("大波波", "123456", "ssssss1", "15988888888"));
+		
+		SysUser sysUser = new SysUser();
+    	sysUser.setUsername("大波波");
+    	sysUser.setPassword("123456");
+    	sysUser.setSalt("salt168");
+    	sysUser.setPhone("15988888888");
+    	sysUser.setEmail("123456@qq.com");
+		customRedisTemplate.opsForValue().set(key, sysUser);
 
-		final SysUser sysUser = (SysUser) customRedisTemplate.opsForValue().get(key);
-		assertEquals(sysUser.getUsername(), "大波波");
+		final SysUser sysUser1 = (SysUser) customRedisTemplate.opsForValue().get(key);
+		assertEquals(sysUser1.getUsername(), "大波波");
 		logger.info("==> 当你看到这条信息，表明测试验证通过了！");
 	}
 }

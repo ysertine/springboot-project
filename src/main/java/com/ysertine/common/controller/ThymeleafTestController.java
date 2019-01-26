@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ysertine.common.entity.ThymeleafTest;
@@ -25,6 +26,7 @@ public class ThymeleafTestController {
 	 * @version 1.0
 	 * @return
 	 */
+	@ResponseBody
 	@GetMapping("/hello")
 	public String hello() {
 		return "Hello SpringBoot";

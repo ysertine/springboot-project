@@ -33,34 +33,21 @@ public class MapperAndPagerHelperTest {
 	
 	@Test
 	public void testMapperAndPagerHelper() {
-	 	final SysUser user1 = new SysUser("u1", "p1", "s1", "p1");
-        final SysUser user2 = new SysUser("u2", "p2", "s2", "p2");
-        final SysUser user3 = new SysUser("u3", "p3", "s3", "p3");
+        SysUser sysUser = null;
+        for (int i = 0; i < 15; i++) {
+        	sysUser = new SysUser();
+        	sysUser.setUsername("username" + i);
+        	sysUser.setPassword("password" + i);
+        	sysUser.setSalt("salt" + i);
+        	sysUser.setPhone("1598920111" + i);
+        	sysUser.setEmail("123456" + i + "@qq.com");
+        	sysUserMapper.insertSelective(sysUser);
+        	logger.info("[sysUser:" + i + "回写主键] - [{}]", sysUser.getId());
+        }
         
-        sysUserMapper.insertSelective(user1);
-        logger.info("[user1回写主键] - [{}]", user1.getId());
-        
-        sysUserMapper.insertSelective(user2);
-        logger.info("[user2回写主键] - [{}]", user2.getId());
-        
-        sysUserMapper.insertSelective(user3);
-        logger.info("[user3回写主键] - [{}]", user3.getId());
-        
-        final SysUser sysUser = sysUserMapper.selectByUsername("admin");
-        logger.info("[调用自己写的SQL] - [{}]", sysUser.getUsername());
+        final SysUser sysUser1 = sysUserMapper.selectByUsername("admin");
+        logger.info("[调用自己写的SQL] - [{}]", sysUser1.getUsername());
 
-        // TODO 模拟分页
-        sysUserMapper.insertSelective(new SysUser("u4", "p4", "s4", "p4"));
-        sysUserMapper.insertSelective(new SysUser("u5", "p5", "s5", "p5"));
-        sysUserMapper.insertSelective(new SysUser("u6", "p6", "s6", "p6"));
-        sysUserMapper.insertSelective(new SysUser("u7", "p7", "s7", "p7"));
-        sysUserMapper.insertSelective(new SysUser("u8", "p8", "s8", "p8"));
-        sysUserMapper.insertSelective(new SysUser("u9", "p9", "s9", "p9"));
-        sysUserMapper.insertSelective(new SysUser("u10", "p10", "s10", "p10"));
-        sysUserMapper.insertSelective(new SysUser("u11", "p11", "s11", "p11"));
-        sysUserMapper.insertSelective(new SysUser("u12", "p12", "s12", "p12"));
-        sysUserMapper.insertSelective(new SysUser("u13", "p13", "s13", "p13"));
-        
         // TODO 分页 + 排序 this.sysUserMapper.selectAll() 这一句就是我们需要写的查询，有了这两款插件无缝切换各种数据库
         final PageInfo<Object> pageInfo = PageHelper.startPage(1, 10).setOrderBy("id desc").doSelectPageInfo(() -> this.sysUserMapper.selectAll());
         logger.info("[lambda写法] - [分页信息] - [{}]", pageInfo.toString());
