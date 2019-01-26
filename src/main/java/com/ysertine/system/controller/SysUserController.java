@@ -128,7 +128,6 @@ public class SysUserController {
 	@PostMapping(value = "/add")
 	public Object add(HttpServletRequest request, Map<String, Object> resultMap) {
 		String username = ValueUtils.stringValue(request.getParameter("username"), null);
-		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
 		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
 		String email = ValueUtils.stringValue(request.getParameter("email"), null);
 		String roleIdStr = ValueUtils.stringValue(request.getParameter("roleIdStr"), null);
@@ -140,7 +139,6 @@ public class SysUserController {
 		sysUser.setUsername(username);
 		sysUser.setPassword("fp666666");
 		sysUser.setSalt(salt);
-		sysUser.setGender(gender);
 		sysUser.setPhone(phone);
 		sysUser.setEmail(email);
 		sysUser.setCreateTime(date);
@@ -224,7 +222,6 @@ public class SysUserController {
 	public Object edit(HttpServletRequest request, Map<String, Object> resultMap) {
 		long id = ValueUtils.longValue(request.getParameter("id"), 0);
 		String username = ValueUtils.stringValue(request.getParameter("username"), null);
-		int gender = ValueUtils.intValue(request.getParameter("gender"), 0);
 		String phone = ValueUtils.stringValue(request.getParameter("phone"), null);
 		String email = ValueUtils.stringValue(request.getParameter("email"), null);
 		String roleIdStr = ValueUtils.stringValue(request.getParameter("roleIdStr"), null);
@@ -234,7 +231,6 @@ public class SysUserController {
 		SysUser sysUser = sysUserService.getByPrimaryKey(id);
 		if (sysUser != null) {
 			sysUser.setUsername(username);
-			sysUser.setGender(gender);
 			sysUser.setPhone(phone);
 			sysUser.setEmail(email);
 			sysUser.setUpdateTime(new Date());

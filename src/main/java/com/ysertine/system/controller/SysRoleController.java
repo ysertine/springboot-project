@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
-import com.ysertine.common.constant.StatusEnum;
 import com.ysertine.common.utli.ValueUtils;
 import com.ysertine.system.entity.SysRole;
 import com.ysertine.system.entity.SysRolePermission;
@@ -84,13 +83,9 @@ public class SysRoleController {
 		int pageSize = ValueUtils.intValue(request.getParameter("limit"), 10);
 		String orderBy = ValueUtils.stringValue(request.getParameter("orderBy"), "id desc");
 		String name = ValueUtils.stringValue(request.getParameter("name"), null);
-		int status = ValueUtils.intValue(request.getParameter("status"), -99);
 		
 		SysRole sysRole = new SysRole();
 		sysRole.setName(name);
-		if (status != -99) {
-			sysRole.setStatus(status);
-		}
 		PageInfo<SysRole> pageInfo = sysRoleService.getPageInfo(pageNum, pageSize, orderBy, sysRole);
 		
 		resultMap = new HashMap<>();
@@ -132,7 +127,6 @@ public class SysRoleController {
 		
 		SysRole sysRole = new SysRole();
 		sysRole.setName(name);
-		sysRole.setStatus(StatusEnum.STATUS_NORMAL.getIndex());
 		sysRoleService.saveSelective(sysRole);
 		
 		if (!StringUtils.isEmpty(permissionIdStr)) {

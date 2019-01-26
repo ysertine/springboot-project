@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
-import com.ysertine.common.constant.StatusEnum;
 import com.ysertine.common.utli.ValueUtils;
 import com.ysertine.system.entity.SysPermission;
 import com.ysertine.system.entity.SysRolePermission;
@@ -79,7 +78,6 @@ public class SysPermissionController {
 		String resourceUrl = ValueUtils.stringValue(request.getParameter("resourceUrl"), null);
 		int resourceType = ValueUtils.intValue(request.getParameter("resourceType"), -99);
 		long parentId = ValueUtils.longValue(request.getParameter("parentId"), -99);
-		int status = ValueUtils.intValue(request.getParameter("status"), StatusEnum.STATUS_NONEED.getIndex());
 		
 		SysPermission sysPermission = new SysPermission();
 		sysPermission.setName(name);
@@ -89,9 +87,6 @@ public class SysPermissionController {
 		}
 		if (parentId != -99) {
 			sysPermission.setParentId(parentId);
-		}
-		if (status != StatusEnum.STATUS_NONEED.getIndex()) {
-			sysPermission.setStatus(status);
 		}
 		PageInfo<SysPermission> pageInfo = sysPermissionService.getPageInfo(pageNum, pageSize, orderBy, sysPermission);
 		
@@ -142,7 +137,6 @@ public class SysPermissionController {
 		sysPermission.setResourceUrl(resourceUrl);
 		sysPermission.setResourceType(parentId == 0 ? 1 : 2);
 		sysPermission.setParentId(parentId);
-		sysPermission.setStatus(StatusEnum.STATUS_NORMAL.getIndex());
 		sysPermissionService.saveSelective(sysPermission);
 		
 		resultMap = new HashMap<String, Object>();

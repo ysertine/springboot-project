@@ -8,7 +8,6 @@
         <result column="resource_url" property="resourceUrl" jdbcType="VARCHAR" />
         <result column="resource_type" property="resourceType" jdbcType="INTEGER" />
         <result column="parent_id" property="parentId" jdbcType="BIGINT" />
-        <result column="status" property="status" jdbcType="INTEGER" />
     </resultMap>
     
     <sql id="BASE_TABLE">
@@ -16,7 +15,7 @@
     </sql>
     
     <sql id="Base_Column_List" >
-        id, name, permission, resource_url, resource_type, parent_id, status
+        id, name, permission, resource_url, resource_type, parent_id
     </sql>
     
     <!-- 根据父类资源ID查询子类资源列表 -->

@@ -28,7 +28,7 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
 	@Autowired
 	private SysPermissionMapper sysPermissionMapper;
 	
-	@Cacheable(value = "listSysPermission", key = "#parentId")
+	@Cacheable(value = "listByParentId", key = "#parentId")
 	@Override
 	public List<SysPermission> listByParentId(long parentId) {
 		return sysPermissionMapper.selectByParentId(parentId);

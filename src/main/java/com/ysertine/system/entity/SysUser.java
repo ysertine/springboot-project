@@ -42,11 +42,6 @@ public class SysUser extends BaseEntity {
 	private String salt;
 	
 	/**
-	 * 性别：0=保密，1=男性，2=女性
-	 */
-	private Integer gender;
-	
-	/**
 	 * 手机号码
 	 */
 	private String phone;
@@ -108,14 +103,6 @@ public class SysUser extends BaseEntity {
 		this.salt = salt;
 	}
 
-	public Integer getGender() {
-		return gender;
-	}
-
-	public void setGender(Integer gender) {
-		this.gender = gender;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
@@ -163,29 +150,4 @@ public class SysUser extends BaseEntity {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	
-	/**
-	 * @Title SysUser.java
-	 * @Description 无参构造函数
-	 * @author DengJinbo
-	 * @date 2018年12月26日
-	 */
-	public SysUser() {}
-
-	/**
-	 * @Title SysUser.java
-	 * @Description 有参构造函数
-	 * @author DengJinbo
-	 * @date 2018年12月26日
-	 * @param username 系统用户名
-	 * @param password 密码
-	 * @param salt 加密盐值
-	 * @param phone 电话号码
-	 */
-    public SysUser(String username, String password, String salt, String phone) {
-        this.username = username;
-        this.password = password;
-        this.salt = salt;
-        this.phone = phone;
-    }
 }

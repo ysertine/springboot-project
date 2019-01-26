@@ -49,11 +49,6 @@ public class SysPermission extends BaseEntity {
 	 */
 	private Long parentId;
 	
-	/**
-	 * 状态：0=禁用，1=正常
-	 */
-	private Integer status;
-
 	public Long getId() {
 		return id;
 	}
@@ -100,13 +95,5 @@ public class SysPermission extends BaseEntity {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 }

@@ -29,11 +29,6 @@ public class SysRole extends BaseEntity {
 	 */
 	private String name;
 	
-	/**
-	 * 状态：0=禁用，1=正常
-	 */
-	private Integer status;
-
 	public Long getId() {
 		return id;
 	}
@@ -48,13 +43,5 @@ public class SysRole extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 }

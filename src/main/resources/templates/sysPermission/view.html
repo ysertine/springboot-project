@@ -28,17 +28,6 @@
                 </select>
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">状态</label>
-            <div class="layui-input-block">
-                <select name="status">
-                    <option value="">--请选择--</option>
-                    <option value="1">正常</option>
-                    <option value="0">禁用</option>
-                    <option value="-1">删除</option>
-                </select>
-            </div>
-        </div>
         <div class="layui-inline" style="margin-left: 15px">
             <a class="layui-btn search_btn" lay-submit="" lay-filter="query">查询</a>
         </div>
@@ -87,9 +76,6 @@
 				      		templet: '<div>{{convertResourceType(d.resourceType)}}</div>'
 				      	},
 				      	{field : 'parentId', title :'父类资源ID', align: 'center', width : '12%'},
-				      	{field : 'status', title : '状态', align: 'center', width : '6%', 
-				      		templet: '<div>{{convertStatus(d.status)}}</div>'
-				      	},
 				      	{fixed : 'right', title : '操作', align: 'left', toolbar : '#operationBar', width : 300}
 			    	]
 			    ],
@@ -137,15 +123,13 @@
 	        var name = data.field.name;
 	        var resourceUrl = data.field.resourceUrl;
 	        var resourceType = data.field.resourceType;
-	        var status = data.field.status;
 
 	        // 表格重新加载
 			tableIns.reload({
 				where : {
 					name : name,
 					resourceUrl : resourceUrl,
-					resourceType : resourceType,
-					status : status
+					resourceType : resourceType
 				}
 			});
 			return false;
@@ -201,9 +185,9 @@
 	    function convertResourceType(resourceType) {
 	    	var resourceTypeDesc = "";
 	    	if (resourceType == 1) {
-	    		resourceTypeDesc = '<button class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger">菜单</button>';
+	    		resourceTypeDesc = '<button class="layui-btn layui-btn-radius layui-btn-xs layui-btn-danger">菜单</button>';
 	    	} else {
-	    		resourceTypeDesc = '<button class="layui-btn layui-btn-radius layui-btn-sm layui-btn-warm">按钮</button>';
+	    		resourceTypeDesc = '<button class="layui-btn layui-btn-radius layui-btn-xs layui-btn-warm">按钮</button>';
 	    	}
 	       	return resourceTypeDesc;
 	    };

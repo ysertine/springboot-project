@@ -34,44 +34,26 @@ public class SysUserRole extends BaseEntity {
 	 */
 	private Long roleId;
 
-	/**
-	 * @return id
-	 */
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * @param id 要设置的  id
-	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return userId
-	 */
 	public Long getUserId() {
 		return userId;
 	}
 
-	/**
-	 * @param userId 要设置的  userId
-	 */
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
-	/**
-	 * @return roleId
-	 */
 	public Long getRoleId() {
 		return roleId;
 	}
 
-	/**
-	 * @param roleId 要设置的  roleId
-	 */
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}

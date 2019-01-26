@@ -12,17 +12,6 @@
                 <input type="text" class="layui-input" name="name" placeholder="请输入角色名称">
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">状态</label>
-            <div class="layui-input-block">
-                <select name="status">
-                    <option value="">--请选择--</option>
-                    <option value="1">正常</option>
-                    <option value="0">禁用</option>
-                    <option value="-1">删除</option>
-                </select>
-            </div>
-        </div>
         <div class="layui-inline" style="margin-left: 15px">
             <a class="layui-btn search_btn" lay-submit="" lay-filter="query">查询</a>
         </div>
@@ -62,9 +51,6 @@
 				      	{type : 'checkbox', fixed: 'left'},
 				      	{field : 'id', fixed: 'left', title :'ID', align: 'center', width : 100, sort : true},
 				      	{field : 'name', title :'角色名称', align: 'center', width : '12%'},
-				      	{field : 'status', title : '状态', align: 'center', width : '6%', 
-				      		templet: '<div>{{convertStatus(d.status)}}</div>'
-				      	},
 				      	{fixed : 'right', title : '操作', align: 'left', toolbar : '#operationBar', width : 300}
 			    	]
 			    ],
@@ -112,8 +98,7 @@
 	        // 表格重新加载
 			tableIns.reload({
 				where : {
-					name : name,
-					status : status
+					name : name
 				}
 			});
 			return false;
