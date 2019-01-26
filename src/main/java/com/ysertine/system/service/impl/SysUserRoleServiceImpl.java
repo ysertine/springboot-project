@@ -27,22 +27,22 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRole> impleme
 	@Autowired
 	private SysUserRoleMapper sysUserRoleMapper;
 	
-	@Cacheable(value = "sysUserRole", key = "#sysUserId")
+	@Cacheable(value = "sysUserRole", key = "#userId")
 	@Override
-	public Set<String> listRoleNameByUserId(Long sysUserId) {
-		return sysUserRoleMapper.listRoleNameByUserId(sysUserId);
+	public Set<String> listRoleNameByUserId(Long userId) {
+		return sysUserRoleMapper.selectRoleNameByUserId(userId);
 	}
 
-	@Cacheable(value = "sysUserRole", key = "#sysUserId")
+	@Cacheable(value = "sysUserRole", key = "#userId")
 	@Override
-	public Set<Long> listRoleIdByUserId(Long sysUserId) {
-		return sysUserRoleMapper.listRoleIdByUserId(sysUserId);
+	public Set<Long> listRoleIdByUserId(Long userId) {
+		return sysUserRoleMapper.selectRoleIdByUserId(userId);
 	}
 
-	@CacheEvict(value = "sysUserRole", key = "#sysUserId")
+	@CacheEvict(value = "sysUserRole", key = "#userId")
 	@Override
-	public void deleteByUserId(Long sysUserId) {
-		sysUserRoleMapper.deleteByUserId(sysUserId);
+	public void deleteByUserId(Long userId) {
+		sysUserRoleMapper.deleteByUserId(userId);
 	}
 
 }

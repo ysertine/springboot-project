@@ -19,10 +19,10 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
 	 * @author DengJinbo
 	 * @date 2019年1月8日
 	 * @version 1.0
-	 * @param sysUserId 系统用户ID
+	 * @param userId 系统用户ID
 	 * @return 系统用户角色名称列表
 	 */
-	Set<String> listRoleNameByUserId(Long sysUserId);
+	Set<String> listRoleNameByUserId(Long userId);
 
 	/**
 	 * @Title listRoleIdByUserId 
@@ -30,10 +30,10 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
 	 * @author DengJinbo
 	 * @date 2019年1月19日
 	 * @version 1.0
-	 * @param sysUserId 系统用户ID
+	 * @param userId 系统用户ID
 	 * @return 系统用户角色ID列表
 	 */
-	Set<Long> listRoleIdByUserId(Long sysUserId);
+	Set<Long> listRoleIdByUserId(Long userId);
 
 	/**
 	 * @Title deleteByUserId 
@@ -41,8 +41,8 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
 	 * @author DengJinbo
 	 * @date 2019年1月19日
 	 * @version 1.0
-	 * @param sysUserId 系统用户ID
+	 * @param userId 系统用户ID
 	 */
-	void deleteByUserId(Long sysUserId);
+	void deleteByUserId(Long userId);
 
 }

@@ -20,26 +20,26 @@ import tk.mybatis.mapper.common.BaseMapper;
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
 	/**
-	 * @Title listRoleNameByUserId 
+	 * @Title selectRoleNameByUserId 
 	 * @Description 根据系统用户ID查询系统用户角色名称列表
 	 * @author DengJinbo
 	 * @date 2019年1月8日
 	 * @version 1.0
-	 * @param sysUserId 系统用户ID
+	 * @param userId 系统用户ID
 	 * @return 系统用户角色名称列表
 	 */
-	Set<String> listRoleNameByUserId(Long sysUserId);
+	Set<String> selectRoleNameByUserId(Long userId);
 
 	/**
-	 * @Title listRoleIdByUserId 
+	 * @Title selectRoleIdByUserId 
 	 * @Description 根据系统用户ID查询系统用户角色ID列表
 	 * @author DengJinbo
 	 * @date 2019年1月19日
 	 * @version 1.0
-	 * @param sysUserId 系统用户ID
+	 * @param userId 系统用户ID
 	 * @return 系统用户角色ID列表
 	 */
-	Set<Long> listRoleIdByUserId(Long sysUserId);
+	Set<Long> selectRoleIdByUserId(Long userId);
 
 	/**
 	 * @Title deleteByUserId 
@@ -47,8 +47,8 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 	 * @author DengJinbo
 	 * @date 2019年1月19日
 	 * @version 1.0
-	 * @param sysUserId 系统用户ID
+	 * @param userId 系统用户ID
 	 */
-	void deleteByUserId(Long sysUserId);
+	void deleteByUserId(Long userId);
 
 }
