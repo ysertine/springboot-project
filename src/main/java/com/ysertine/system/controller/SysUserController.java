@@ -114,7 +114,7 @@ public class SysUserController {
     }
 	
 	/**
-	 * @Title addSysUser 
+	 * @Title add 
 	 * @Description 新增系统用户
 	 * @author DengJinbo
 	 * @date 2019年1月17日
@@ -209,7 +209,7 @@ public class SysUserController {
     }
 	
 	/**
-	 * @Title editSysUser 
+	 * @Title edit 
 	 * @Description 修改系统用户
 	 * @author DengJinbo
 	 * @date 2019年1月19日

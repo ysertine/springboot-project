@@ -35,14 +35,4 @@ public interface SysPermissionService extends BaseService<SysPermission> {
 	 */
 	JSONArray getPermissionTree();
 	
-	/**
-	 * @Title getRolePermissionTree 
-	 * @Description 获取系统角色资源树的数据
-	 * @author DengJinbo
-	 * @date 2019年1月23日
-	 * @version 1.0
-	 * @param roleId
-	 * @return
-	 */
-	JSONArray getRolePermissionTree(Long roleId);
 }

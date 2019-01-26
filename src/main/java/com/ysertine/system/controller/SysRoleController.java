@@ -22,7 +22,6 @@ import com.ysertine.common.utli.ValueUtils;
 import com.ysertine.system.entity.SysRole;
 import com.ysertine.system.entity.SysRolePermission;
 import com.ysertine.system.entity.SysUserRole;
-import com.ysertine.system.service.SysPermissionService;
 import com.ysertine.system.service.SysRolePermissionService;
 import com.ysertine.system.service.SysRoleService;
 import com.ysertine.system.service.SysUserRoleService;
@@ -54,12 +53,6 @@ public class SysRoleController {
 	 */
 	@Autowired
 	private SysRolePermissionService sysRolePermissionService;
-	
-	/**
-	 * 注入系统权限Service类
-	 */
-	@Autowired
-	private SysPermissionService sysPermissionService;
 	
 	/**
 	 * @Title view 
@@ -191,13 +184,54 @@ public class SysRoleController {
     public Object getSysRoleInfo(HttpServletRequest request, Map<String, Object> resultMap) {
 		long id = ValueUtils.longValue(request.getParameter("id"), 0);
 		SysRole sysRole = sysRoleService.getByPrimaryKey(id);
-		JSONArray permissionTree = sysPermissionService.getPermissionTree();
+		JSONArray rolePermissionTree = sysRolePermissionService.getRolePermissionTree(sysRole.getId());
 		
 		resultMap = new HashMap<String, Object>();
 		resultMap.put("code", 0);
 		resultMap.put("data", sysRole);
+		resultMap.put("rolePermissionTree", rolePermissionTree);
         return resultMap;
     }
+	
+	@ResponseBody
+	@Transactional
+	@PostMapping(value = "/edit")
+	public Object edit(HttpServletRequest request, Map<String, Object> resultMap) {
+		long id = ValueUtils.longValue(request.getParameter("id"), 0);
+		String name = ValueUtils.stringValue(request.getParameter("name"), null);
+		String permissionIdStr = request.getParameter("permissionIdStr");
+		
+		int code = 0;
+		String msg = "操作成功";
+		SysRole sysRole = sysRoleService.getByPrimaryKey(id);
+		if (sysRole != null) {
+			sysRole.setName(name);
+			sysRoleService.updateByPrimaryKeySelective(sysRole);
+			if (!StringUtils.isEmpty(permissionIdStr)) {
+				sysRolePermissionService.deleteByRoleId(id);
+				String[] permissionIdList = permissionIdStr.split(",");
+				SysRolePermission sysRolePermission;
+				long sysRoleId = sysRole.getId();
+				for (String permissionId : permissionIdList) {
+					if (permissionId.equals("on")) {
+						continue;
+					}
+					sysRolePermission = new SysRolePermission();
+					sysRolePermission.setRoleId(sysRoleId);
+					sysRolePermission.setPermissionId(Long.valueOf(permissionId));
+					sysRolePermissionService.saveSelective(sysRolePermission);
+				}
+			}
+		} else {
+			code = -1;
+			msg = "要修改的数据不存在";
+		}
+		
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", code);
+		resultMap.put("msg", msg);
+        return resultMap;
+	}
 	
 	/**
 	 * @Title delete 

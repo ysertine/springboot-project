@@ -18,5 +18,14 @@
     <sql id="Base_Column_List" >
         id, name, permission, resource_url, resource_type, parent_id, status
     </sql>
+    
+    <!-- 根据父类资源ID查询子类资源列表 -->
+    <select id="selectByParentId" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+       SELECT 
+       	<include refid="Base_Column_List" />
+	   FROM 
+	   	<include refid="BASE_TABLE"/>
+	   WHERE parent_id = #{parentId}
+    </select>
 
 </mapper>

@@ -63,6 +63,7 @@
 		});
 		
 		form.on("submit(add)", function (data) {
+			var name = data.field.name;
 			var a = checkName();
 	     	if (!a) {
 				return false;
@@ -77,17 +78,14 @@
             		permissionIdStr += ",";
             	}
 	        }
-	        console.log(permissionIdStr);
 			if (isBlank(permissionIdStr)) {
 				layer.tips("请为该角色配置访问权限", '#permission', {tips: [3, 'red']});
 				return false;
 			}
 			
-			var name = data.field.name;
-			
 			$.ajax({
-	        	url:"/sysRole/add",
-	        	data:{
+	        	url: "/sysRole/add",
+	        	data: {
 	        		name: name,
 	        		permissionIdStr: permissionIdStr
 	        	},
@@ -116,9 +114,9 @@
 		  * 系统资源名称校验
 		 */
 		function checkName() {
+			var flag = true;
 			var name = $("#name").val();
 			if (name != null && name.length > 0) {
-				var flag = false;
 				$.ajax({
 		        	url:"/sysRole/checkName",
 		        	data:{
@@ -131,16 +129,16 @@
 			    		if (result && result.code == 1) {
 			    			layer.tips("该系统角色名称已存在，请勿重复添加", '#name', {tips: [3, 'red']});
 			    			$('name').focus();
-			    		} else {
-			    			flag = true;
+			    			flag = false;
 			    		}
 		        	},
 		        	error:function(e) {
+		        		flag = false;
 		        		layer.msg('网络异常！', new Function());
 		        	}
 		        });
-				return flag;
 			}
+			return flag;
 		};
 	</script>
 </body>
