@@ -20,6 +20,14 @@
 </head>
 <body class="childrenBody">
 	<form class="layui-form" id="_form" style="width: 90%; margin-top: 10px">
+		<input type="hidden" id="primaryKey" th:value="${id}">
+		
+		<div class="layui-form-item parent-menu">
+	        <label class="layui-form-label">ID</label>
+	        <div class="layui-input-block">
+	            <input type="text" class="layui-input" lay-verify="required" id="id" name="id" readonly="readonly">
+	        </div>
+	    </div>
 	    <div class="layui-form-item parent-menu">
 	        <label class="layui-form-label">角色名称</label>
 	        <div class="layui-input-block">
@@ -27,14 +35,14 @@
 	        </div>
 	    </div>
 	    <div class="layui-form-item">
-	        <label class="layui-form-label">访问权限</label>
-	        <div class="layui-input-block" id="permission">
+	        <label class="layui-form-label" id="permission">访问权限</label>
+	        <div class="layui-input-block">
 	            <div id="permissionTree" style="width: 300px; padding: 10px 0 25px 5px;"></div>
 	        </div>
 	    </div>
 	    <div class="layui-form-item">
 	        <div class="layui-input-block">
-	            <button class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
+	            <button class="layui-btn" lay-submit="" lay-filter="edit">立即提交</button>
 	            <button class="layui-btn layui-btn-primary" type="reset" >重置</button>
 	        </div>
 	    </div>
@@ -44,31 +52,63 @@
 	<script type="text/javascript" src="/plugins/layui-xtree/layui-xtree.js"></script>
 	<script type="text/javascript" src="/common/js/config.js"></script>
 	<script type="text/javascript">
-		var permissionTree = new layuiXtree({
-		      elem: 'permissionTree', 
-		      form: form,
-		      ckall: true,
-		      isopen: false,
-		      icon: { 
-                  close: "&#xe623;", 
-                  open: "&#xe625;", 
-                  end: "&#xe621;"
-              }, 
-              color: {
-                  close: "#009688", 
-                  open: "#FF5722",
-                  end: "#828282"
-              },
-		      data: '/sysPermission/getPermissionTree'
-		});
-		
-		form.on("submit(add)", function (data) {
+	    function init() {
+	    	getInitData();
+	    }
+    	init();
+    	
+    	var initData; // 回显的数据
+    	var permissionTree;
+        function getInitData() {
+        	var primaryKey = $("#primaryKey").val();
+        	
+        	$.ajax({
+	        	url: "getSysRoleInfo",
+	        	data: {
+	        		id: primaryKey
+	        	},
+	        	type: "get",
+	        	dataType: "json",
+	        	success: function(result) {
+		    		if (result && result.code == 0) {
+		    			initData = result.data;
+		                $("[name='id']").val(initData.id);
+		                $("[name='name']").val(initData.name);
+		                
+		                permissionTree = new layuiXtree({
+							elem: 'permissionTree', 
+							form: form,
+							ckall: true,
+							isopen: false,
+							icon: {
+						        close: "&#xe623;", 
+						        open: "&#xe625;", 
+						        end: "&#xe621;"
+						    }, 
+							color: {
+							    close: "#009688", 
+							    open: "#FF5722",
+							    end: "#828282"
+							},
+							data: result.rolePermissionTree
+		      			});
+		                form.render(); // 重新绘制表单，让修改生效
+		    		} else {
+		    			layer.msg('数据加载异常！', new Function());
+		    		}
+	        	},
+	        	error:function(e) {
+	        		layer.msg('网络异常！', new Function());
+	        	}
+	        });
+        }
+    	
+		form.on("submit(edit)", function (data) {
 			var name = data.field.name;
 			var a = checkName();
 	     	if (!a) {
 				return false;
 			}
-	     	
 			var permissionArray = permissionTree.GetAllCheckedValue();
 			var permissionIdStr = "";
 	     	// 获取选中的系统资源列表
@@ -83,9 +123,11 @@
 				return false;
 			}
 			
+			var id = data.field.id;
 			$.ajax({
-	        	url: "/sysRole/add",
+	        	url: "edit",
 	        	data: {
+	        		id: id,
 	        		name: name,
 	        		permissionIdStr: permissionIdStr
 	        	},
@@ -100,7 +142,7 @@
 							parent.layer.close(index);
 			            });
 		    		} else {
-		    			layer.msg("操作失败", {icon:2, time:1000});
+		    			layer.msg(result.msg, {icon:2, time:1000});
 		    		}
 	        	},
 	        	error:function(e) {
@@ -114,29 +156,30 @@
 		  * 系统资源名称校验
 		 */
 		function checkName() {
-			var flag = true;
+			var flag = false;
 			var name = $("#name").val();
-			if (name != null && name.length > 0) {
+			if (name != null && name.length > 0 && name != initData.name) {
 				$.ajax({
-		        	url:"/sysRole/checkName",
-		        	data:{
+		        	url: "checkName",
+		        	data: {
 		        		name: name
 		        	},
 		        	type: "get",
-		        	async: false, 
 		        	dataType: "json",
 		        	success: function(result) {
 			    		if (result && result.code == 1) {
 			    			layer.tips("该系统角色名称已存在，请勿重复添加", '#name', {tips: [3, 'red']});
 			    			$('name').focus();
-			    			flag = false;
+			    		} else {
+			    			flag = true;
 			    		}
 		        	},
 		        	error:function(e) {
-		        		flag = false;
 		        		layer.msg('网络异常！', new Function());
 		        	}
 		        });
+			} else {
+				flag = true;
 			}
 			return flag;
 		};

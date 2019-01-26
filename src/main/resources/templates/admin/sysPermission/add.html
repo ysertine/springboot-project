@@ -20,14 +20,8 @@
 </head>
 <body class="childrenBody">
 	<form class="layui-form" id="_form" style="width: 90%; margin-top: 10px">
-		<input type="hidden" id="primaryKey" th:value="${id}">
+		<input type="hidden" id="parentId" th:value="${parentId}">
 		
-		<div class="layui-form-item parent-menu">
-	        <label class="layui-form-label">ID</label>
-	        <div class="layui-input-block">
-	            <input type="text" class="layui-input" lay-verify="required" id="id" name="id" readonly="readonly">
-	        </div>
-	    </div>
 	    <div class="layui-form-item parent-menu">
 	        <label class="layui-form-label">资源名称</label>
 	        <div class="layui-input-block">
@@ -42,7 +36,7 @@
 	    </div>
 	    <div class="layui-form-item">
 	        <div class="layui-input-block">
-	            <button class="layui-btn" lay-submit="" lay-filter="edit">立即提交</button>
+	            <button class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
 	            <button class="layui-btn layui-btn-primary" type="reset" >重置</button>
 	        </div>
 	    </div>
@@ -51,61 +45,15 @@
 	<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
 	<script type="text/javascript" src="/common/js/config.js"></script>
 	<script type="text/javascript">
-	    function init() {
-	    	getInitData();
-	    }
-    	init();
-    	
-    	var initData; // 回显的数据
-        function getInitData() {
-        	var primaryKey = $("#primaryKey").val();
-        	
-        	$.ajax({
-	        	url:"/sysPermission/getSysPermissionInfo",
-	        	data:{
-	        		id: primaryKey
-	        	},
-	        	type: "get",
-	        	dataType: "json",
-	        	success: function(result) {
-		    		if (result && result.code == 0) {
-		    			initData = result.data;
-		    			$("[name='id']").val(initData.id);
-		                $("[name='name']").val(initData.name);
-		                $("[name='resourceUrl']").val(initData.resourceUrl);
-		                
-		                form.render(); // 重新绘制表单，让修改生效
-		    		} else {
-		    			layer.msg('数据加载异常！', new Function());
-		    		}
-	        	},
-	        	error:function(e) {
-	        		layer.msg('网络异常！', new Function());
-	        	}
-	        });
-        }
-    	
-		form.on("submit(edit)", function (data) {
-	        var name = data.field.name;
-	        if (name != initData.name) {
-	     		var a = checkName();
-	     		if (!a) {
-					return false;
-				}
-	     	}
+		form.on("submit(add)", function (data) {
+			var parentId = $("#parentId").val();
+			var name = data.field.name;
 	        var resourceUrl = data.field.resourceUrl;
-	        if (resourceUrl != initData.resourceUrl) {
-	     		var b = checkResourceUrl();
-				if (!b) {
-					return false;
-				}
-	     	}
 			
-	        var id = data.field.id;
 			$.ajax({
-	        	url:"/sysPermission/edit",
-	        	data:{
-	        		id: id,
+	        	url: "add",
+	        	data: {
+	        		parentId: parentId,
 	        		name: name,
 	        		resourceUrl: resourceUrl
 	        	},
@@ -120,7 +68,7 @@
 							parent.layer.close(index);
 			            });
 		    		} else {
-		    			layer.msg(result.msg, {icon:2, time:2000});
+		    			layer.msg("操作失败", {icon:2, time:2000});
 		    		}
 	        	},
 	        	error:function(e) {
@@ -134,12 +82,12 @@
 		  * 系统资源名称校验
 		 */
 		function checkName() {
+			var flag = false;
 			var name = $("#name").val();
-			if (name != null && name.length > 0 && name != initData.name) {
-				var flag = false;
+			if (name != null && name.length > 0) {
 				$.ajax({
-		        	url:"/sysPermission/checkName",
-		        	data:{
+		        	url: "checkName",
+		        	data: {
 		        		name: name
 		        	},
 		        	type: "get",
@@ -157,20 +105,22 @@
 		        		layer.msg('网络异常！', new Function());
 		        	}
 		        });
-				return flag;
-			}
+			} else {
+    			flag = true;
+    		}
+			return flag;
 		};
 		
 		/**
 		  * 系统资源链接校验
 		 */
 		function checkResourceUrl() {
+			var flag = false;
 			var resourceUrl = $("#resourceUrl").val();
-			if (resourceUrl != null && resourceUrl.length > 0 && resourceUrl != initData.resourceUrl) {
-				var flag = false;
+			if (resourceUrl != null && resourceUrl.length > 0) {
 				$.ajax({
-		        	url:"/sysPermission/checkResourceUrl",
-		        	data:{
+		        	url: "checkResourceUrl",
+		        	data: {
 		        		resourceUrl: resourceUrl
 		        	},
 		        	type: "get",
@@ -188,8 +138,10 @@
 		        		layer.msg('网络异常！', new Function());
 		        	}
 		        });
-				return flag;
-			}
+			} else {
+    			flag = true;
+    		}
+			return flag;
 		};
 	</script>
 </body>

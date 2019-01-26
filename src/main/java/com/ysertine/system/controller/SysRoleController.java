@@ -32,8 +32,10 @@ import com.ysertine.system.service.SysUserRoleService;
  * @date 2019年1月16日
  */
 @Controller
-@RequestMapping("/sysRole")
+@RequestMapping("/admin/sysRole")
 public class SysRoleController {
+	
+	private String prefix = "admin/sysRole";
 	
 	/**
 	 * 注入系统用户Service类
@@ -63,7 +65,7 @@ public class SysRoleController {
 	 */
 	@GetMapping(value = "/view")
     public String view() {
-        return "sysRole/view";
+        return prefix + "/view";
     }
 	
 	/**
@@ -105,7 +107,7 @@ public class SysRoleController {
 	 */
 	@GetMapping(value = "/add")
     public String add() {
-        return "sysRole/add";
+        return prefix + "/add";
     }
 	
 	/**
@@ -160,7 +162,7 @@ public class SysRoleController {
     public String edit(HttpServletRequest request) {
 		long id = ValueUtils.longValue(request.getParameter("id"), 0);
 		request.setAttribute("id", id);
-        return "sysRole/edit";
+        return prefix + "/edit";
     }
 	
 	/**

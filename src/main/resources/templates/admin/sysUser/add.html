@@ -64,7 +64,7 @@
 		function loadRoleList() {
 	        $.ajax({
 				type: 'post',
-				url: '/sysRole/view',
+				url: '/admin/sysRole/view',
 				dataType: 'json',
 				success: function(result) {
 					if (result.code == 0) {
@@ -120,8 +120,8 @@
 	        var email = data.field.email;
 			
 			$.ajax({
-	        	url:"/sysUser/add",
-	        	data:{
+	        	url: "add",
+	        	data: {
 	        		username: username,
 	                phone: phone,
 	                email: email,
@@ -132,7 +132,7 @@
 	        	dataType: "json",
 	        	success: function(result) {
 		    		if (result && result.code == 0) {
-		    			layer.msg(msg, {icon:1, time: 1000}, function () {
+		    			layer.msg(result.msg, {icon:1, time: 1000}, function () {
 		    				var index = parent.layer.getFrameIndex(window.name);
 							parent.location.reload();
 							parent.layer.close(index);
@@ -152,27 +152,27 @@
 		  * 系统用户名校验
 		 */
 		function checkUsername() {
+			var flag = false;
 			var username = $("#username").val();
 			if (username != null && username.length > 0) {
 				if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(username)) {
 					layer.tips("用户名不能有特殊字符", '#username', {tips: [3, 'red']});
 					$('username').focus();
-			      	return false;
+			      	return flag;
 			    }
 			    if (/(^\_)|(\__)|(\_+$)/.test(username)) {
 			    	layer.tips("用户名首尾不能出现下划线\'_\'", '#username', {tips: [3, 'red']});
 					$('username').focus();
-			      	return false;
+			      	return flag;
 			    }
 			    if (/^\d+\d+\d$/.test(username)) {
 			    	layer.tips("用户名不能为纯数字", '#username', {tips: [3, 'red']});
 					$('username').focus();
-			      	return false;
+			      	return flag;
 			    }
-			    var flag = false;
 				$.ajax({
-		        	url:"/sysUser/checkUsername",
-		        	data:{
+		        	url: "checkUsername",
+		        	data: {
 		        		username: username
 		        	},
 		        	type: "get",
@@ -190,20 +190,22 @@
 		        		layer.msg('网络异常！', new Function());
 		        	}
 		        });
-				return flag;
+			} else {
+				flag = true;
 			}
+			return flag;
 		};
 
 		/**
 		  * 系统用户手机号码校验
 		 */
 		function checkPhone() {
+			var flag = false;
 			var phone = $("#phone").val();
 			if (phone != null && phone.length > 0) {
-				var flag = false;
 				$.ajax({
-		        	url:"/sysUser/checkPhone",
-		        	data:{
+		        	url: "checkPhone",
+		        	data: {
 		        		phone: phone
 		        	},
 		        	type: "get",
@@ -221,20 +223,22 @@
 		        		layer.msg('网络异常！', new Function());
 		        	}
 		        });
-				return flag;
+			} else {
+				flag = true;
 			}
+			return flag;
 		};
 
 		/**
 		  * 系统用户电子邮箱校验
 		 */
 		function checkEmail() {
+			var flag = false;
 			var email = $("#email").val();
 			if (email != null && email.length > 0) {
-				var flag = false;
 				$.ajax({
-		        	url:"/sysUser/checkEamil",
-		        	data:{
+		        	url: "checkEamil",
+		        	data: {
 		        		email: email
 		        	},
 		        	type: "get",
@@ -252,8 +256,10 @@
 		        		layer.msg('网络异常！', new Function());
 		        	}
 		        });
-				return flag;
+			} else {
+				flag = true;
 			}
+			return flag;
 		};
 	</script>
 </body>

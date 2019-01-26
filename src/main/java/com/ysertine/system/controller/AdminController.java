@@ -10,7 +10,6 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,9 +36,9 @@ public class AdminController {
 	 * @version 1.0
 	 * @return
 	 */
-	@GetMapping(value = "/login")
+	@GetMapping(value = "/admin/login")
     public String login() {
-        return "login";
+        return "admin/login";
     }
 	
 	/**
@@ -50,12 +49,11 @@ public class AdminController {
 	 * @version 1.0
 	 * @param request
 	 * @param sysUser
-	 * @param model
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping(value = "/login")
-    public R login(HttpServletRequest request, SysUser sysUser, Model model) {
+	@PostMapping(value = "/admin/login")
+    public R login(HttpServletRequest request, SysUser sysUser) {
 		if (StringUtils.isEmpty(sysUser.getUsername()) || StringUtils.isEmpty(sysUser.getPassword())) {
             return R.error("用户名或密码不能为空！");
         }
@@ -87,6 +85,19 @@ public class AdminController {
 	
 	/**
 	 * @Title index 
+	 * @Description 重定向跳转
+	 * @author DengJinbo
+	 * @date 2019年1月26日
+	 * @version 1.0
+	 * @return
+	 */
+	@GetMapping({ "/", "/index" })
+	public String index() {
+		return "redirect:/admin/index";
+	}
+	
+	/**
+	 * @Title index 
 	 * @Description 登录成功跳转首页
 	 * @author DengJinbo
 	 * @date 2019年1月8日
@@ -94,10 +105,10 @@ public class AdminController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping({ "/", "/index" })
-	public ModelAndView index() {
+	@GetMapping({ "/admin/", "/admin/index" })
+	public ModelAndView index(ModelAndView view) {
 		SysUser currentLoginUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-		ModelAndView view = new ModelAndView();
+		view = new ModelAndView("/admin/index");
 		view.addObject("currentLoginUser", currentLoginUser);
 		return view;
 	}
@@ -110,8 +121,8 @@ public class AdminController {
 	 * @version 1.0
 	 * @return
 	 */
-	@GetMapping(value = "/main")
+	@GetMapping(value = "/admin/main")
 	public String main() {
-		return "main";
+		return "admin/main";
 	}
 }        

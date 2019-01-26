@@ -28,7 +28,7 @@
 	                    <a href="#" class="dropdown-item">
 	                        <!-- Message Start -->
 	                        <div class="media">
-	                            <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+	                            <img src="/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
 	                            <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                     	外国佬 <span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
@@ -59,12 +59,12 @@
 	            </li>
 	            <li class="nav-item dropdown ml-3">
 	                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-						<img src="dist/img/user-default.jpg" class="img-circle" alt="用户头像"  width="40px" height="40px">
+						<img src="/dist/img/user-default.jpg" class="img-circle" alt="用户头像"  width="40px" height="40px">
 						<span class="float-top text-sm ml-2" th:text="${currentLoginUser?.username}"></span>
 	                </a>
 	                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 						<span class="dropdown-header bg-warning">
-							<img src="dist/img/user-default.jpg" class="img-circle" alt="用户头像"  width="80px" height="80px">
+							<img src="/dist/img/user-default.jpg" class="img-circle" alt="用户头像"  width="80px" height="80px">
 						</span>
 						<div class="text-center bg-warning">
 	                    	<div class="text-lg" th:text="${currentLoginUser?.username}"></div>
@@ -88,7 +88,7 @@
 	    </nav>
 	    <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	        <a href="index" class="brand-link">
-	            <img src="dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" alt="Logo" style="opacity: .8">
+	            <img src="/dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" alt="Logo" style="opacity: .8">
 	            <span class="brand-text font-weight-light">My Project</span>
 	        </a>
 	        <div class="sidebar">
@@ -100,10 +100,24 @@
 	                            <p>数据分析</p>
 	                        </a>
 	                    </li>
-	                    <li class="nav-item has-treeview menu-open">
+	                    <li class="nav-item has-treeview">
 	                        <a href="" class="nav-link">
 	                        	<i class="nav-icon fa fa-user-circle"></i>
-	                            <p>管理员管理<i class="right fa fa-angle-left"></i></p>
+	                            <p>用户管理<i class="right fa fa-angle-left"></i></p>
+	                        </a>
+	                        <ul class="nav nav-treeview">
+	                            <li class="nav-item">
+	                                <a href="#" class="nav-link" target="contentFrame">    
+	                                	<i class="nav-icon fa blank"></i>
+	                                    <p>用户列表</p>
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </li>
+	                    <li class="nav-item has-treeview menu-open">
+	                        <a href="" class="nav-link">
+	                        	<i class="nav-icon fa fa-cogs"></i>
+	                            <p>系统管理<i class="right fa fa-angle-left"></i></p>
 	                        </a>
 	                        <ul class="nav nav-treeview">
 	                        	<li class="nav-item">
@@ -124,18 +138,10 @@
 	                                    <p>系统用户列表</p>
 	                                </a>
 	                            </li>
-	                        </ul>
-	                    </li>
-	                    <li class="nav-item has-treeview">
-	                        <a href="" class="nav-link">
-	                        	<i class="nav-icon fa fa-cogs"></i>
-	                            <p>系统管理<i class="right fa fa-angle-left"></i></p>
-	                        </a>
-	                        <ul class="nav nav-treeview">
 	                            <li class="nav-item">
 	                                <a href="index" class="nav-link" target="contentFrame">    
 	                                	<i class="nav-icon fa blank"></i>
-	                                    <p>操作日志</p>
+	                                    <p>系统操作日志</p>
 	                                </a>
 	                            </li>
 	                        </ul>

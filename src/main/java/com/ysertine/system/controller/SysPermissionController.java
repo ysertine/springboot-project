@@ -30,8 +30,10 @@ import com.ysertine.system.service.SysRolePermissionService;
  * @date 2019年1月15日
  */
 @Controller
-@RequestMapping("/sysPermission")
+@RequestMapping("/admin/sysPermission")
 public class SysPermissionController {
+	
+	private String prefix = "admin/sysPermission";
 	
 	/**
 	 * 注入系统资源Service类
@@ -55,7 +57,7 @@ public class SysPermissionController {
 	 */
 	@GetMapping(value = "/view")
     public String view() {
-        return "sysPermission/view";
+        return prefix + "/view";
     }
 	
 	/**
@@ -110,7 +112,7 @@ public class SysPermissionController {
     public String add(HttpServletRequest request) {
 		long parentId = ValueUtils.longValue(request.getParameter("parentId"), 0); // 0=菜单，2=按钮
 		request.setAttribute("parentId", parentId);
-        return "sysPermission/add";
+        return prefix + "/add";
     }
 	
 	/**
@@ -158,7 +160,7 @@ public class SysPermissionController {
     public String edit(HttpServletRequest request) {
 		long id = ValueUtils.longValue(request.getParameter("id"), 0);
 		request.setAttribute("id", id);
-        return "sysPermission/edit";
+        return prefix + "/edit";
     }
 	
 	/**

@@ -38,7 +38,7 @@
 		function defineTable() {
 			tableIns = table.render({
 			    elem: '#dataView',
-			    url: '/sysRole/view',
+			    url: 'view',
 			    title: '系统角色列表',
 			    toolbar: '#toolbar',
 			    method: 'post',
@@ -108,7 +108,7 @@
 	        layer.open({
 	        	type: 2,
 	            title: "添加系统角色",
-	            content: "/sysRole/add",
+	            content: "add",
 	            area: ['500px', '500px'],
 	        });
 	    };
@@ -117,7 +117,7 @@
 	        layer.open({
 	        	type: 2,
 	            title: "编辑系统角色",
-	            content: "/sysRole/edit?id=" + id,
+	            content: "edit?id=" + id,
 	            area: ['500px', '500px'],
 	        });
 	    };
@@ -126,8 +126,8 @@
 	        layer.confirm('确认删除吗？', function (confirmIndex) {
 	            layer.close(confirmIndex);
 	            $.ajax({
-		        	url:"/sysRole/delete",
-		        	data:{
+		        	url: "delete",
+		        	data: {
 		        		ids : ids
 		        	},
 		        	type: "post",

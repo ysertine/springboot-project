@@ -33,8 +33,10 @@ import com.ysertine.system.util.PasswordHelper;
  * @date 2019年1月15日
  */
 @Controller
-@RequestMapping("/sysUser")
+@RequestMapping("/admin/sysUser")
 public class SysUserController {
+	
+	private String prefix = "admin/sysUser";
 	
 	/**
 	 * 注入系统用户Service类
@@ -60,7 +62,7 @@ public class SysUserController {
 	 */
 	@GetMapping(value = "/view")
     public String view() {
-        return "sysUser/view";
+        return prefix + "/view";
     }
 	
 	/**
@@ -110,7 +112,7 @@ public class SysUserController {
 	 */
 	@GetMapping(value = "/add")
     public String add() {
-        return "sysUser/add";
+        return prefix + "/add";
     }
 	
 	/**
@@ -179,7 +181,7 @@ public class SysUserController {
     public String edit(HttpServletRequest request) {
 		long id = ValueUtils.longValue(request.getParameter("id"), 0);
 		request.setAttribute("id", id);
-        return "sysUser/edit";
+        return prefix + "/edit";
     }
 
 	/**
